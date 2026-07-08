@@ -8,6 +8,7 @@ import {
   AVOIDANCE_TO_CATEGORY,
   CHECKIN_QUESTION,
 } from "./appContent.es";
+import BONUS_MODULES_CONTENT from "./bonusModulesContent.es";
 
 const ACCENT = "#4C5FE0";
 const GREEN = "#2fb380";
@@ -31,7 +32,7 @@ function addDays(dateStr, n) {
 function loadState() {
   try {
     const raw = localStorage.getItem(STATE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) return { moduleProgress: {}, ...JSON.parse(raw) };
   } catch (e) {}
   return {
     onboarded: false,
@@ -43,6 +44,7 @@ function loadState() {
     streak: 0,
     longestStreak: 0,
     lastCompletedDate: null,
+    moduleProgress: {},
   };
 }
 function saveState(s) {
@@ -478,6 +480,86 @@ function ProgressScreen({ state }) {
   );
 }
 
+/* ---------------- Bonus modules ---------------- */
+
+function ModulesScreen({ state, quizResult, onToggleLesson }) {
+  const unlocked = quizResult && quizResult.includedModules ? quizResult.includedModules : BONUS_MODULES_CONTENT.map((m) => m.key);
+  const [openModule, setOpenModule] = useState(null);
+
+  return (
+    <div>
+      <h2 style={{ fontFamily: "Georgia, serif", fontSize: "1.2rem", color: DARK, marginBottom: "6px" }}>
+        Módulos bonus
+      </h2>
+      <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, marginBottom: "16px" }}>
+        Lecciones cortas para sumar a tu plan de 30 días, a tu propio ritmo.
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {BONUS_MODULES_CONTENT.map((m) => {
+          const isUnlocked = unlocked.includes(m.key);
+          const progress = state.moduleProgress[m.key] || [];
+          const isOpen = openModule === m.key;
+          return (
+            <Card key={m.key}>
+              <button
+                onClick={() => isUnlocked && setOpenModule(isOpen ? null : m.key)}
+                style={{
+                  width: "100%", textAlign: "left", background: "none", border: "none",
+                  cursor: isUnlocked ? "pointer" : "default", padding: 0, fontFamily: "sans-serif",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" }}>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: "0.95rem", color: DARK }}>{m.icon} {m.title}</div>
+                    <div style={{ fontSize: "0.78rem", color: TEXT_SOFT, marginTop: "2px" }}>{m.description}</div>
+                  </div>
+                  {isUnlocked ? (
+                    <span style={{ fontSize: "0.78rem", fontWeight: 700, color: progress.length === m.lessons.length ? GREEN : ACCENT, flexShrink: 0 }}>
+                      {progress.length}/{m.lessons.length}
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>🔒</span>
+                  )}
+                </div>
+              </button>
+
+              {!isUnlocked && (
+                <p style={{ fontFamily: "sans-serif", fontSize: "0.76rem", color: TEXT_SOFT, marginTop: "8px" }}>
+                  No incluido en tu plan actual.
+                </p>
+              )}
+
+              {isOpen && isUnlocked && (
+                <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {m.lessons.map((l) => {
+                    const done = progress.includes(l.n);
+                    return (
+                      <div key={l.n} style={{ border: "1px solid #eee", borderRadius: "10px", padding: "12px" }}>
+                        <div style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: "0.88rem", color: DARK, marginBottom: "4px" }}>
+                          {l.n}. {l.title} <span style={{ fontWeight: 400, fontSize: "0.74rem", color: TEXT_SOFT }}>⏱ {l.minutes} min</span>
+                        </div>
+                        <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, lineHeight: 1.5, marginBottom: "8px" }}>
+                          {l.lesson}
+                        </p>
+                        <div style={{ background: "#f7f6f2", borderRadius: "8px", padding: "10px", fontFamily: "Georgia, serif", fontSize: "0.88rem", color: TEXT, marginBottom: "10px" }}>
+                          {l.task}
+                        </div>
+                        <Button variant={done ? "outline" : "success"} onClick={() => onToggleLesson(m.key, l.n)}>
+                          {done ? "✓ Completado — desmarcar" : "Marcar como completado"}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ---------------- Settings ---------------- */
 
 function SettingsScreen({ state, onUpdateName, onReset, onSkipDay }) {
@@ -486,6 +568,16 @@ function SettingsScreen({ state, onUpdateName, onReset, onSkipDay }) {
     typeof Notification !== "undefined" ? Notification.permission : "unsupported"
   );
   const [installPrompt, setInstallPrompt] = useState(null);
+  const [justSkipped, setJustSkipped] = useState(false);
+
+  function handleSkipClick() {
+    onSkipDay();
+    setJustSkipped(true);
+    setTimeout(() => setJustSkipped(false), 4000);
+  }
+
+  const completedCount = Object.keys(state.completedDays).length;
+  const skipDisabled = completedCount >= PLAN.length;
 
   useEffect(() => {
     function handler(e) {
@@ -562,7 +654,14 @@ function SettingsScreen({ state, onUpdateName, onReset, onSkipDay }) {
         <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, lineHeight: 1.5, marginBottom: "12px" }}>
           Solo para revisar el contenido de los 30 días sin esperar un día real entre cada uno.
         </p>
-        <Button variant="outline" onClick={onSkipDay}>Completar y pasar al día siguiente</Button>
+        <Button variant="outline" onClick={handleSkipClick} disabled={skipDisabled}>
+          {skipDisabled ? "Ya completaste los 30 días" : "Completar y pasar al día siguiente"}
+        </Button>
+        {justSkipped && (
+          <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: GREEN, fontWeight: 700, marginTop: "10px", textAlign: "center" }}>
+            ✓ Completaste el Día {completedCount} — andá a la pestaña "Hoy" para ver el Día {completedCount + 1}
+          </p>
+        )}
       </Card>
 
       <Card>
@@ -680,10 +779,19 @@ export default function StartNowApp() {
     setPendingCheckinDay(null);
   }
 
+  function handleToggleLesson(moduleKey, lessonN) {
+    setState((s) => {
+      const current = s.moduleProgress[moduleKey] || [];
+      const updated = current.includes(lessonN) ? current.filter((n) => n !== lessonN) : [...current, lessonN];
+      return { ...s, moduleProgress: { ...s.moduleProgress, [moduleKey]: updated } };
+    });
+  }
+
   function handleReset() {
     const fresh = {
       onboarded: true, name: state.name, category: state.category, startedAt: Date.now(),
       completedDays: {}, checkins: {}, streak: 0, longestStreak: 0, lastCompletedDate: null,
+      moduleProgress: state.moduleProgress,
     };
     setState(fresh);
     setTab("today");
@@ -696,6 +804,7 @@ export default function StartNowApp() {
   const tabs = [
     ["today", S.nav.today, "☀️"],
     ["plan", S.nav.plan, "🗓️"],
+    ["modules", "Módulos", "🎁"],
     ["progress", S.nav.progress, "📈"],
     ["settings", S.nav.settings, "⚙️"],
   ];
@@ -717,6 +826,7 @@ export default function StartNowApp() {
       <div style={{ flex: 1, maxWidth: "560px", margin: "0 auto", width: "100%", padding: "0 20px 100px", boxSizing: "border-box" }}>
         {tab === "today" && <TodayScreen state={state} onComplete={handleComplete} category={state.category} onRestart={handleReset} />}
         {tab === "plan" && <PlanScreen state={state} />}
+        {tab === "modules" && <ModulesScreen state={state} quizResult={quizResult} onToggleLesson={handleToggleLesson} />}
         {tab === "progress" && <ProgressScreen state={state} />}
         {tab === "settings" && (
           <SettingsScreen

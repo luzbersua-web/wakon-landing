@@ -123,12 +123,10 @@ h1,h2,h3{font-family:'Poppins',sans-serif;}
 .plan-discount{display:inline-block;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;margin-bottom:6px;}
 .plan-price-old{color:var(--text-soft);text-decoration:line-through;font-size:13px;margin-right:4px;}
 .plan-price-new{font-weight:700;font-size:13px;}
-.plan-perday{background:var(--lavender);border-radius:0 8px 8px 0;padding:8px 10px 8px 16px;position:relative;text-align:right;}
+.plan-modules-count{font-size:11px;color:var(--text-soft);margin-top:4px;}
+.plan-perday{background:var(--lavender);border-radius:0 8px 8px 0;padding:8px 12px;position:relative;text-align:center;max-width:90px;display:flex;align-items:center;}
 .plan-perday::before{content:"";position:absolute;left:-9px;top:0;border-top:24px solid transparent;border-bottom:24px solid transparent;border-right:9px solid var(--lavender);}
-.plan-perday .old{font-size:11px;color:var(--text-soft);text-decoration:line-through;display:block;}
-.plan-perday .big{font-size:24px;font-weight:800;}
-.plan-perday .cents{font-size:14px;vertical-align:top;}
-.plan-perday .per{font-size:10px;color:var(--text-soft);}
+.plan-perday .big{font-size:13px;font-weight:800;line-height:1.25;}
 
 .pay-safe{display:block;margin:14px auto;background:var(--text);color:#fff;border-radius:20px;padding:8px 16px;font-size:12px;font-weight:600;text-align:center;width:fit-content;}
 .pay-icons{display:flex;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}

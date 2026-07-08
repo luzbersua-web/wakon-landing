@@ -14,7 +14,7 @@ const state = {
   age: null,
   name: "",
   email: "",
-  selectedPlan: "1m",
+  selectedPlan: "plus",
 };
 
 const root = document.getElementById("app");
@@ -334,6 +334,7 @@ function computeResult() {
 
 function persistStartNowResult() {
   const r = computeResult();
+  const plan = PLANS.find(p => p.key === state.selectedPlan);
   const payload = {
     name: state.name || "",
     gender: state.gender,
@@ -343,6 +344,8 @@ function persistStartNowResult() {
     mainTrigger: r.mainTrigger,
     avoidanceKey: r.avoidanceKey,
     triggers: state.answers[17] || [],
+    planKey: plan.key,
+    includedModules: plan.modules,
     savedAt: Date.now(),
   };
   try { localStorage.setItem("startnow_quiz_result", JSON.stringify(payload)); } catch (e) {}
@@ -377,8 +380,8 @@ function renderResultsLoading() {
   s.appendChild(t);
   root.appendChild(s);
 
-  const STEP_DURATION = 1100;
-  const STEP_GAP = 200;
+  const STEP_DURATION = 2400;
+  const STEP_GAP = 400;
 
   function animateStep(row, onDone) {
     const start = performance.now();
@@ -404,7 +407,7 @@ function renderResultsLoading() {
 
   let i = 0;
   function next() {
-    if (i >= rows.length) { setTimeout(() => go(1), 500); return; }
+    if (i >= rows.length) { setTimeout(() => go(1), 900); return; }
     animateStep(rows[i], () => { i++; setTimeout(next, STEP_GAP); });
   }
   next();
@@ -692,6 +695,7 @@ function planCard(p) {
   const isSelected = state.selectedPlan === p.key;
   const card = document.createElement("div");
   card.className = "plan-card" + (isSelected ? " selected" : "");
+  const moduleCount = p.modules.length;
   card.innerHTML = `
     ${p.tag ? `<div class="plan-tag ${p.badgeClass}">${p.tagIcon || "⭐"} ${p.tag}</div>` : ""}
     <div class="plan-body">
@@ -700,8 +704,9 @@ function planCard(p) {
         <div class="plan-name">${p.label}</div>
         <div class="plan-discount">${p.discountLabel}</div>
         <div><span class="plan-price-old">$${p.was}</span><span class="plan-price-new">→ $${p.now}</span></div>
+        <div class="plan-modules-count">${moduleCount === 0 ? "Plan de 30 días" : moduleCount === BONUS_MODULES.length ? "Plan de 30 días + los 5 módulos bonus" : `Plan de 30 días + ${moduleCount} módulos bonus`}</div>
       </div>
-      <div class="plan-perday"><span class="old">$${p.perDay}</span><span class="big">$0<span class="cents">${p.perDayNow}</span></span><span class="per">${S.pricing.perDay}</span></div>
+      <div class="plan-perday"><span class="big">${S.pricing.oneTimeLabel}</span></div>
     </div>
   `;
   card.onclick = () => { state.selectedPlan = p.key; render(); };
@@ -710,8 +715,7 @@ function planCard(p) {
 
 function finePrint() {
   const plan = PLANS.find(p => p.key === state.selectedPlan);
-  const months = state.selectedPlan === "1m" ? 1 : state.selectedPlan === "3m" ? 3 : 6;
-  return S.checkout.finePrint(BRAND, months, plan.now, plan.was);
+  return S.checkout.finePrint(BRAND, plan.label, plan.now, plan.was);
 }
 
 function scrollToPlans() {
@@ -725,7 +729,8 @@ let paymentMethod = "paypal";
 function renderCheckout() {
   persistStartNowResult();
   const plan = PLANS.find(p => p.key === state.selectedPlan);
-  const bonusTotal = BONUS_MODULES.reduce((sum, m) => sum + m.was, 0);
+  const includedModules = BONUS_MODULES.filter(m => plan.modules.includes(m.key));
+  const bonusTotal = includedModules.reduce((sum, m) => sum + m.was, 0);
   const saved = (plan.was + bonusTotal - plan.now).toFixed(1);
 
   const s = document.createElement("div");
@@ -764,20 +769,27 @@ function renderCheckout() {
   `;
   s.appendChild(totalRow);
 
-  const bonusHead = document.createElement("h3");
-  bonusHead.style.marginBottom = "10px";
-  bonusHead.textContent = S.checkout.bonusHead;
-  s.appendChild(bonusHead);
+  if (includedModules.length === 0) {
+    const noModules = document.createElement("p");
+    noModules.className = "helper-text";
+    noModules.textContent = S.checkout.noModulesLine;
+    s.appendChild(noModules);
+  } else {
+    const bonusHead = document.createElement("h3");
+    bonusHead.style.marginBottom = "10px";
+    bonusHead.textContent = S.checkout.bonusHead;
+    s.appendChild(bonusHead);
 
-  BONUS_MODULES.forEach(m => {
-    const row = document.createElement("div");
-    row.style.display = "flex";
-    row.style.justifyContent = "space-between";
-    row.style.fontSize = "14px";
-    row.style.padding = "6px 0";
-    row.innerHTML = `<span>${m.label}</span><span><span style="text-decoration:line-through;color:var(--text-soft);">$${m.was}</span> <b style="color:var(--green)">$0</b></span>`;
-    s.appendChild(row);
-  });
+    includedModules.forEach(m => {
+      const row = document.createElement("div");
+      row.style.display = "flex";
+      row.style.justifyContent = "space-between";
+      row.style.fontSize = "14px";
+      row.style.padding = "6px 0";
+      row.innerHTML = `<span>${m.label}</span><span><span style="text-decoration:line-through;color:var(--text-soft);">$${m.was}</span> <b style="color:var(--green)">${S.checkout.includedLabel}</b></span>`;
+      s.appendChild(row);
+    });
+  }
 
   const paypalBtn = document.createElement("button");
   paypalBtn.className = "btn";

@@ -112,9 +112,9 @@ const TESTIMONIALS = [
 ];
 
 const PLANS = [
-  { key: "3m", label: "3-month plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 125.98, now: 42.99, perDay: "1.38", perDayNow: "48" },
-  { key: "1m", label: "1-month plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 59.98, now: 29.99, perDay: "1.98", perDayNow: "99" },
-  { key: "6m", label: "6-month plan", tag: "", badgeClass: "", discountLabel: "SAVE 50%", was: 179.98, now: 89.99, perDay: "0.98", perDayNow: "49" },
+  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 125.98, now: 42.99, modules: ["time-focus", "habits"] },
+  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 59.98, now: 29.99, modules: [] },
+  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 50%", was: 179.98, now: 89.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
 ];
 
 const FAQ = [
@@ -137,11 +137,11 @@ const FAQ = [
 ];
 
 const BONUS_MODULES = [
-  { label: "Time & focus mastery", was: 36.66 },
-  { label: "Stress & anxiety management", was: 19.99 },
-  { label: "Building lasting habits", was: 29.99 },
-  { label: "Relationship management", was: 19.99 },
-  { label: "Money management", was: 16.99 },
+  { key: "time-focus", label: "Time & focus mastery", was: 36.66 },
+  { key: "stress-anxiety", label: "Stress & anxiety management", was: 19.99 },
+  { key: "habits", label: "Building lasting habits", was: 29.99 },
+  { key: "relationships", label: "Relationship management", was: 19.99 },
+  { key: "money", label: "Money management", was: 16.99 },
 ];
 
 const STRINGS = {
@@ -241,7 +241,7 @@ const STRINGS = {
     ],
     shift: "Most users feel a shift within 7-10 days.",
     timerBarLabel: "Discount only valid for:",
-    perDay: "per day",
+    oneTimeLabel: "One-time payment",
     paySafe: "🛡️ Pay safe & secure",
     payIcons: ["VISA", "Mastercard", "PayPal", "Amex", "Discover", "Maestro"],
     guaranteeLine: "✓ 30-day money-back guarantee",
@@ -256,12 +256,14 @@ const STRINGS = {
     total: "Total:",
     discount: "Introductory discount",
     saved: "You just saved $",
-    bonusHead: "Based on your profile, we've included these FREE modules:",
+    bonusHead: "Your plan includes these modules:",
+    includedLabel: "included",
+    noModulesLine: "This plan doesn't include bonus modules — you can add them anytime.",
     gpay: "Buy with G Pay",
     paymentNotice: (brand) => `We're activating payments. Email us at hello@${brand.toLowerCase()}.app to complete your order.`,
     openAppBtn: "Meanwhile, open your plan in the app →",
-    finePrint: (brand, months, now, was) => `You are enrolling in a ${months}-Month subscription to <a href="#">${brand.toLowerCase()}.app</a> service with the discount price $${now}.
-  You agree that the plan you selected will automatically be extended at the full price for successive renewal periods and you will be charged $${was} every ${months} month(s) until you cancel the subscription.
-  Payments will be charged from the card you specified here. You can cancel by contacting <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Terms of Service</a>. The charge will appear on your bill as "${brand}".`,
+    finePrint: (brand, planLabel, now, was) => `You're making a one-time payment of $${now} for your ${planLabel} on <a href="#">${brand.toLowerCase()}.app</a> (list price $${was}).
+  No subscription, no auto-renewal, no recurring charges — full lifetime access to the content included in this plan.
+  Payment is charged to the card you specify here. Questions or support: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Terms of Service</a>. The charge will appear on your bill as "${brand}".`,
   },
 };

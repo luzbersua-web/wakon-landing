@@ -113,9 +113,9 @@ const TESTIMONIALS = [
 ];
 
 const PLANS = [
-  { key: "3m", label: "Plan de 3 meses", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 125.98, now: 42.99, perDay: "1.38", perDayNow: "48" },
-  { key: "1m", label: "Plan de 1 mes", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 59.98, now: 29.99, perDay: "1.98", perDayNow: "99" },
-  { key: "6m", label: "Plan de 6 meses", tag: "", badgeClass: "", discountLabel: "50% DE DESCUENTO", was: 179.98, now: 89.99, perDay: "0.98", perDayNow: "49" },
+  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 125.98, now: 42.99, modules: ["time-focus", "habits"] },
+  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 59.98, now: 29.99, modules: [] },
+  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "50% DE DESCUENTO", was: 179.98, now: 89.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
 ];
 
 const FAQ = [
@@ -138,11 +138,11 @@ const FAQ = [
 ];
 
 const BONUS_MODULES = [
-  { label: "Dominio del tiempo y el enfoque", was: 36.66 },
-  { label: "Manejo del estrés y la ansiedad", was: 19.99 },
-  { label: "Construcción de hábitos duraderos", was: 29.99 },
-  { label: "Gestión de las relaciones", was: 19.99 },
-  { label: "Manejo del dinero", was: 16.99 },
+  { key: "time-focus", label: "Dominio del tiempo y el enfoque", was: 36.66 },
+  { key: "stress-anxiety", label: "Manejo del estrés y la ansiedad", was: 19.99 },
+  { key: "habits", label: "Construcción de hábitos duraderos", was: 29.99 },
+  { key: "relationships", label: "Gestión de las relaciones", was: 19.99 },
+  { key: "money", label: "Manejo del dinero", was: 16.99 },
 ];
 
 const STRINGS = {
@@ -242,7 +242,7 @@ const STRINGS = {
     ],
     shift: "La mayoría de los usuarios sienten un cambio dentro de los 7-10 días.",
     timerBarLabel: "El descuento es válido solo por:",
-    perDay: "por día",
+    oneTimeLabel: "Pago único",
     paySafe: "🛡️ Pago 100% seguro",
     payIcons: ["VISA", "Mastercard", "PayPal", "Amex", "Discover", "Maestro"],
     guaranteeLine: "✓ Garantía de devolución de 30 días",
@@ -257,12 +257,14 @@ const STRINGS = {
     total: "Total:",
     discount: "Descuento de bienvenida",
     saved: "Ahorraste $",
-    bonusHead: "Según tu perfil, incluimos estos módulos GRATIS:",
+    bonusHead: "Tu plan incluye estos módulos:",
+    includedLabel: "incluido",
+    noModulesLine: "Este plan no incluye módulos bonus — podés sumarlos cuando quieras.",
     gpay: "Pagar con G Pay",
     paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a hello@${brand.toLowerCase()}.app para completar tu pedido.`,
     openAppBtn: "Mientras tanto, abre tu plan en la app →",
-    finePrint: (brand, months, now, was) => `Te estás suscribiendo a un servicio de ${months} mes(es) de <a href="#">${brand.toLowerCase()}.app</a> con el precio promocional de $${now}.
-  Aceptas que el plan elegido se renovará automáticamente al precio completo por períodos sucesivos y se te cobrará $${was} cada ${months} mes(es) hasta que canceles la suscripción.
-  Los pagos se cobrarán de la tarjeta que indiques aquí. Puedes cancelar escribiendo a <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Términos de servicio</a>. El cargo aparecerá en tu resumen como "${brand}".`,
+    finePrint: (brand, planLabel, now, was) => `Estás haciendo un pago único de $${now} por tu ${planLabel} de <a href="#">${brand.toLowerCase()}.app</a> (precio de lista $${was}).
+  Sin suscripción, sin renovación automática, sin cargos recurrentes — acceso completo de por vida al contenido incluido en este plan.
+  El pago se realiza con la tarjeta que indiques aquí. Dudas o soporte: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Términos de servicio</a>. El cargo aparecerá en tu resumen como "${brand}".`,
   },
 };
