@@ -259,6 +259,7 @@ const STRINGS = {
     bonusHead: "Según tu perfil, incluimos estos módulos GRATIS:",
     gpay: "Pagar con G Pay",
     paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a hello@${brand.toLowerCase()}.app para completar tu pedido.`,
+    openAppBtn: "Mientras tanto, abre tu plan en la app →",
     finePrint: (brand, months, now, was) => `Te estás suscribiendo a un servicio de ${months} mes(es) de <a href="#">${brand.toLowerCase()}.app</a> con el precio promocional de $${now}.
   Aceptas que el plan elegido se renovará automáticamente al precio completo por períodos sucesivos y se te cobrará $${was} cada ${months} mes(es) hasta que canceles la suscripción.
   Los pagos se cobrarán de la tarjeta que indiques aquí. Puedes cancelar escribiendo a <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Términos de servicio</a>. El cargo aparecerá en tu resumen como "${brand}".`,

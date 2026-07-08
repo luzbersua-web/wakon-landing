@@ -258,6 +258,7 @@ const STRINGS = {
     bonusHead: "Based on your profile, we've included these FREE modules:",
     gpay: "Buy with G Pay",
     paymentNotice: (brand) => `We're activating payments. Email us at hello@${brand.toLowerCase()}.app to complete your order.`,
+    openAppBtn: "Meanwhile, open your plan in the app →",
     finePrint: (brand, months, now, was) => `You are enrolling in a ${months}-Month subscription to <a href="#">${brand.toLowerCase()}.app</a> service with the discount price $${now}.
   You agree that the plan you selected will automatically be extended at the full price for successive renewal periods and you will be charged $${was} every ${months} month(s) until you cancel the subscription.
   Payments will be charged from the card you specified here. You can cancel by contacting <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Terms of Service</a>. The charge will appear on your bill as "${brand}".`,

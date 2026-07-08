@@ -289,13 +289,30 @@ function computeResult() {
   const triggers = state.answers[17] || [];
   const mainTrigger = triggers[0] || S.results.defaultTrigger;
 
-  const avoidance = (state.answers[4] && state.answers[4].label === SCALE_OPTIONS[0].label)
-    ? S.results.avoidancePatterns.overwhelm
+  const avoidanceKey = (state.answers[4] && state.answers[4].label === SCALE_OPTIONS[0].label)
+    ? "overwhelm"
     : (state.answers[5] && state.answers[5].label === SCALE_OPTIONS[0].label)
-      ? S.results.avoidancePatterns.distraction
-      : S.results.avoidancePatterns.overwhelm;
+      ? "distraction"
+      : "overwhelm";
+  const avoidance = S.results.avoidancePatterns[avoidanceKey];
 
-  return { score, stress, mainTrigger, avoidance };
+  return { score, stress, mainTrigger, avoidance, avoidanceKey };
+}
+
+function persistStartNowResult() {
+  const r = computeResult();
+  const payload = {
+    name: state.name || "",
+    gender: state.gender,
+    age: state.age,
+    score: r.score,
+    stress: r.stress,
+    mainTrigger: r.mainTrigger,
+    avoidanceKey: r.avoidanceKey,
+    triggers: state.answers[17] || [],
+    savedAt: Date.now(),
+  };
+  try { localStorage.setItem("startnow_quiz_result", JSON.stringify(payload)); } catch (e) {}
 }
 
 function renderResultsLoading() {
@@ -673,6 +690,7 @@ function checkoutClick() {
 
 let paymentMethod = "paypal";
 function renderCheckout() {
+  persistStartNowResult();
   const plan = PLANS.find(p => p.key === state.selectedPlan);
   const bonusTotal = BONUS_MODULES.reduce((sum, m) => sum + m.was, 0);
   const saved = (plan.was + bonusTotal - plan.now).toFixed(1);
@@ -733,7 +751,7 @@ function renderCheckout() {
   paypalBtn.style.background = "#FFC439";
   paypalBtn.style.marginTop = "20px";
   paypalBtn.innerHTML = `<span style="font-weight:800;color:#003087;">Pay<span style="color:#009cde;">Pal</span></span>`;
-  paypalBtn.onclick = () => showPaymentNotice(notice);
+  paypalBtn.onclick = () => showPaymentNotice(notice, appLink);
   s.appendChild(paypalBtn);
 
   const gpayBtn = document.createElement("button");
@@ -742,7 +760,7 @@ function renderCheckout() {
   gpayBtn.style.color = "#fff";
   gpayBtn.style.marginTop = "10px";
   gpayBtn.textContent = S.checkout.gpay;
-  gpayBtn.onclick = () => showPaymentNotice(notice);
+  gpayBtn.onclick = () => showPaymentNotice(notice, appLink);
   s.appendChild(gpayBtn);
 
   const notice = document.createElement("p");
@@ -752,11 +770,24 @@ function renderCheckout() {
   notice.textContent = S.checkout.paymentNotice(BRAND);
   s.appendChild(notice);
 
+  const appLink = document.createElement("a");
+  appLink.href = "/app/";
+  appLink.className = "btn";
+  appLink.style.marginTop = "12px";
+  appLink.style.background = "var(--green)";
+  appLink.style.color = "#fff";
+  appLink.style.textDecoration = "none";
+  appLink.style.display = "none";
+  appLink.style.textAlign = "center";
+  appLink.textContent = S.checkout.openAppBtn;
+  s.appendChild(appLink);
+
   root.appendChild(s);
 }
 
-function showPaymentNotice(el) {
+function showPaymentNotice(el, linkEl) {
   el.style.visibility = "visible";
+  if (linkEl) linkEl.style.display = "block";
 }
 
 function startCountdown() {
