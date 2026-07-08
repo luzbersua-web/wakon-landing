@@ -154,6 +154,7 @@ const STRINGS = {
     sub: "Descubre tu tipo de procrastinación y consigue un plan personalizado para terminar por fin lo que empiezas",
     male: "Hombre",
     female: "Mujer",
+    testimonialIntro: "Mirá cómo le fue a otras personas con este mismo plan:",
   },
   age: {
     title: "¿Cuál es tu edad?",

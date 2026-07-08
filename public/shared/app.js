@@ -115,20 +115,29 @@ function renderGender() {
   });
   s.appendChild(grid);
 
-  const t = TESTIMONIALS[0];
-  const card = document.createElement("div");
-  card.className = "testimonial-card";
-  card.innerHTML = `
-    <div class="who"><img class="avatar" src="${t.img}" alt="${t.name}"><div><div class="name">${t.name}</div><div class="role">${t.role}</div></div></div>
-    <div class="quote">${t.quote}</div>
-    <div class="body">${t.body}</div>
-    <div class="stars">★★★★★</div><div class="date">${t.date}</div>
-  `;
-  s.appendChild(card);
-
   const btn = primaryBtn(S.continueBtn, () => { if (state.gender) go(1); });
   if (!state.gender) btn.style.opacity = "0.5";
   s.appendChild(btn);
+
+  const testimonialIntro = document.createElement("p");
+  testimonialIntro.className = "helper-text";
+  testimonialIntro.style.textAlign = "center";
+  testimonialIntro.style.margin = "22px 0 12px";
+  testimonialIntro.textContent = S.gender.testimonialIntro;
+  s.appendChild(testimonialIntro);
+
+  [0, 3, 1].map((i) => TESTIMONIALS[i]).forEach((t) => {
+    const card = document.createElement("div");
+    card.className = "testimonial-card";
+    card.innerHTML = `
+      <div class="who"><img class="avatar" src="${t.img}" alt="${t.name}"><div><div class="name">${t.name}</div><div class="role">${t.role}</div></div></div>
+      <div class="quote">${t.quote}</div>
+      <div class="body">${t.body}</div>
+      <div class="stars">★★★★★</div><div class="date">${t.date}</div>
+    `;
+    s.appendChild(card);
+  });
+
   root.appendChild(s);
 }
 

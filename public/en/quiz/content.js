@@ -153,6 +153,7 @@ const STRINGS = {
     sub: "Discover your procrastination type and get a personalized plan to finally finish what you start",
     male: "Male",
     female: "Female",
+    testimonialIntro: "See how it went for other people on this same plan:",
   },
   age: {
     title: "What is your age?",
