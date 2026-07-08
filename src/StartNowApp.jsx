@@ -480,7 +480,7 @@ function ProgressScreen({ state }) {
 
 /* ---------------- Settings ---------------- */
 
-function SettingsScreen({ state, onUpdateName, onReset }) {
+function SettingsScreen({ state, onUpdateName, onReset, onSkipDay }) {
   const [name, setName] = useState(state.name || "");
   const [notifStatus, setNotifStatus] = useState(
     typeof Notification !== "undefined" ? Notification.permission : "unsupported"
@@ -555,6 +555,16 @@ function SettingsScreen({ state, onUpdateName, onReset }) {
         </Card>
       )}
 
+      <Card style={{ marginBottom: "16px" }}>
+        <div style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: "0.85rem", color: DARK, marginBottom: "6px" }}>
+          🛠️ Modo prueba
+        </div>
+        <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, lineHeight: 1.5, marginBottom: "12px" }}>
+          Solo para revisar el contenido de los 30 días sin esperar un día real entre cada uno.
+        </p>
+        <Button variant="outline" onClick={onSkipDay}>Completar y pasar al día siguiente</Button>
+      </Card>
+
       <Card>
         <div style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: "0.85rem", color: "#c0392b", marginBottom: "6px" }}>
           {S.settings.resetTitle}
@@ -620,23 +630,50 @@ export default function StartNowApp() {
   }
 
   function handleComplete() {
-    const completedCount = Object.keys(state.completedDays).length;
-    const currentDay = completedCount + 1;
-    if (state.lastCompletedDate === todayStr()) return;
-    const yesterday = addDays(todayStr(), -1);
-    const newStreak = state.lastCompletedDate === yesterday ? state.streak + 1 : 1;
-    const entry = PLAN[currentDay - 1];
-
-    setState((s) => ({
-      ...s,
-      completedDays: { ...s.completedDays, [currentDay]: todayStr() },
-      lastCompletedDate: todayStr(),
-      streak: newStreak,
-      longestStreak: Math.max(s.longestStreak, newStreak),
-    }));
-
-    if (entry && entry.checkin) setPendingCheckinDay(currentDay);
+    setState((s) => {
+      if (s.lastCompletedDate === todayStr()) return s;
+      const completedCount = Object.keys(s.completedDays).length;
+      if (completedCount >= PLAN.length) return s;
+      const currentDay = completedCount + 1;
+      const yesterday = addDays(todayStr(), -1);
+      const newStreak = s.lastCompletedDate === yesterday ? s.streak + 1 : 1;
+      return {
+        ...s,
+        completedDays: { ...s.completedDays, [currentDay]: todayStr() },
+        lastCompletedDate: todayStr(),
+        streak: newStreak,
+        longestStreak: Math.max(s.longestStreak, newStreak),
+      };
+    });
   }
+
+  // Solo para revisar el contenido de los 30 días sin esperar 30 días reales.
+  // No queda expuesto a usuarios finales de la landing/quiz, solo desde /app/ + Ajustes.
+  function handleSkipDay() {
+    setState((s) => {
+      const completedCount = Object.keys(s.completedDays).length;
+      if (completedCount >= PLAN.length) return s;
+      const currentDay = completedCount + 1;
+      const newStreak = s.streak + 1;
+      return {
+        ...s,
+        completedDays: { ...s.completedDays, [currentDay]: todayStr() },
+        lastCompletedDate: addDays(todayStr(), -1),
+        streak: newStreak,
+        longestStreak: Math.max(s.longestStreak, newStreak),
+      };
+    });
+  }
+
+  // Dispara el check-in semanal apenas hay un día pendiente sin responder,
+  // sin depender de que handleComplete/handleSkipDay se ejecuten una sola vez.
+  useEffect(() => {
+    const dueDay = Object.keys(state.completedDays)
+      .map(Number)
+      .filter((d) => PLAN[d - 1]?.checkin && state.checkins[d] === undefined)
+      .sort((a, b) => a - b)[0];
+    if (dueDay && pendingCheckinDay !== dueDay) setPendingCheckinDay(dueDay);
+  }, [state.completedDays, state.checkins]);
 
   function handleCheckinSubmit(day, value) {
     setState((s) => ({ ...s, checkins: { ...s.checkins, [day]: value } }));
@@ -686,6 +723,7 @@ export default function StartNowApp() {
             state={state}
             onUpdateName={(name) => setState((s) => ({ ...s, name }))}
             onReset={handleReset}
+            onSkipDay={handleSkipDay}
           />
         )}
       </div>
