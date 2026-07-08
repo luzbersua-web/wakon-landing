@@ -20,7 +20,7 @@ const state = {
 const root = document.getElementById("app");
 
 function buildSteps() {
-  const steps = ["gender", "testimonial", "age", "social-proof"];
+  const steps = ["gender", "age", "social-proof"];
   QUESTIONS.forEach(q => {
     steps.push({ type: "question", data: q });
     if (INTERSTITIALS[q.n]) steps.push({ type: "interstitial", data: INTERSTITIALS[q.n] });
@@ -42,7 +42,6 @@ function render() {
   const key = typeof step === "string" ? step : step.type;
   const renderers = {
     "gender": renderGender,
-    "testimonial": renderTestimonial,
     "age": renderAge,
     "social-proof": renderSocialProof,
     "question": () => renderQuestion(step.data),
@@ -109,22 +108,16 @@ function renderGender() {
   grid.className = "gender-grid";
   [["male", S.gender.male, "/shared/images/male-avatar.jpg"], ["female", S.gender.female, "/shared/images/female-avatar.jpg"]].forEach(([key, label, img]) => {
     const card = document.createElement("button");
-    card.className = `gender-card ${key}`;
+    card.className = `gender-card ${key}` + (state.gender === key ? " selected" : "");
     card.innerHTML = `<img src="${img}" alt="${label}"><div class="label">${label} <span>›</span></div>`;
-    card.onclick = () => { state.gender = key; go(1); };
+    card.onclick = () => { state.gender = key; render(); };
     grid.appendChild(card);
   });
   s.appendChild(grid);
-  root.appendChild(s);
-}
 
-function renderTestimonial() {
-  const s = document.createElement("div");
-  s.className = "screen";
-  s.appendChild(topBar());
+  const t = TESTIMONIALS[0];
   const card = document.createElement("div");
   card.className = "testimonial-card";
-  const t = TESTIMONIALS[0];
   card.innerHTML = `
     <div class="who"><img class="avatar" src="${t.img}" alt="${t.name}"><div><div class="name">${t.name}</div><div class="role">${t.role}</div></div></div>
     <div class="quote">${t.quote}</div>
@@ -132,7 +125,9 @@ function renderTestimonial() {
     <div class="stars">★★★★★</div><div class="date">${t.date}</div>
   `;
   s.appendChild(card);
-  const btn = primaryBtn(S.continueBtn, () => go(1));
+
+  const btn = primaryBtn(S.continueBtn, () => { if (state.gender) go(1); });
+  if (!state.gender) btn.style.opacity = "0.5";
   s.appendChild(btn);
   root.appendChild(s);
 }
@@ -165,9 +160,7 @@ function renderSocialProof() {
     <h1 class="headline">${S.socialProof.pre}<span style="color:var(--blue)">${S.socialProof.highlight}</span></h1>
     <p class="subheadline">${S.socialProof.sub}</p>
     <div class="callout-box" style="text-align:center;">${S.socialProof.callout}</div>
-    <div class="pin-map"><div class="pin-avatars">
-      ${["🙂","😀","🙃","😊","🙂","😀","🙃"].map(e=>`<span>${e}</span>`).join("")}
-    </div></div>
+    <img src="/shared/images/social-proof-people.jpg" alt="" style="width:100%;border-radius:var(--radius);margin-top:16px;display:block;">
   `;
   s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
   root.appendChild(s);
@@ -310,18 +303,21 @@ function renderResultsLoading() {
   s.className = "screen";
   s.appendChild(logoEl());
   s.innerHTML += `<h2 style="text-align:center;margin-bottom:24px;">${S.resultsLoading.headlinePre}<span style="color:var(--blue);">${S.resultsLoading.headlineHighlight}</span>${S.resultsLoading.headlinePost}</h2>`;
-  S.resultsLoading.steps.forEach(step => {
+
+  const rows = S.resultsLoading.steps.map(step => {
     const row = document.createElement("div");
     row.style.marginBottom = "16px";
     row.innerHTML = `
       <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px;">
         <span>${step.label}</span>
-        <span>${step.pct === 100 ? "✅" : step.pct + "%"}</span>
+        <span class="pct">0%</span>
       </div>
-      <div class="progress-track"><div class="progress-fill" style="width:${step.pct}%;"></div></div>
+      <div class="progress-track"><div class="progress-fill" style="width:0%;"></div></div>
     `;
     s.appendChild(row);
+    return { fill: row.querySelector(".progress-fill"), pct: row.querySelector(".pct") };
   });
+
   const t = document.createElement("div");
   t.className = "testimonial-card";
   t.innerHTML = `<div class="stars" style="margin-bottom:8px;">★★★★★</div>
@@ -330,7 +326,38 @@ function renderResultsLoading() {
     <div style="font-size:12px;color:var(--text-soft);">${S.resultsLoading.testimonialAuthor}</div>`;
   s.appendChild(t);
   root.appendChild(s);
-  setTimeout(() => go(1), 2200);
+
+  const STEP_DURATION = 1100;
+  const STEP_GAP = 200;
+
+  function animateStep(row, onDone) {
+    const start = performance.now();
+    row.fill.style.transition = "none";
+    row.fill.style.width = "0%";
+    requestAnimationFrame(() => {
+      row.fill.style.transition = `width ${STEP_DURATION}ms ease`;
+      row.fill.style.width = "100%";
+    });
+    function tick(now) {
+      const elapsed = now - start;
+      const pct = Math.min(100, Math.round((elapsed / STEP_DURATION) * 100));
+      row.pct.textContent = pct + "%";
+      if (elapsed < STEP_DURATION) {
+        requestAnimationFrame(tick);
+      } else {
+        row.pct.textContent = "✅";
+        onDone();
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  let i = 0;
+  function next() {
+    if (i >= rows.length) { setTimeout(() => go(1), 500); return; }
+    animateStep(rows[i], () => { i++; setTimeout(next, STEP_GAP); });
+  }
+  next();
 }
 
 function renderResults() {

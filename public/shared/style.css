@@ -44,6 +44,8 @@ h1,h2,h3{font-family:'Poppins',sans-serif;}
 .gender-card .label{padding:14px;color:#fff;font-weight:700;font-size:17px;display:flex;justify-content:space-between;align-items:center;}
 .gender-card.male .label{background:var(--blue);}
 .gender-card.female .label{background:var(--pink);}
+.gender-card{box-shadow:0 0 0 3px transparent;transition:box-shadow .15s;}
+.gender-card.selected{box-shadow:0 0 0 3px var(--text);}
 
 .testimonial-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:16px;}
 .testimonial-card .who{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
