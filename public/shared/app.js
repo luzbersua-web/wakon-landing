@@ -161,6 +161,16 @@ function renderAge() {
   root.appendChild(s);
 }
 
+const MAP_PINS = [
+  { left: "6%", top: "56%", size: 48, img: "/shared/images/male-avatar.jpg" },
+  { left: "22%", top: "8%", size: 58, img: "/shared/images/testimonial-1.jpg" },
+  { left: "46%", top: "42%", size: 44, img: "/shared/images/testimonial-2.jpg" },
+  { left: "60%", top: "4%", size: 50, img: "/shared/images/testimonial-4.jpg" },
+  { left: "28%", top: "72%", size: 54, img: "/shared/images/female-avatar.jpg" },
+  { left: "80%", top: "32%", size: 60, img: "/shared/images/testimonial-3.jpg" },
+  { left: "66%", top: "68%", size: 46, img: "/shared/images/testimonial-5.jpg" },
+];
+
 function renderSocialProof() {
   const s = document.createElement("div");
   s.className = "screen";
@@ -169,7 +179,21 @@ function renderSocialProof() {
     <h1 class="headline">${S.socialProof.pre}<span style="color:var(--blue)">${S.socialProof.highlight}</span></h1>
     <p class="subheadline">${S.socialProof.sub}</p>
     <div class="callout-box" style="text-align:center;">${S.socialProof.callout}</div>
-    <img src="/shared/images/social-proof-people.jpg" alt="" style="width:100%;border-radius:var(--radius);margin-top:16px;display:block;">
+    <div class="world-map">
+      <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+        <circle cx="200" cy="130" r="118" fill="none" stroke="var(--lavender-dark)" stroke-width="2"/>
+        <circle cx="200" cy="130" r="82" fill="none" stroke="var(--lavender-dark)" stroke-width="2"/>
+        <circle cx="200" cy="130" r="46" fill="none" stroke="var(--lavender-dark)" stroke-width="2"/>
+        <ellipse cx="200" cy="130" rx="42" ry="118" fill="none" stroke="var(--lavender-dark)" stroke-width="2"/>
+        <ellipse cx="200" cy="130" rx="82" ry="118" fill="none" stroke="var(--lavender-dark)" stroke-width="2"/>
+        <line x1="82" y1="130" x2="318" y2="130" stroke="var(--lavender-dark)" stroke-width="2"/>
+      </svg>
+      ${MAP_PINS.map((p) => `
+        <div class="map-pin" style="left:${p.left};top:${p.top};--pin-size:${p.size}px;">
+          <img src="${p.img}" alt="">
+        </div>
+      `).join("")}
+    </div>
   `;
   s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
   root.appendChild(s);

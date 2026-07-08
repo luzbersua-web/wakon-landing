@@ -78,9 +78,10 @@ h1,h2,h3{font-family:'Poppins',sans-serif;}
 .helper-text{text-align:center;font-size:12px;color:var(--text-soft);margin-top:8px;}
 
 /* ---------- social proof / interstitial ---------- */
-.pin-map{position:relative;background:var(--lavender);border-radius:var(--radius);padding:30px 10px;margin:20px 0;text-align:center;overflow:hidden;}
-.pin-avatars{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
-.pin-avatars span{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.1);}
+.world-map{position:relative;background:var(--lavender);border-radius:var(--radius);margin:20px 0;overflow:hidden;height:260px;}
+.map-pin{position:absolute;width:var(--pin-size,52px);height:var(--pin-size,52px);border-radius:50%;box-shadow:0 4px 10px rgba(76,95,224,.3);}
+.map-pin img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #fff;display:block;box-sizing:border-box;}
+.map-pin::after{content:"";position:absolute;right:-2px;bottom:-2px;width:16px;height:16px;border-radius:50%;background:#2fb380;border:2.5px solid #fff;}
 .callout-box{background:var(--lavender);border-radius:var(--radius);padding:16px;margin-bottom:16px;}
 .callout-box b{color:var(--blue);}
 .callout-title{color:var(--blue);font-weight:700;margin-bottom:6px;}
