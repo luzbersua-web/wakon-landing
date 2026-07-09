@@ -113,9 +113,9 @@ const TESTIMONIALS = [
 ];
 
 const PLANS = [
-  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 125.98, now: 42.99, modules: ["time-focus", "habits"] },
-  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 59.98, now: 29.99, modules: [] },
-  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "50% DE DESCUENTO", was: 179.98, now: 89.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
+  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"] },
+  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [] },
+  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "73% DE DESCUENTO", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
 ];
 
 const FAQ = [
@@ -138,11 +138,11 @@ const FAQ = [
 ];
 
 const BONUS_MODULES = [
-  { key: "time-focus", label: "Dominio del tiempo y el enfoque", was: 36.66 },
-  { key: "stress-anxiety", label: "Manejo del estrés y la ansiedad", was: 19.99 },
-  { key: "habits", label: "Construcción de hábitos duraderos", was: 29.99 },
-  { key: "relationships", label: "Gestión de las relaciones", was: 19.99 },
-  { key: "money", label: "Manejo del dinero", was: 16.99 },
+  { key: "time-focus", label: "Dominio del tiempo y el enfoque", was: 19.99 },
+  { key: "stress-anxiety", label: "Manejo del estrés y la ansiedad", was: 14.99 },
+  { key: "habits", label: "Construcción de hábitos duraderos", was: 19.99 },
+  { key: "relationships", label: "Gestión de las relaciones", was: 14.99 },
+  { key: "money", label: "Manejo del dinero", was: 12.99 },
 ];
 
 const STRINGS = {
@@ -154,7 +154,7 @@ const STRINGS = {
     sub: "Descubre tu tipo de procrastinación y consigue un plan personalizado para terminar por fin lo que empiezas",
     male: "Hombre",
     female: "Mujer",
-    testimonialIntro: "Mirá cómo le fue a otras personas con este mismo plan:",
+    testimonialIntro: "Mira cómo le fue a otras personas con este mismo plan:",
   },
   age: {
     title: "¿Cuál es tu edad?",
@@ -223,9 +223,10 @@ const STRINGS = {
     ],
   },
   pricing: {
-    stickyLabel: "50% de descuento reservado para:",
+    stickyLabel: "Descuento reservado para:",
     getPlanBtn: "QUIERO MI PLAN",
     headline: "Tu plan personalizado para terminar lo que empiezas",
+    headlineSub: "Elige tu plan — algunos incluyen módulos bonus de regalo (enfoque, estrés, hábitos, relaciones y dinero).",
     timelineNow: "Ahora",
     timelineGoal: "Tu meta",
     timelineRows: [
@@ -243,6 +244,8 @@ const STRINGS = {
     shift: "La mayoría de los usuarios sienten un cambio dentro de los 7-10 días.",
     timerBarLabel: "El descuento es válido solo por:",
     oneTimeLabel: "Pago único",
+    savingsLabel: "Ahorras",
+    corePlanLabel: "Plan de 30 días",
     paySafe: "🛡️ Pago 100% seguro",
     payIcons: ["VISA", "Mastercard", "PayPal", "Amex", "Discover", "Maestro"],
     guaranteeLine: "✓ Garantía de devolución de 30 días",
@@ -259,7 +262,7 @@ const STRINGS = {
     saved: "Ahorraste $",
     bonusHead: "Tu plan incluye estos módulos:",
     includedLabel: "incluido",
-    noModulesLine: "Este plan no incluye módulos bonus — podés sumarlos cuando quieras.",
+    noModulesLine: "Este plan no incluye módulos bonus — puedes sumarlos cuando quieras.",
     gpay: "Pagar con G Pay",
     paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a hello@${brand.toLowerCase()}.app para completar tu pedido.`,
     openAppBtn: "Mientras tanto, abre tu plan en la app →",

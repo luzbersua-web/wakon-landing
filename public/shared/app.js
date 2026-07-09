@@ -14,7 +14,7 @@ const state = {
   age: null,
   name: "",
   email: "",
-  selectedPlan: "plus",
+  selectedPlan: "essential",
 };
 
 const root = document.getElementById("app");
@@ -579,7 +579,7 @@ function renderPricing() {
 
   const body = document.createElement("div");
   body.className = "screen";
-  body.innerHTML = `<h1 class="headline">${S.pricing.headline}</h1>`;
+  body.innerHTML = `<h1 class="headline">${S.pricing.headline}</h1><p class="subheadline">${S.pricing.headlineSub}</p>`;
   s.appendChild(body);
 
   // timeline
@@ -695,7 +695,9 @@ function planCard(p) {
   const isSelected = state.selectedPlan === p.key;
   const card = document.createElement("div");
   card.className = "plan-card" + (isSelected ? " selected" : "");
-  const moduleCount = p.modules.length;
+  const savings = (p.was - p.now).toFixed(2);
+  const includedModules = BONUS_MODULES.filter(m => p.modules.includes(m.key));
+  const includedItems = [S.pricing.corePlanLabel, ...includedModules.map(m => m.label)];
   card.innerHTML = `
     ${p.tag ? `<div class="plan-tag ${p.badgeClass}">${p.tagIcon || "⭐"} ${p.tag}</div>` : ""}
     <div class="plan-body">
@@ -703,8 +705,9 @@ function planCard(p) {
       <div class="plan-info">
         <div class="plan-name">${p.label}</div>
         <div class="plan-discount">${p.discountLabel}</div>
-        <div><span class="plan-price-old">$${p.was}</span><span class="plan-price-new">→ $${p.now}</span></div>
-        <div class="plan-modules-count">${moduleCount === 0 ? "Plan de 30 días" : moduleCount === BONUS_MODULES.length ? "Plan de 30 días + los 5 módulos bonus" : `Plan de 30 días + ${moduleCount} módulos bonus`}</div>
+        <div class="plan-price-row"><span class="plan-price-old">$${p.was}</span><span class="plan-price-new">$${p.now}</span></div>
+        <div class="plan-savings">🔥 ${S.pricing.savingsLabel} $${savings}</div>
+        <ul class="plan-includes">${includedItems.map(item => `<li>✓ ${item}</li>`).join("")}</ul>
       </div>
       <div class="plan-perday"><span class="big">${S.pricing.oneTimeLabel}</span></div>
     </div>

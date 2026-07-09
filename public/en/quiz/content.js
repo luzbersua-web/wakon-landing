@@ -112,9 +112,9 @@ const TESTIMONIALS = [
 ];
 
 const PLANS = [
-  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 125.98, now: 42.99, modules: ["time-focus", "habits"] },
-  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 59.98, now: 29.99, modules: [] },
-  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 50%", was: 179.98, now: 89.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
+  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"] },
+  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 29.99, now: 14.99, modules: [] },
+  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 73%", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
 ];
 
 const FAQ = [
@@ -137,11 +137,11 @@ const FAQ = [
 ];
 
 const BONUS_MODULES = [
-  { key: "time-focus", label: "Time & focus mastery", was: 36.66 },
-  { key: "stress-anxiety", label: "Stress & anxiety management", was: 19.99 },
-  { key: "habits", label: "Building lasting habits", was: 29.99 },
-  { key: "relationships", label: "Relationship management", was: 19.99 },
-  { key: "money", label: "Money management", was: 16.99 },
+  { key: "time-focus", label: "Time & focus mastery", was: 19.99 },
+  { key: "stress-anxiety", label: "Stress & anxiety management", was: 14.99 },
+  { key: "habits", label: "Building lasting habits", was: 19.99 },
+  { key: "relationships", label: "Relationship management", was: 14.99 },
+  { key: "money", label: "Money management", was: 12.99 },
 ];
 
 const STRINGS = {
@@ -222,9 +222,10 @@ const STRINGS = {
     ],
   },
   pricing: {
-    stickyLabel: "50% discount reserved for:",
+    stickyLabel: "Discount reserved for:",
     getPlanBtn: "GET MY PLAN",
     headline: "Your personalized plan to finish what you start",
+    headlineSub: "Choose your plan — some include free bonus modules (focus, stress, habits, relationships, and money).",
     timelineNow: "Now",
     timelineGoal: "Your goal",
     timelineRows: [
@@ -242,6 +243,8 @@ const STRINGS = {
     shift: "Most users feel a shift within 7-10 days.",
     timerBarLabel: "Discount only valid for:",
     oneTimeLabel: "One-time payment",
+    savingsLabel: "You save",
+    corePlanLabel: "30-day plan",
     paySafe: "🛡️ Pay safe & secure",
     payIcons: ["VISA", "Mastercard", "PayPal", "Amex", "Discover", "Maestro"],
     guaranteeLine: "✓ 30-day money-back guarantee",

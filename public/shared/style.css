@@ -121,9 +121,13 @@ h1,h2,h3{font-family:'Poppins',sans-serif;}
 .plan-info{flex:1;}
 .plan-name{font-weight:800;font-size:17px;margin-bottom:6px;}
 .plan-discount{display:inline-block;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;margin-bottom:6px;}
-.plan-price-old{color:var(--text-soft);text-decoration:line-through;font-size:13px;margin-right:4px;}
-.plan-price-new{font-weight:700;font-size:13px;}
-.plan-modules-count{font-size:11px;color:var(--text-soft);margin-top:4px;}
+.plan-price-row{display:flex;align-items:baseline;gap:8px;margin:2px 0;}
+.plan-price-old{color:var(--text-soft);text-decoration:line-through;font-size:14px;}
+.plan-price-new{font-weight:800;font-size:26px;color:var(--green);}
+.plan-savings{display:inline-block;background:var(--green-bg);color:var(--green);font-size:12px;font-weight:800;padding:3px 9px;border-radius:6px;margin-top:2px;}
+.plan-includes{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:3px;}
+.plan-includes li{font-size:12px;color:var(--text-soft);font-weight:600;}
+.plan-includes li:first-child{color:var(--text);}
 .plan-perday{background:var(--lavender);border-radius:0 8px 8px 0;padding:8px 12px;position:relative;text-align:center;max-width:90px;display:flex;align-items:center;}
 .plan-perday::before{content:"";position:absolute;left:-9px;top:0;border-top:24px solid transparent;border-bottom:24px solid transparent;border-right:9px solid var(--lavender);}
 .plan-perday .big{font-size:13px;font-weight:800;line-height:1.25;}
