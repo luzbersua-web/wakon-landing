@@ -271,7 +271,7 @@ function TodayScreen({ state, onComplete, category, onRestart }) {
           </span>
           {isFeatured && (
             <span style={{ fontFamily: "sans-serif", fontSize: "0.72rem", color: GREEN, fontWeight: 800 }}>
-              ★ Prioridad para vos
+              ★ Prioridad para ti
             </span>
           )}
         </div>
