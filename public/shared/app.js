@@ -480,6 +480,7 @@ function renderPlanReady() {
       </svg>
       <div class="chart-bubble" style="left:${(40 / 300 * 100).toFixed(2)}%;top:${(90 / 170 * 100).toFixed(2)}%;">${S.planReady.lessAvoidance}</div>
       <div class="chart-bubble" style="left:${(170 / 300 * 100).toFixed(2)}%;top:${(45 / 170 * 100).toFixed(2)}%;">${S.planReady.momentum}</div>
+      <div class="chart-bubble" style="left:${(240 / 300 * 100).toFixed(2)}%;top:${(38 / 170 * 100).toFixed(2)}%;">${S.planReady.habitInstalled}</div>
     </div>
     <div class="chart-legend">
       <div class="chart-legend-item"><span class="chart-dot" style="background:var(--green)"></span>${S.planReady.legendWith} ${BRAND}</div>
