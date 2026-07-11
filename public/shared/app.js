@@ -145,9 +145,9 @@ function renderAge() {
   const s = document.createElement("div");
   s.className = "screen";
   s.appendChild(topBar());
-  s.innerHTML += `<div class="icon-badge">👥</div>
+  s.insertAdjacentHTML("beforeend", `<div class="icon-badge">👥</div>
     <div class="q-title">${S.age.title}</div>
-    <div class="q-subtitle">${S.age.subtitle}</div>`;
+    <div class="q-subtitle">${S.age.subtitle}</div>`);
   const opts = document.createElement("div");
   opts.className = "options";
   S.age.options.forEach(label => {
@@ -175,7 +175,7 @@ function renderSocialProof() {
   const s = document.createElement("div");
   s.className = "screen";
   s.appendChild(topBar());
-  s.innerHTML += `
+  s.insertAdjacentHTML("beforeend", `
     <h1 class="headline">${S.socialProof.pre}<span style="color:var(--blue)">${S.socialProof.highlight}</span></h1>
     <p class="subheadline">${S.socialProof.sub}</p>
     <div class="callout-box" style="text-align:center;">${S.socialProof.callout}</div>
@@ -194,7 +194,7 @@ function renderSocialProof() {
         </div>
       `).join("")}
     </div>
-  `;
+  `);
   s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
   root.appendChild(s);
 }
@@ -204,9 +204,9 @@ function renderQuestion(q) {
   const s = document.createElement("div");
   s.className = "screen";
   s.appendChild(topBar(q));
-  s.innerHTML += `<div class="icon-badge">${q.icon}</div>
+  s.insertAdjacentHTML("beforeend", `<div class="icon-badge">${q.icon}</div>
     <div class="q-title">${q.text}</div>
-    ${q.subtitle ? `<div class="q-subtitle">${q.subtitle}</div>` : ""}`;
+    ${q.subtitle ? `<div class="q-subtitle">${q.subtitle}</div>` : ""}`);
 
   const opts = document.createElement("div");
   opts.className = "options";
@@ -740,7 +740,7 @@ function renderCheckout() {
   const s = document.createElement("div");
   s.className = "screen";
   s.appendChild(topBar());
-  s.innerHTML += `<h2 style="margin-bottom:14px;">${S.checkout.title}</h2>`;
+  s.insertAdjacentHTML("beforeend", `<h2 style="margin-bottom:14px;">${S.checkout.title}</h2>`);
 
   const methodRow = document.createElement("div");
   methodRow.style.display = "grid";
