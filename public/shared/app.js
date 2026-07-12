@@ -15,6 +15,7 @@ const state = {
   name: "",
   email: "",
   selectedPlan: "essential",
+  leadTracked: false,
 };
 
 const root = document.getElementById("app");
@@ -332,6 +333,10 @@ function computeResult() {
   return { score, stress, mainTrigger, avoidance, avoidanceKey };
 }
 
+function trackFbEvent(name, params) {
+  try { if (typeof fbq === "function") fbq("track", name, params || {}); } catch (e) {}
+}
+
 function persistStartNowResult() {
   const r = computeResult();
   const plan = PLANS.find(p => p.key === state.selectedPlan);
@@ -349,6 +354,11 @@ function persistStartNowResult() {
     savedAt: Date.now(),
   };
   try { localStorage.setItem("startnow_quiz_result", JSON.stringify(payload)); } catch (e) {}
+
+  if (!state.leadTracked) {
+    state.leadTracked = true;
+    trackFbEvent("Lead", { content_name: BRAND, value: plan.now, currency: "USD" });
+  }
 }
 
 function renderResultsLoading() {
@@ -736,6 +746,7 @@ function renderCheckout() {
   const includedModules = BONUS_MODULES.filter(m => plan.modules.includes(m.key));
   const bonusTotal = includedModules.reduce((sum, m) => sum + m.was, 0);
   const saved = (plan.was + bonusTotal - plan.now).toFixed(1);
+  trackFbEvent("InitiateCheckout", { content_name: plan.label, value: plan.now, currency: "USD" });
 
   const s = document.createElement("div");
   s.className = "screen";
@@ -800,7 +811,7 @@ function renderCheckout() {
   paypalBtn.style.background = "#FFC439";
   paypalBtn.style.marginTop = "20px";
   paypalBtn.innerHTML = `<span style="font-weight:800;color:#003087;">Pay<span style="color:#009cde;">Pal</span></span>`;
-  paypalBtn.onclick = () => showPaymentNotice(notice, appLink);
+  paypalBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); showPaymentNotice(notice, appLink); };
   s.appendChild(paypalBtn);
 
   const gpayBtn = document.createElement("button");
@@ -809,7 +820,7 @@ function renderCheckout() {
   gpayBtn.style.color = "#fff";
   gpayBtn.style.marginTop = "10px";
   gpayBtn.textContent = S.checkout.gpay;
-  gpayBtn.onclick = () => showPaymentNotice(notice, appLink);
+  gpayBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); showPaymentNotice(notice, appLink); };
   s.appendChild(gpayBtn);
 
   const notice = document.createElement("p");
