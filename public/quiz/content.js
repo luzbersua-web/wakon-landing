@@ -167,6 +167,14 @@ const STRINGS = {
     sub: "Este quiz de 2 minutos te ayuda a entender por qué procrastinas — y qué hacer al respecto.",
     callout: "<b>Únete a 1.2 millones de personas</b> que ya empezaron su camino",
   },
+  therapist: {
+    nameTitle: "¡Qué buena señal! ¿Cómo se llama?",
+    nameSub: "Nos alegra saber que un profesional acompaña tu proceso. Compártenos su nombre (o déjalo vacío si prefieres).",
+    namePlaceholder: "Nombre del terapeuta o profesional",
+    ackTitle: (name) => name ? `${name} sabe lo que hace` : "Tu terapeuta sabe lo que hace",
+    ackBody: (name) => `Las micro-intervenciones basadas en TCC — como las de este plan — se usan cada vez más como complemento entre sesiones. Que ${name || "tu terapeuta"} te haya recomendado este enfoque habla muy bien de tu proceso: vas a trabajar el patrón, no solo el síntoma.`,
+    ackTip: "Consejo: cuéntale cómo avanzas con tu plan de 30 días — el acompañamiento profesional multiplica los resultados.",
+  },
   resultsLoading: {
     headlinePre: "Únete a ",
     headlineHighlight: "1.2 millones",

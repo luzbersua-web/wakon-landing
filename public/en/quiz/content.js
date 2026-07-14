@@ -166,6 +166,14 @@ const STRINGS = {
     sub: "This 2-minute quiz helps you understand why you procrastinate—and what to do about it.",
     callout: "<b>Join 1.2 million people</b> who've already started their journey",
   },
+  therapist: {
+    nameTitle: "That's a great sign! What's their name?",
+    nameSub: "We love knowing a professional is part of your journey. Share their name (or leave it blank if you prefer).",
+    namePlaceholder: "Therapist or provider's name",
+    ackTitle: (name) => name ? `${name} knows what they're doing` : "Your therapist knows what they're doing",
+    ackBody: (name) => `CBT-based micro-interventions — like the ones in this plan — are increasingly used as a complement between sessions. The fact that ${name || "your therapist"} recommended this approach says a lot about your process: you'll be working on the pattern, not just the symptom.`,
+    ackTip: "Tip: let them know how your 30-day plan is going — professional support multiplies the results.",
+  },
   resultsLoading: {
     headlinePre: "Join ",
     headlineHighlight: "1.2 million",

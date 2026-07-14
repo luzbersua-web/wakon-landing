@@ -16,6 +16,7 @@ const state = {
   email: "",
   selectedPlan: "essential",
   leadTracked: false,
+  therapistName: "",
 };
 
 const root = document.getElementById("app");
@@ -24,6 +25,7 @@ function buildSteps() {
   const steps = ["gender", "age", "social-proof"];
   QUESTIONS.forEach(q => {
     steps.push({ type: "question", data: q });
+    if (q.n === 22) steps.push("therapist-name", "therapist-ack");
     if (INTERSTITIALS[q.n]) steps.push({ type: "interstitial", data: INTERSTITIALS[q.n] });
   });
   steps.push("results-loading", "results", "plan-ready", "name", "email", "included", "pricing", "checkout");
@@ -31,7 +33,9 @@ function buildSteps() {
 }
 const STEPS = buildSteps();
 
+let lastDelta = 1; // dirección del último movimiento, para que las pantallas condicionales sepan hacia dónde saltarse
 function go(delta) {
+  lastDelta = delta;
   state.step = Math.max(0, Math.min(STEPS.length - 1, state.step + delta));
   render();
   window.scrollTo(0, 0);
@@ -46,6 +50,8 @@ function render() {
     "age": renderAge,
     "social-proof": renderSocialProof,
     "question": () => renderQuestion(step.data),
+    "therapist-name": renderTherapistName,
+    "therapist-ack": renderTherapistAck,
     "interstitial": () => renderInterstitial(step.data),
     "results-loading": renderResultsLoading,
     "results": renderResults,
@@ -111,14 +117,10 @@ function renderGender() {
     const card = document.createElement("button");
     card.className = `gender-card ${key}` + (state.gender === key ? " selected" : "");
     card.innerHTML = `<img src="${img}" alt="${label}"><div class="label">${label} <span>›</span></div>`;
-    card.onclick = () => { state.gender = key; render(); };
+    card.onclick = () => { state.gender = key; go(1); };
     grid.appendChild(card);
   });
   s.appendChild(grid);
-
-  const btn = primaryBtn(S.continueBtn, () => { if (state.gender) go(1); });
-  if (!state.gender) btn.style.opacity = "0.5";
-  s.appendChild(btn);
 
   const testimonialIntro = document.createElement("p");
   testimonialIntro.className = "helper-text";
@@ -251,6 +253,45 @@ function renderQuestion(q) {
   root.appendChild(s);
 }
 
+/* ---------------- terapeuta (solo si respondió "Sí" en la pregunta 22) ---------------- */
+function therapistSaidYes() {
+  const q = QUESTIONS.find(q => q.n === 22);
+  return state.answers[22] === q.options[0].label;
+}
+
+function renderTherapistName() {
+  if (!therapistSaidYes()) { go(lastDelta >= 0 ? 1 : -1); return; }
+  const s = document.createElement("div");
+  s.className = "screen";
+  s.appendChild(topBar());
+  s.insertAdjacentHTML("beforeend", `<div class="icon-badge">💜</div>
+    <div class="q-title">${S.therapist.nameTitle}</div>
+    <div class="q-subtitle">${S.therapist.nameSub}</div>`);
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = S.therapist.namePlaceholder;
+  input.value = state.therapistName;
+  input.oninput = e => state.therapistName = e.target.value;
+  s.appendChild(input);
+  s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
+  root.appendChild(s);
+}
+
+function renderTherapistAck() {
+  if (!therapistSaidYes()) { go(lastDelta >= 0 ? 1 : -1); return; }
+  const name = state.therapistName.trim();
+  const s = document.createElement("div");
+  s.className = "screen";
+  s.appendChild(topBar());
+  s.insertAdjacentHTML("beforeend", `
+    <div class="icon-badge">🤝</div>
+    <div class="q-title">${S.therapist.ackTitle(name)}</div>
+    <div class="callout-box" style="margin-top:16px;">${S.therapist.ackBody(name)}</div>
+    <p class="q-subtitle" style="margin-top:14px;">${S.therapist.ackTip}</p>`);
+  s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
+  root.appendChild(s);
+}
+
 /* ---------------- interstitials ---------------- */
 function renderInterstitial(data) {
   const s = document.createElement("div");
@@ -351,6 +392,7 @@ function persistStartNowResult() {
     triggers: state.answers[17] || [],
     planKey: plan.key,
     includedModules: plan.modules,
+    therapistName: state.therapistName.trim(),
     savedAt: Date.now(),
   };
   try { localStorage.setItem("startnow_quiz_result", JSON.stringify(payload)); } catch (e) {}
