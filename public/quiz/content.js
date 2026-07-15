@@ -115,8 +115,8 @@ const TESTIMONIALS = [
 // checkoutUrl: pega aquí el link de pago de Hotmart de cada plan cuando lo tengas.
 // Mientras esté vacío, el botón muestra el aviso de "activando pagos" en vez de cobrar.
 const PLANS = [
-  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
   { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "" },
+  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
   { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "73% DE DESCUENTO", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "" },
 ];
 
@@ -188,9 +188,11 @@ const STRINGS = {
       { label: "Seleccionando tus primeras lecciones diarias..." },
       { label: "Preparando tu seguimiento de progreso..." },
     ],
-    testimonialQuote: "Simple pero poderoso",
-    testimonialBody: "Son solo 5 minutos al día, pero cambió por completo cómo enfrento las tareas. Mi casa está más limpia, entrego mi trabajo a tiempo y me siento en control de nuevo.",
-    testimonialAuthor: "David R., 58, Consultor",
+    testimonials: [
+      { quote: "Simple pero poderoso", body: "Son solo 5 minutos al día, pero cambió por completo cómo enfrento las tareas. Mi casa está más limpia, entrego mi trabajo a tiempo y me siento en control de nuevo.", author: "David R., 58, Consultor" },
+      { quote: "Por fin dejé de posponer", body: "Llevaba años empezando cosas que no terminaba. En dos semanas ya notaba la diferencia: hago lo que me propongo sin pelear conmigo misma.", author: "Carolina M., 34, Diseñadora" },
+      { quote: "No es fuerza de voluntad, es método", body: "Probé de todo antes. Esto es lo primero que de verdad se quedó. Las microtareas de 5 minutos hacen que empezar deje de dar miedo.", author: "Andrés T., 41, Contador" },
+    ],
   },
   results: {
     title: "Tu perfil de procrastinación",
@@ -223,6 +225,7 @@ const STRINGS = {
     title: "Ingresa tu correo electrónico para ver los resultados completos",
     placeholder: "Correo electrónico",
     privacy: "Nos comprometemos a proteger tus datos personales. Te enviaremos por correo una copia de tus resultados para que los tengas a mano. No te enviaremos spam.",
+    invalid: "Ingresa un correo electrónico válido para continuar.",
   },
   included: {
     title: "Qué incluye tu plan:",
@@ -259,9 +262,9 @@ const STRINGS = {
     corePlanLabel: "Plan de 30 días",
     paySafe: "🛡️ Pago 100% seguro",
     payIcons: ["VISA", "Mastercard", "PayPal", "Amex", "Discover", "Maestro"],
-    guaranteeLine: "✓ Garantía de devolución de 30 días",
+    guaranteeLine: "✓ Garantía de devolución de 7 días",
     guaranteeBoxTitle: "Garantía de devolución del 100%",
-    guaranteeBoxBody: "Pruébalo sin riesgo durante 30 días. Si no ves progreso, te devolvemos hasta el último centavo — sin preguntas.",
+    guaranteeBoxBody: "Pruébalo sin riesgo durante 7 días. Si no ves progreso, te devolvemos hasta el último centavo — sin preguntas.",
     testimonialsHeadline: "Únete a 1.2 millones de personas que recuperaron el control",
     faqTitle: "Preguntas frecuentes",
   },

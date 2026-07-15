@@ -114,8 +114,8 @@ const TESTIMONIALS = [
 // checkoutUrl: paste each plan's Stripe/PayPal payment link here when you have it.
 // While empty, the button shows the "activating payments" notice instead of charging.
 const PLANS = [
-  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
   { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 29.99, now: 14.99, modules: [], checkoutUrl: "" },
+  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
   { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 73%", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "" },
 ];
 
@@ -187,9 +187,11 @@ const STRINGS = {
       { label: "Selecting your first daily lessons...", pct: 100 },
       { label: "Preparing your progress tracker...", pct: 0 },
     ],
-    testimonialQuote: "Simple but powerful",
-    testimonialBody: "Just 5 minutes a day, but it's completely changed how I approach tasks. My house is cleaner, my work is on time, and I feel in control again.",
-    testimonialAuthor: "David R., 58, Consultant",
+    testimonials: [
+      { quote: "Simple but powerful", body: "Just 5 minutes a day, but it's completely changed how I approach tasks. My house is cleaner, my work is on time, and I feel in control again.", author: "David R., 58, Consultant" },
+      { quote: "I finally stopped putting things off", body: "For years I started things I never finished. Within two weeks I could feel the difference: I do what I set out to do without fighting myself.", author: "Carolina M., 34, Designer" },
+      { quote: "It's not willpower, it's method", body: "I'd tried everything before. This is the first thing that actually stuck. The 5-minute micro-tasks make starting stop feeling scary.", author: "Andrew T., 41, Accountant" },
+    ],
   },
   results: {
     title: "Your Procrastination Profile",
@@ -222,6 +224,7 @@ const STRINGS = {
     title: "Enter your email to see the full results",
     placeholder: "Email",
     privacy: "We are committed to protecting your personal data. We'll email you a copy of your results for convenient access. We are not going to send you spam.",
+    invalid: "Enter a valid email address to continue.",
   },
   included: {
     title: "What's included in your plan:",
@@ -258,9 +261,9 @@ const STRINGS = {
     corePlanLabel: "30-day plan",
     paySafe: "🛡️ Pay safe & secure",
     payIcons: ["VISA", "Mastercard", "PayPal", "Amex", "Discover", "Maestro"],
-    guaranteeLine: "✓ 30-day money-back guarantee",
+    guaranteeLine: "✓ 7-day money-back guarantee",
     guaranteeBoxTitle: "100% Money-Back Guarantee",
-    guaranteeBoxBody: "Try risk-free for 30 days. If you don't see progress, we'll refund every penny — no questions asked.",
+    guaranteeBoxBody: "Try risk-free for 7 days. If you don't see progress, we'll refund every penny — no questions asked.",
     testimonialsHeadline: "Join 1.2 million people taking back control",
     faqTitle: "People often ask",
   },

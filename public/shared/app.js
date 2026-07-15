@@ -423,13 +423,15 @@ function renderResultsLoading() {
     return { fill: row.querySelector(".progress-fill"), pct: row.querySelector(".pct") };
   });
 
-  const t = document.createElement("div");
-  t.className = "testimonial-card";
-  t.innerHTML = `<div class="stars" style="margin-bottom:8px;">★★★★★</div>
-    <div class="quote">${S.resultsLoading.testimonialQuote}</div>
-    <div class="body">"${S.resultsLoading.testimonialBody}"</div>
-    <div style="font-size:12px;color:var(--text-soft);">${S.resultsLoading.testimonialAuthor}</div>`;
-  s.appendChild(t);
+  S.resultsLoading.testimonials.forEach(tm => {
+    const t = document.createElement("div");
+    t.className = "testimonial-card";
+    t.innerHTML = `<div class="stars" style="margin-bottom:8px;">★★★★★</div>
+      <div class="quote">${tm.quote}</div>
+      <div class="body">"${tm.body}"</div>
+      <div style="font-size:12px;color:var(--text-soft);">${tm.author}</div>`;
+    s.appendChild(t);
+  });
   root.appendChild(s);
 
   const STEP_DURATION = 2400;
@@ -594,7 +596,24 @@ function renderEmail() {
   privacy.style.fontSize = "13px";
   privacy.innerHTML = `<span>🔒</span><span>${S.email.privacy}</span>`;
   s.appendChild(privacy);
-  s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
+
+  const err = document.createElement("p");
+  err.className = "helper-text";
+  err.style.color = "var(--red)";
+  err.style.marginTop = "10px";
+  err.style.display = "none";
+  err.textContent = S.email.invalid;
+  s.appendChild(err);
+
+  s.appendChild(primaryBtn(S.continueBtn, () => {
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email.trim())) {
+      err.style.display = "none";
+      go(1);
+    } else {
+      err.style.display = "block";
+      input.style.borderColor = "var(--red)";
+    }
+  }));
   root.appendChild(s);
 }
 
@@ -611,6 +630,26 @@ function renderIncluded() {
   });
   s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
   root.appendChild(s);
+}
+
+/* ---------------- regalo por comprar hoy (bono de acción rápida) ---------------- */
+function fastBonusEl() {
+  const fastBonus = document.createElement("div");
+  fastBonus.className = "fast-bonus";
+  fastBonus.style.margin = "0 16px 16px";
+  fastBonus.innerHTML = `
+    <div class="fast-bonus-tag">${S.checkout.fastBonusTag}</div>
+    <div class="fast-bonus-body">
+      <img class="fast-bonus-img" src="/shared/images/bonus-sabanas.jpg" alt="${S.checkout.fastBonusName}">
+      <div class="fast-bonus-text">
+        <div class="fast-bonus-name">${S.checkout.fastBonusName}</div>
+        <div class="fast-bonus-desc">${S.checkout.fastBonusDesc}</div>
+        <div class="fast-bonus-price"><span class="was">$${S.checkout.fastBonusValue}</span> <b>${S.checkout.fastBonusFree}</b></div>
+      </div>
+    </div>
+    <div class="fast-bonus-urgency">${S.checkout.fastBonusUrgency}</div>
+  `;
+  return fastBonus;
 }
 
 /* ---------------- pricing ---------------- */
@@ -673,6 +712,8 @@ function renderPricing() {
   plansWrap.style.marginTop = "16px";
   PLANS.forEach(p => plansWrap.appendChild(planCard(p)));
   s.appendChild(plansWrap);
+
+  s.appendChild(fastBonusEl());
 
   const cta = primaryBtn(S.pricing.getPlanBtn, checkoutClick);
   cta.style.margin = "0 16px 12px";
@@ -787,7 +828,7 @@ function renderCheckout() {
   const plan = PLANS.find(p => p.key === state.selectedPlan);
   const includedModules = BONUS_MODULES.filter(m => plan.modules.includes(m.key));
   const bonusTotal = includedModules.reduce((sum, m) => sum + m.was, 0);
-  const saved = (plan.was + bonusTotal + S.checkout.fastBonusValue - plan.now).toFixed(2);
+  const saved = (plan.was + bonusTotal - plan.now).toFixed(2);
   trackFbEvent("InitiateCheckout", { content_name: plan.label, value: plan.now, currency: "USD" });
 
   const s = document.createElement("div");
@@ -847,22 +888,6 @@ function renderCheckout() {
       s.appendChild(row);
     });
   }
-
-  const fastBonus = document.createElement("div");
-  fastBonus.className = "fast-bonus";
-  fastBonus.innerHTML = `
-    <div class="fast-bonus-tag">${S.checkout.fastBonusTag}</div>
-    <div class="fast-bonus-body">
-      <img class="fast-bonus-img" src="/shared/images/bonus-sabanas.jpg" alt="${S.checkout.fastBonusName}">
-      <div class="fast-bonus-text">
-        <div class="fast-bonus-name">${S.checkout.fastBonusName}</div>
-        <div class="fast-bonus-desc">${S.checkout.fastBonusDesc}</div>
-        <div class="fast-bonus-price"><span class="was">$${S.checkout.fastBonusValue}</span> <b>${S.checkout.fastBonusFree}</b></div>
-      </div>
-    </div>
-    <div class="fast-bonus-urgency">${S.checkout.fastBonusUrgency}</div>
-  `;
-  s.appendChild(fastBonus);
 
   const paypalBtn = document.createElement("button");
   paypalBtn.className = "btn";
