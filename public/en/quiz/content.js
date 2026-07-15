@@ -5,22 +5,22 @@
 const BRAND = "StartNow";
 
 const QUESTIONS = [
-  { n: 1, icon: "👀", text: "Do you often feel like you're falling behind on things you meant to do?", type: "scale" },
-  { n: 2, icon: "⏰", text: "Do you often leave things to the last minute?", type: "scale" },
-  { n: 3, icon: "📱", text: "Do you often check your phone while working?", type: "scale" },
-  { n: 4, icon: "🧩", text: "Do you struggle to start tasks that feel 'too big'?", type: "scale" },
-  { n: 5, icon: "📱", text: "Do you get distracted easily?", type: "scale" },
-  { n: 6, icon: "🌫️", text: "Do you feel like the day simply slips away?", type: "scale" },
-  { n: 7, icon: "📲", text: "Do you find yourself scrolling instead of doing what you planned?", type: "scale" },
-  { n: 8, icon: "💬", text: "Do you put off difficult conversations?", type: "scale" },
-  { n: 9, icon: "🏠", text: "Do you struggle to keep your home or workspace tidy?", type: "scale" },
-  { n: 10, icon: "⚡", text: "Do you feel stressed about unfinished tasks?", type: "scale" },
-  { n: 11, icon: "🥊", text: "Are you hard on yourself when you procrastinate?", type: "scale" },
-  { n: 12, icon: "🔄", text: "I start things that I don't finish.", type: "scale" },
-  { n: 13, icon: "📋", text: "I make plans but never follow through.", type: "scale" },
-  { n: 14, icon: "⏱️", text: "I have a habit of showing up late.", type: "scale" },
-  { n: 15, icon: "📋", text: "I avoid tasks that feel frustrating or boring.", type: "scale" },
-  { n: 16, icon: "🗯️", text: "I distract myself by talking when I should be working.", type: "scale" },
+  { n: 1, icon: "🌙", text: "Do you end the day feeling like you didn't move forward on what actually mattered?", type: "scale" },
+  { n: 2, icon: "⏰", text: "Do you wait until last-minute pressure (or panic) forces you to start?", type: "scale" },
+  { n: 3, icon: "📱", text: "Do you grab your phone 'just for a second' and suddenly half an hour is gone?", type: "scale" },
+  { n: 4, icon: "🧩", text: "Does a big task paralyze you so much you'd rather not start it at all?", type: "scale" },
+  { n: 5, icon: "🎯", text: "Does any noise, message, or stray thought pull you completely out of what you were doing?", type: "scale" },
+  { n: 6, icon: "🌫️", text: "Does night fall and you can't quite say where the hours went?", type: "scale" },
+  { n: 7, icon: "📲", text: "Do you catch yourself scrolling instead of doing the thing you 'were just about to start'?", type: "scale" },
+  { n: 8, icon: "💬", text: "Do you avoid that uncomfortable message or conversation you know you'll have to have eventually?", type: "scale" },
+  { n: 9, icon: "🏠", text: "Does the mess pile up until you don't even know where to begin?", type: "scale" },
+  { n: 10, icon: "⚡", text: "Do your to-dos keep circling in your head even when you try to rest?", type: "scale" },
+  { n: 11, icon: "🥊", text: "Do you fill up with guilt every time you put something off?", type: "scale" },
+  { n: 12, icon: "🔄", text: "Do you have several things started and none of them finished?", type: "scale" },
+  { n: 13, icon: "📋", text: "Do you make plans full of excitement and abandon them a few days later?", type: "scale" },
+  { n: 14, icon: "⏱️", text: "Do you end up running late even when you had plenty of time to get ready?", type: "scale" },
+  { n: 15, icon: "🥱", text: "Do you save for last exactly what bores or frustrates you the most?", type: "scale" },
+  { n: 16, icon: "🗯️", text: "Do you get tangled up in other things when you should really be focused?", type: "scale" },
   {
     n: 17, icon: "🎯", text: "What affects your productivity the most?", type: "multi", subtitle: "Select all that apply",
     options: [
@@ -33,7 +33,7 @@ const QUESTIONS = [
     ]
   },
   {
-    n: 18, icon: "📝", text: "What do you keep putting off?", type: "single",
+    n: 18, icon: "📝", text: "What do you keep putting off?", type: "multi", subtitle: "Select all that apply",
     options: [
       { label: "Losing weight" }, { label: "Getting enough sleep" }, { label: "Reading more" },
       { label: "Checking my health" }, { label: "Defining life goals" }, { label: "Changing jobs" },
@@ -73,10 +73,10 @@ const QUESTIONS = [
 ];
 
 const SCALE_OPTIONS = [
-  { icon: "✕", label: "Always", weight: 3 },
-  { icon: "−", label: "Sometimes", weight: 1 },
-  { icon: "+", label: "Often", weight: 2 },
-  { icon: "✓", label: "Rarely", weight: 0 },
+  { icon: "🔴", label: "Always — it's my daily life", weight: 3 },
+  { icon: "🟠", label: "Very often", weight: 2 },
+  { icon: "🟡", label: "Only once in a while", weight: 1 },
+  { icon: "🟢", label: "Almost never", weight: 0 },
 ];
 
 const INTERSTITIALS = {

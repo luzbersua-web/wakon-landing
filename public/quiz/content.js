@@ -6,22 +6,22 @@
 const BRAND = "StartNow";
 
 const QUESTIONS = [
-  { n: 1, icon: "👀", text: "¿Sientes que te vas atrasando con cosas que querías hacer?", type: "scale" },
-  { n: 2, icon: "⏰", text: "¿Dejas las cosas para el último momento?", type: "scale" },
-  { n: 3, icon: "📱", text: "¿Revisas el celular con frecuencia mientras trabajas?", type: "scale" },
-  { n: 4, icon: "🧩", text: "¿Te cuesta empezar tareas que sientes 'demasiado grandes'?", type: "scale" },
-  { n: 5, icon: "📱", text: "¿Te distraes con facilidad?", type: "scale" },
-  { n: 6, icon: "🌫️", text: "¿Sientes que el día se te escapa sin darte cuenta?", type: "scale" },
-  { n: 7, icon: "📲", text: "¿Terminas revisando redes sociales en vez de hacer lo que tenías planeado?", type: "scale" },
-  { n: 8, icon: "💬", text: "¿Postergas conversaciones difíciles?", type: "scale" },
-  { n: 9, icon: "🏠", text: "¿Te cuesta mantener ordenada tu casa o tu espacio de trabajo?", type: "scale" },
-  { n: 10, icon: "⚡", text: "¿Sientes estrés por las tareas pendientes?", type: "scale" },
-  { n: 11, icon: "🥊", text: "¿Eres duro/a contigo mismo/a cuando procrastinas?", type: "scale" },
-  { n: 12, icon: "🔄", text: "Empiezo cosas que no termino.", type: "scale" },
-  { n: 13, icon: "📋", text: "Hago planes pero nunca los cumplo.", type: "scale" },
-  { n: 14, icon: "⏱️", text: "Tengo la costumbre de llegar tarde.", type: "scale" },
-  { n: 15, icon: "📋", text: "Evito tareas que me resultan frustrantes o aburridas.", type: "scale" },
-  { n: 16, icon: "🗯️", text: "Me distraigo hablando cuando debería estar trabajando.", type: "scale" },
+  { n: 1, icon: "🌙", text: "¿Terminas el día con la sensación de que no avanzaste en lo que de verdad importaba?", type: "scale" },
+  { n: 2, icon: "⏰", text: "¿Esperas a que la presión (o el pánico) del último momento te obligue a empezar?", type: "scale" },
+  { n: 3, icon: "📱", text: "¿Agarras el celular 'solo un segundo' y de repente ya pasó media hora?", type: "scale" },
+  { n: 4, icon: "🧩", text: "¿Una tarea grande te paraliza tanto que prefieres ni empezarla?", type: "scale" },
+  { n: 5, icon: "🎯", text: "¿Cualquier ruido, mensaje o pensamiento te saca por completo de lo que estabas haciendo?", type: "scale" },
+  { n: 6, icon: "🌫️", text: "¿Llega la noche y no sabes bien en qué se te fueron las horas?", type: "scale" },
+  { n: 7, icon: "📲", text: "¿Te descubres scrolleando en vez de hacer eso que 'ya casi ibas a empezar'?", type: "scale" },
+  { n: 8, icon: "💬", text: "¿Evitas ese mensaje o esa conversación incómoda que sabes que tarde o temprano tienes que tener?", type: "scale" },
+  { n: 9, icon: "🏠", text: "¿El desorden se acumula hasta que ya no sabes ni por dónde empezar?", type: "scale" },
+  { n: 10, icon: "⚡", text: "¿Los pendientes te dan vueltas en la cabeza incluso cuando intentas descansar?", type: "scale" },
+  { n: 11, icon: "🥊", text: "¿Te llenas de culpa cada vez que dejas algo para después?", type: "scale" },
+  { n: 12, icon: "🔄", text: "¿Tienes varias cosas empezadas y ninguna terminada?", type: "scale" },
+  { n: 13, icon: "📋", text: "¿Armas planes con entusiasmo y a los pocos días los abandonas?", type: "scale" },
+  { n: 14, icon: "⏱️", text: "¿Terminas saliendo tarde aunque tuvieras tiempo de sobra para prepararte?", type: "scale" },
+  { n: 15, icon: "🥱", text: "¿Dejas para el final justo lo que más te aburre o te frustra?", type: "scale" },
+  { n: 16, icon: "🗯️", text: "¿Te enredas en otras cosas cuando en realidad deberías estar concentrado/a?", type: "scale" },
   {
     n: 17, icon: "🎯", text: "¿Qué es lo que más afecta tu productividad?", type: "multi", subtitle: "Elige todas las que apliquen",
     options: [
@@ -34,7 +34,7 @@ const QUESTIONS = [
     ]
   },
   {
-    n: 18, icon: "📝", text: "¿Qué es lo que siempre postergas?", type: "single",
+    n: 18, icon: "📝", text: "¿Qué es lo que siempre postergas?", type: "multi", subtitle: "Elige todas las que apliquen",
     options: [
       { label: "Bajar de peso" }, { label: "Dormir lo suficiente" }, { label: "Leer más" },
       { label: "Revisar mi salud" }, { label: "Definir metas de vida" }, { label: "Cambiar de trabajo" },
@@ -74,10 +74,10 @@ const QUESTIONS = [
 ];
 
 const SCALE_OPTIONS = [
-  { icon: "✕", label: "Siempre", weight: 3 },
-  { icon: "−", label: "A veces", weight: 1 },
-  { icon: "+", label: "Frecuentemente", weight: 2 },
-  { icon: "✓", label: "Rara vez", weight: 0 },
+  { icon: "🔴", label: "Siempre, es mi día a día", weight: 3 },
+  { icon: "🟠", label: "Muy seguido", weight: 2 },
+  { icon: "🟡", label: "Solo de vez en cuando", weight: 1 },
+  { icon: "🟢", label: "Casi nunca me pasa", weight: 0 },
 ];
 
 const INTERSTITIALS = {
