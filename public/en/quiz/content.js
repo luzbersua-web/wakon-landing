@@ -111,10 +111,12 @@ const TESTIMONIALS = [
   { name: "Emily Carter, 39", role: "Marketing Consultant", quote: "\"My clients noticed before I did\"", body: "I wasn't trying to impress anyone, I just wanted less guilt. But two clients asked what changed about how I follow up.", date: "Jun 20", img: "/shared/images/testimonial-5.jpg" },
 ];
 
+// checkoutUrl: paste each plan's Stripe/PayPal payment link here when you have it.
+// While empty, the button shows the "activating payments" notice instead of charging.
 const PLANS = [
-  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"] },
-  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 29.99, now: 14.99, modules: [] },
-  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 73%", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
+  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
+  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 29.99, now: 14.99, modules: [], checkoutUrl: "" },
+  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 73%", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "" },
 ];
 
 const FAQ = [
@@ -271,6 +273,12 @@ const STRINGS = {
     bonusHead: "Your plan includes these modules:",
     includedLabel: "included",
     noModulesLine: "This plan doesn't include bonus modules — you can add them anytime.",
+    fastBonusTag: "🎁 GIFT FOR BUYING TODAY",
+    fastBonusName: "Video guide: How to fold sheets like a pro",
+    fastBonusDesc: "The Japanese trick to make your closet and drawers look spotless in minutes. An extra you only get if you complete your purchase now.",
+    fastBonusValue: 19.99,
+    fastBonusFree: "FREE today",
+    fastBonusUrgency: "⏰ This gift disappears if you leave this page.",
     gpay: "Buy with G Pay",
     paymentNotice: (brand) => `We're activating payments. Email us at hello@${brand.toLowerCase()}.app to complete your order.`,
     openAppBtn: "Meanwhile, open your plan in the app →",

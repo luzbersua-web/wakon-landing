@@ -112,10 +112,12 @@ const TESTIMONIALS = [
   { name: "Emilia Carrizo, 39", role: "Consultora de marketing", quote: "\"Mis clientes lo notaron antes que yo\"", body: "No estaba tratando de impresionar a nadie, solo quería sentir menos culpa. Pero dos clientes me preguntaron qué había cambiado en mi forma de responder.", date: "20 jun", img: "/shared/images/testimonial-5.jpg" },
 ];
 
+// checkoutUrl: pega aquí el link de pago de Hotmart de cada plan cuando lo tengas.
+// Mientras esté vacío, el botón muestra el aviso de "activando pagos" en vez de cobrar.
 const PLANS = [
-  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"] },
-  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [] },
-  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "73% DE DESCUENTO", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"] },
+  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
+  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "" },
+  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "73% DE DESCUENTO", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "" },
 ];
 
 const FAQ = [
@@ -272,6 +274,12 @@ const STRINGS = {
     bonusHead: "Tu plan incluye estos módulos:",
     includedLabel: "incluido",
     noModulesLine: "Este plan no incluye módulos bonus — puedes sumarlos cuando quieras.",
+    fastBonusTag: "🎁 REGALO POR COMPRAR HOY",
+    fastBonusName: "Guía en video: Cómo doblar sábanas como un profesional",
+    fastBonusDesc: "El truco japonés para que tu ropero y tus cajones se vean impecables en minutos. Un extra que solo recibes si completas tu compra ahora.",
+    fastBonusValue: 19.99,
+    fastBonusFree: "GRATIS hoy",
+    fastBonusUrgency: "⏰ Este regalo desaparece si sales de esta página.",
     gpay: "Pagar con G Pay",
     paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a hello@${brand.toLowerCase()}.app para completar tu pedido.`,
     openAppBtn: "Mientras tanto, abre tu plan en la app →",

@@ -562,22 +562,12 @@ function ModulesScreen({ state, quizResult, onToggleLesson }) {
 
 /* ---------------- Settings ---------------- */
 
-function SettingsScreen({ state, onUpdateName, onReset, onSkipDay }) {
+function SettingsScreen({ state, onUpdateName, onReset }) {
   const [name, setName] = useState(state.name || "");
   const [notifStatus, setNotifStatus] = useState(
     typeof Notification !== "undefined" ? Notification.permission : "unsupported"
   );
   const [installPrompt, setInstallPrompt] = useState(null);
-  const [justSkipped, setJustSkipped] = useState(false);
-
-  function handleSkipClick() {
-    onSkipDay();
-    setJustSkipped(true);
-    setTimeout(() => setJustSkipped(false), 4000);
-  }
-
-  const completedCount = Object.keys(state.completedDays).length;
-  const skipDisabled = completedCount >= PLAN.length;
 
   useEffect(() => {
     function handler(e) {
@@ -646,23 +636,6 @@ function SettingsScreen({ state, onUpdateName, onReset, onSkipDay }) {
           </Button>
         </Card>
       )}
-
-      <Card style={{ marginBottom: "16px" }}>
-        <div style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: "0.85rem", color: DARK, marginBottom: "6px" }}>
-          🛠️ Modo prueba
-        </div>
-        <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, lineHeight: 1.5, marginBottom: "12px" }}>
-          Solo para revisar el contenido de los 30 días sin esperar un día real entre cada uno.
-        </p>
-        <Button variant="outline" onClick={handleSkipClick} disabled={skipDisabled}>
-          {skipDisabled ? "Ya completaste los 30 días" : "Completar y pasar al día siguiente"}
-        </Button>
-        {justSkipped && (
-          <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: GREEN, fontWeight: 700, marginTop: "10px", textAlign: "center" }}>
-            ✓ Completaste el Día {completedCount} — andá a la pestaña "Hoy" para ver el Día {completedCount + 1}
-          </p>
-        )}
-      </Card>
 
       <Card>
         <div style={{ fontFamily: "sans-serif", fontWeight: 700, fontSize: "0.85rem", color: "#c0392b", marginBottom: "6px" }}>
@@ -746,26 +719,8 @@ export default function StartNowApp() {
     });
   }
 
-  // Solo para revisar el contenido de los 30 días sin esperar 30 días reales.
-  // No queda expuesto a usuarios finales de la landing/quiz, solo desde /app/ + Ajustes.
-  function handleSkipDay() {
-    setState((s) => {
-      const completedCount = Object.keys(s.completedDays).length;
-      if (completedCount >= PLAN.length) return s;
-      const currentDay = completedCount + 1;
-      const newStreak = s.streak + 1;
-      return {
-        ...s,
-        completedDays: { ...s.completedDays, [currentDay]: todayStr() },
-        lastCompletedDate: addDays(todayStr(), -1),
-        streak: newStreak,
-        longestStreak: Math.max(s.longestStreak, newStreak),
-      };
-    });
-  }
-
   // Dispara el check-in semanal apenas hay un día pendiente sin responder,
-  // sin depender de que handleComplete/handleSkipDay se ejecuten una sola vez.
+  // sin depender de que handleComplete se ejecute una sola vez.
   useEffect(() => {
     const dueDay = Object.keys(state.completedDays)
       .map(Number)
@@ -833,7 +788,6 @@ export default function StartNowApp() {
             state={state}
             onUpdateName={(name) => setState((s) => ({ ...s, name }))}
             onReset={handleReset}
-            onSkipDay={handleSkipDay}
           />
         )}
       </div>

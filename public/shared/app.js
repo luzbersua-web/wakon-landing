@@ -787,7 +787,7 @@ function renderCheckout() {
   const plan = PLANS.find(p => p.key === state.selectedPlan);
   const includedModules = BONUS_MODULES.filter(m => plan.modules.includes(m.key));
   const bonusTotal = includedModules.reduce((sum, m) => sum + m.was, 0);
-  const saved = (plan.was + bonusTotal - plan.now).toFixed(1);
+  const saved = (plan.was + bonusTotal + S.checkout.fastBonusValue - plan.now).toFixed(2);
   trackFbEvent("InitiateCheckout", { content_name: plan.label, value: plan.now, currency: "USD" });
 
   const s = document.createElement("div");
@@ -820,7 +820,7 @@ function renderCheckout() {
       <span>${S.checkout.total}</span><span>$${plan.now}</span>
     </div>
     <div style="display:flex;justify-content:space-between;color:var(--red);font-size:13px;font-weight:600;">
-      <span>${S.checkout.discount}</span><span>${S.checkout.saved}$${saved}</span>
+      <span>${S.checkout.discount}</span><span>${S.checkout.saved}${saved}</span>
     </div>
     <hr style="border:none;border-top:1px solid var(--lavender-dark);margin:16px 0;">
   `;
@@ -848,12 +848,28 @@ function renderCheckout() {
     });
   }
 
+  const fastBonus = document.createElement("div");
+  fastBonus.className = "fast-bonus";
+  fastBonus.innerHTML = `
+    <div class="fast-bonus-tag">${S.checkout.fastBonusTag}</div>
+    <div class="fast-bonus-body">
+      <img class="fast-bonus-img" src="/shared/images/bonus-sabanas.jpg" alt="${S.checkout.fastBonusName}">
+      <div class="fast-bonus-text">
+        <div class="fast-bonus-name">${S.checkout.fastBonusName}</div>
+        <div class="fast-bonus-desc">${S.checkout.fastBonusDesc}</div>
+        <div class="fast-bonus-price"><span class="was">$${S.checkout.fastBonusValue}</span> <b>${S.checkout.fastBonusFree}</b></div>
+      </div>
+    </div>
+    <div class="fast-bonus-urgency">${S.checkout.fastBonusUrgency}</div>
+  `;
+  s.appendChild(fastBonus);
+
   const paypalBtn = document.createElement("button");
   paypalBtn.className = "btn";
   paypalBtn.style.background = "#FFC439";
   paypalBtn.style.marginTop = "20px";
   paypalBtn.innerHTML = `<span style="font-weight:800;color:#003087;">Pay<span style="color:#009cde;">Pal</span></span>`;
-  paypalBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); showPaymentNotice(notice, appLink); };
+  paypalBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); startPayment(plan, notice, appLink); };
   s.appendChild(paypalBtn);
 
   const gpayBtn = document.createElement("button");
@@ -862,7 +878,7 @@ function renderCheckout() {
   gpayBtn.style.color = "#fff";
   gpayBtn.style.marginTop = "10px";
   gpayBtn.textContent = S.checkout.gpay;
-  gpayBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); showPaymentNotice(notice, appLink); };
+  gpayBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); startPayment(plan, notice, appLink); };
   s.appendChild(gpayBtn);
 
   const notice = document.createElement("p");
@@ -885,6 +901,16 @@ function renderCheckout() {
   s.appendChild(appLink);
 
   root.appendChild(s);
+}
+
+function startPayment(plan, notice, appLink) {
+  // Si el plan ya tiene un link de pago real (Hotmart / Stripe / PayPal), vamos ahí.
+  // Si no, mostramos el aviso de "activando pagos" como hasta ahora.
+  if (plan.checkoutUrl) {
+    window.location.href = plan.checkoutUrl;
+    return;
+  }
+  showPaymentNotice(notice, appLink);
 }
 
 function showPaymentNotice(el, linkEl) {
