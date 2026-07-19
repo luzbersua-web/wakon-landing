@@ -851,7 +851,11 @@ function renderCheckout() {
     </div>
   `;
   methodRow.querySelectorAll(".pay-method").forEach(el => {
-    el.onclick = () => { paymentMethod = el.dataset.m; render(); };
+    el.onclick = () => {
+      paymentMethod = el.dataset.m;
+      trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" });
+      startPayment(plan, notice, appLink);
+    };
   });
   s.appendChild(methodRow);
 
