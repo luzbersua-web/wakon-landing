@@ -674,6 +674,8 @@ function renderPricing() {
   body.innerHTML = `<h1 class="headline">${S.pricing.headline}</h1><p class="subheadline">${S.pricing.headlineSub}</p>`;
   s.appendChild(body);
 
+  body.appendChild(fastBonusEl());
+
   // timeline
   const tl = document.createElement("div");
   tl.className = "timeline-compare";
@@ -712,8 +714,6 @@ function renderPricing() {
   plansWrap.style.marginTop = "16px";
   PLANS.forEach(p => plansWrap.appendChild(planCard(p)));
   s.appendChild(plansWrap);
-
-  s.appendChild(fastBonusEl());
 
   const cta = primaryBtn(S.pricing.getPlanBtn, checkoutClick);
   cta.style.margin = "0 16px 12px";
@@ -888,6 +888,8 @@ function renderCheckout() {
       s.appendChild(row);
     });
   }
+
+  s.appendChild(fastBonusEl());
 
   const paypalBtn = document.createElement("button");
   paypalBtn.className = "btn";

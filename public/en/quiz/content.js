@@ -35,8 +35,8 @@ const QUESTIONS = [
   {
     n: 18, icon: "📝", text: "What do you keep putting off?", type: "multi", subtitle: "Select all that apply",
     options: [
-      { label: "Losing weight" }, { label: "Getting enough sleep" }, { label: "Reading more" },
-      { label: "Checking my health" }, { label: "Defining life goals" }, { label: "Changing jobs" },
+      { label: "Exercising" }, { label: "Getting enough sleep" }, { label: "Reading more" },
+      { label: "Checking my health" }, { label: "Defining life goals" }, { label: "Finding a better job" },
       { label: "Finding relaxation" }, { label: "Cleaning and chores" },
     ]
   },

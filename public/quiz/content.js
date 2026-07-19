@@ -36,8 +36,8 @@ const QUESTIONS = [
   {
     n: 18, icon: "📝", text: "¿Qué es lo que siempre postergas?", type: "multi", subtitle: "Elige todas las que apliquen",
     options: [
-      { label: "Bajar de peso" }, { label: "Dormir lo suficiente" }, { label: "Leer más" },
-      { label: "Revisar mi salud" }, { label: "Definir metas de vida" }, { label: "Cambiar de trabajo" },
+      { label: "Hacer ejercicio" }, { label: "Dormir lo suficiente" }, { label: "Leer más" },
+      { label: "Revisar mi salud" }, { label: "Definir metas de vida" }, { label: "Buscar un mejor trabajo" },
       { label: "Encontrar momentos de relajación" }, { label: "Limpiar y ordenar" },
     ]
   },
@@ -115,9 +115,9 @@ const TESTIMONIALS = [
 // checkoutUrl: pega aquí el link de pago de Hotmart de cada plan cuando lo tengas.
 // Mientras esté vacío, el botón muestra el aviso de "activando pagos" en vez de cobrar.
 const PLANS = [
-  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "" },
-  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
-  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "73% DE DESCUENTO", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "" },
+  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "https://pay.hotmart.com/G106789484C" },
+  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 66%", was: 74.99, now: 24.99, modules: ["time-focus", "habits"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=c9ih36ad" },
+  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "73% DE DESCUENTO", was: 149.99, now: 39.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=8gmmg0j6" },
 ];
 
 const FAQ = [
