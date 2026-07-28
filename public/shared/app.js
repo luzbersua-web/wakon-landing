@@ -507,38 +507,57 @@ function renderPlanReady() {
   s.appendChild(logoEl());
   const targetDate = new Date(Date.now() + 30 * 86400000).toLocaleDateString(S.locale, { weekday: "short", month: "short", day: "2-digit", year: "numeric" });
 
+  const headline = document.createElement("h2");
+  headline.className = "plan-ready-headline";
+  headline.innerHTML = `${S.planReady.headlinePre}<span style="color:var(--green)">${S.planReady.headlineHighlight}</span>${S.planReady.headlinePost}`;
+  s.appendChild(headline);
+
+  const sub = document.createElement("p");
+  sub.className = "subheadline";
+  sub.style.marginBottom = "4px";
+  sub.textContent = S.planReady.subPre;
+  s.appendChild(sub);
+
+  const dateEl = document.createElement("p");
+  dateEl.style.color = "var(--red)";
+  dateEl.style.fontFamily = "Georgia,'Times New Roman',serif";
+  dateEl.style.fontWeight = "700";
+  dateEl.style.fontSize = "22px";
+  dateEl.style.marginBottom = "16px";
+  dateEl.textContent = targetDate;
+  s.appendChild(dateEl);
+
+  // curva descendente: eje X = semanas 1-5, x = 30,97,164,231,300 (espaciado parejo)
+  const xs = [30, 97, 164, 231, 300];
   const card = document.createElement("div");
   card.className = "callout-box";
   card.style.padding = "16px 12px 14px";
   card.innerHTML = `
     <div class="chart-wrap">
       <svg viewBox="0 0 300 170" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
-        <line x1="40" y1="0" x2="40" y2="130" stroke="var(--lavender-dark)" stroke-dasharray="3,3"/>
-        <line x1="170" y1="0" x2="170" y2="130" stroke="var(--lavender-dark)" stroke-dasharray="3,3"/>
-        <line x1="270" y1="0" x2="270" y2="130" stroke="var(--lavender-dark)" stroke-dasharray="3,3"/>
+        ${xs.map(x => `<line x1="${x}" y1="0" x2="${x}" y2="140" stroke="var(--lavender-dark)" stroke-dasharray="3,3"/>`).join("")}
         <defs>
-          <linearGradient id="planCurveGrad" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0%" stop-color="var(--yellow)"/>
-            <stop offset="55%" stop-color="var(--green)"/>
+          <linearGradient id="planCurveGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--red)"/>
+            <stop offset="45%" stop-color="var(--yellow)"/>
             <stop offset="100%" stop-color="var(--green)"/>
           </linearGradient>
+          <linearGradient id="planAreaGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--red)" stop-opacity=".22"/>
+            <stop offset="45%" stop-color="var(--yellow)" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="var(--green)" stop-opacity=".1"/>
+          </linearGradient>
         </defs>
-        <path d="M0,128 C25,120 45,136 70,128 C95,120 120,138 150,128 C180,118 205,136 230,126 C255,116 280,132 300,124" fill="none" stroke="var(--red)" stroke-width="2.5" opacity=".55"/>
-        <path d="M0,115 C20,108 30,95 40,90 C90,72 130,55 170,45 C210,36 245,20 270,10 C285,4 300,-4 312,-16" fill="none" stroke="url(#planCurveGrad)" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="40" cy="90" r="5" fill="var(--yellow)"/>
-        <circle cx="170" cy="45" r="5" fill="var(--green)"/>
-        <circle cx="270" cy="10" r="6" fill="var(--green)"/>
-        <text x="40" y="148" font-size="11" fill="#4A4A68" text-anchor="middle">${S.planReady.months[0]}</text>
-        <text x="170" y="148" font-size="11" fill="#4A4A68" text-anchor="middle">${S.planReady.months[1]}</text>
-        <text x="270" y="148" font-size="11" fill="#4A4A68" text-anchor="middle">${S.planReady.months[2]}</text>
+        <path d="M0,10 C40,12 60,25 80,35 C100,45 120,60 140,72 C160,84 180,98 200,108 C220,118 240,128 260,134 C275,138 290,141 300,143 L300,140 L0,140 Z" fill="url(#planAreaGrad)"/>
+        <path d="M0,10 C40,12 60,25 80,35 C100,45 120,60 140,72 C160,84 180,98 200,108 C220,118 240,128 260,134 C275,138 290,141 300,143" fill="none" stroke="url(#planCurveGrad)" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="35" cy="13" r="5" fill="var(--red)"/>
+        <circle cx="150" cy="76" r="5" fill="var(--yellow)"/>
+        <circle cx="235" cy="120" r="6" fill="var(--green)"/>
+        ${xs.map((x, i) => `<text x="${x}" y="158" font-size="11" fill="#4A4A68" text-anchor="middle">${S.planReady.days[i]}</text>`).join("")}
       </svg>
-      <div class="chart-bubble" style="left:${(40 / 300 * 100).toFixed(2)}%;top:${(90 / 170 * 100).toFixed(2)}%;">${S.planReady.lessAvoidance}</div>
-      <div class="chart-bubble" style="left:${(170 / 300 * 100).toFixed(2)}%;top:${(45 / 170 * 100).toFixed(2)}%;">${S.planReady.momentum}</div>
-      <div class="chart-bubble" style="left:${(240 / 300 * 100).toFixed(2)}%;top:${(38 / 170 * 100).toFixed(2)}%;">${S.planReady.habitInstalled}</div>
-    </div>
-    <div class="chart-legend">
-      <div class="chart-legend-item"><span class="chart-dot" style="background:var(--green)"></span>${S.planReady.legendWith} ${BRAND}</div>
-      <div class="chart-legend-item"><span class="chart-dot" style="background:var(--red)"></span>${S.planReady.legendWithout}</div>
+      <div class="chart-bubble" style="left:${(35 / 300 * 100).toFixed(2)}%;top:${(13 / 170 * 100).toFixed(2)}%;--bc:var(--red);color:#fff;">${S.planReady.lessAvoidance}</div>
+      <div class="chart-bubble" style="left:${(150 / 300 * 100).toFixed(2)}%;top:${(76 / 170 * 100).toFixed(2)}%;--bc:var(--yellow);color:#4A3800;">${S.planReady.momentum}</div>
+      <div class="chart-bubble" style="left:${(235 / 300 * 100).toFixed(2)}%;top:${(120 / 170 * 100).toFixed(2)}%;--bc:var(--green);color:#fff;">${S.planReady.habitInstalled}</div>
     </div>
   `;
   s.appendChild(card);
@@ -547,17 +566,6 @@ function renderPlanReady() {
   disclaimer.className = "chart-disclaimer";
   disclaimer.textContent = S.planReady.disclaimer;
   s.appendChild(disclaimer);
-
-  const headline = document.createElement("h2");
-  headline.className = "plan-ready-headline";
-  headline.innerHTML = `${S.planReady.headlinePre}<span style="color:var(--green)">${S.planReady.headlineHighlight}</span>${S.planReady.headlinePost}`;
-  s.appendChild(headline);
-
-  const sub = document.createElement("p");
-  sub.className = "subheadline";
-  sub.style.marginBottom = "16px";
-  sub.innerHTML = `${S.planReady.subPre} <b>${targetDate}</b>`;
-  s.appendChild(sub);
 
   s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
   root.appendChild(s);
@@ -622,6 +630,28 @@ function renderIncluded() {
   s.className = "screen";
   s.appendChild(logoEl());
   s.innerHTML += `<h2 style="margin-bottom:16px;">${S.included.title}</h2>`;
+
+  const isFemale = state.gender === "female";
+  const nowImg = isFemale ? "/shared/images/now-female.jpg" : "/shared/images/now-male.jpg";
+  const goalImg = isFemale ? "/shared/images/goal-female.jpg" : "/shared/images/goal-male.jpg";
+  const photoCompare = document.createElement("div");
+  photoCompare.className = "photo-compare";
+  photoCompare.innerHTML = `
+    <div class="photo-compare-imgs">
+      <img src="${nowImg}" alt="${S.pricing.timelineNow}">
+      <img src="${goalImg}" alt="${S.pricing.timelineGoal}">
+      <span class="tag now">${S.pricing.timelineNow}</span>
+      <span class="tag goal">${S.pricing.timelineGoal}</span>
+      <span class="arrow">»</span>
+    </div>
+    <div class="photo-compare-rows">
+      ${S.pricing.timelineRows.map(([label, before, after]) =>
+        `<div class="timeline-row"><div><b>${label}</b><div class="before">${before}</div></div><div class="after">${after}</div></div>`
+      ).join("")}
+    </div>
+  `;
+  s.appendChild(photoCompare);
+
   S.included.items.forEach(([icon, h, p]) => {
     const row = document.createElement("div");
     row.className = "feature-row";
