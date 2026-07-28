@@ -204,7 +204,7 @@ export default function ArticlePage({ content }) {
             {c.week3Title}
           </h2>
           <Paragraphs text={c.week3Text} />
-          <ImagePlaceholder src={c.week3Image} label={c.week3ImageLabel} />
+          <ImagePlaceholder src={c.week3Image} label={c.week3ImageLabel} tall />
         </FadeIn>
 
         {/* WEEK 4 */}
