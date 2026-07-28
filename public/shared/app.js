@@ -423,15 +423,22 @@ function renderResultsLoading() {
     return { fill: row.querySelector(".progress-fill"), pct: row.querySelector(".pct") };
   });
 
-  S.resultsLoading.testimonials.forEach(tm => {
+  const marquee = document.createElement("div");
+  marquee.className = "testimonial-marquee";
+  const track = document.createElement("div");
+  track.className = "testimonial-marquee-track";
+  // se duplica la lista una vez para poder loopear sin salto (translateX 0 -> -50%)
+  [...S.resultsLoading.testimonials, ...S.resultsLoading.testimonials].forEach(tm => {
     const t = document.createElement("div");
     t.className = "testimonial-card";
     t.innerHTML = `<div class="stars" style="margin-bottom:8px;">★★★★★</div>
       <div class="quote">${tm.quote}</div>
       <div class="body">"${tm.body}"</div>
       <div style="font-size:12px;color:var(--text-soft);">${tm.author}</div>`;
-    s.appendChild(t);
+    track.appendChild(t);
   });
+  marquee.appendChild(track);
+  s.appendChild(marquee);
   root.appendChild(s);
 
   const STEP_DURATION = 2400;
