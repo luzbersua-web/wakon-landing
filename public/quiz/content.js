@@ -115,9 +115,9 @@ const TESTIMONIALS = [
 // checkoutUrl: pega aquí el link de pago de Hotmart de cada plan cuando lo tengas.
 // Mientras esté vacío, el botón muestra el aviso de "activando pagos" en vez de cobrar.
 const PLANS = [
-  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "https://pay.hotmart.com/G106789484C" },
+  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "https://pay.hotmart.com/G106789484C", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=3svmchcp" } },
   { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 60%", was: 49.99, now: 19.99, modules: ["time-focus", "habits"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=c9ih36ad", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=l62dgzdm" } },
-  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "67% DE DESCUENTO", was: 89.99, now: 29.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=8gmmg0j6" },
+  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "67% DE DESCUENTO", was: 89.99, now: 29.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=8gmmg0j6", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=6uihjtwb" } },
 ];
 
 const FAQ = [
