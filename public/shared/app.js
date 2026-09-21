@@ -7,6 +7,15 @@
 
 const S = STRINGS;
 
+// Detecta el país del visitante (para enrutar al checkout de Hotmart en moneda
+// local cuando el plan lo tenga configurado vía checkoutUrlByCountry). No bloquea
+// el render del quiz; si falla o no llega a tiempo, se usa el checkoutUrl por defecto.
+let buyerCountry = null;
+fetch("https://www.cloudflare.com/cdn-cgi/trace")
+  .then(r => r.text())
+  .then(t => { const m = t.match(/loc=([A-Z]{2})/); if (m) buyerCountry = m[1]; })
+  .catch(() => {});
+
 const state = {
   step: 0,                 // índice dentro del flujo (steps[])
   answers: {},              // { questionN: value | [values] }
@@ -972,10 +981,14 @@ function renderCheckout() {
 }
 
 function startPayment(plan, notice, appLink) {
-  // Si el plan ya tiene un link de pago real (Hotmart / Stripe / PayPal), vamos ahí.
-  // Si no, mostramos el aviso de "activando pagos" como hasta ahora.
-  if (plan.checkoutUrl) {
-    window.location.href = plan.checkoutUrl;
+  // Si el plan tiene un checkout específico para el país detectado del comprador
+  // (precio en moneda local + métodos de pago locales), lo usamos. Si no, caemos
+  // al checkoutUrl por defecto (USD). Si no hay ninguno, mostramos el aviso de
+  // "activando pagos" como hasta ahora.
+  const url = (buyerCountry && plan.checkoutUrlByCountry && plan.checkoutUrlByCountry[buyerCountry])
+    || plan.checkoutUrl;
+  if (url) {
+    window.location.href = url;
     return;
   }
   showPaymentNotice(notice, appLink);
