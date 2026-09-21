@@ -114,9 +114,9 @@ const TESTIMONIALS = [
 // checkoutUrl: paste each plan's Stripe/PayPal payment link here when you have it.
 // While empty, the button shows the "activating payments" notice instead of charging.
 const PLANS = [
-  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 29.99, now: 14.99, modules: [], checkoutUrl: "" },
-  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 60%", was: 49.99, now: 19.99, modules: ["time-focus", "habits"], checkoutUrl: "" },
-  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 67%", was: 89.99, now: 29.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "" },
+  { key: "essential", label: "Essential Plan", tag: "Most popular", tagIcon: "⭐", badgeClass: "popular", discountLabel: "SAVE 50%", was: 29.99, now: 14.99, modules: [], checkoutUrl: "https://pay.hotmart.com/G106789484C" },
+  { key: "plus", label: "Plus Plan", tag: "Best offer", tagIcon: "👍", badgeClass: "best", discountLabel: "ONLY NOW: 60%", was: 49.99, now: 19.99, modules: ["time-focus", "habits"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=c9ih36ad" },
+  { key: "complete", label: "Complete Plan", tag: "Everything included", tagIcon: "🎁", badgeClass: "", discountLabel: "SAVE 67%", was: 89.99, now: 29.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=8gmmg0j6" },
 ];
 
 const FAQ = [
