@@ -868,7 +868,6 @@ function checkoutClick() {
   goTo(STEPS.indexOf("checkout"));
 }
 
-let paymentMethod = "paypal";
 function renderCheckout() {
   persistStartNowResult();
   const plan = PLANS.find(p => p.key === state.selectedPlan);
@@ -881,29 +880,6 @@ function renderCheckout() {
   s.className = "screen";
   s.appendChild(topBar());
   s.insertAdjacentHTML("beforeend", `<h2 style="margin-bottom:14px;">${S.checkout.title}</h2>`);
-
-  const methodRow = document.createElement("div");
-  methodRow.style.display = "grid";
-  methodRow.style.gridTemplateColumns = "1fr 1fr";
-  methodRow.style.gap = "12px";
-  methodRow.style.marginBottom = "24px";
-  methodRow.innerHTML = `
-    <div class="pay-method ${paymentMethod === "paypal" ? "selected" : ""}" data-m="paypal">
-      <span style="font-weight:800;color:#003087;">Pay<span style="color:#009cde;">Pal</span></span>
-    </div>
-    <div class="pay-method ${paymentMethod === "card" ? "selected" : ""}" data-m="card">
-      <span style="font-weight:700;">${S.checkout.creditCard}</span>
-      <div class="pay-icons" style="margin:6px 0 0;"><span>Visa</span><span>Mastercard</span></div>
-    </div>
-  `;
-  methodRow.querySelectorAll(".pay-method").forEach(el => {
-    el.onclick = () => {
-      paymentMethod = el.dataset.m;
-      trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" });
-      startPayment(plan, notice, appLink);
-    };
-  });
-  s.appendChild(methodRow);
 
   const totalRow = document.createElement("div");
   totalRow.innerHTML = `
@@ -941,22 +917,19 @@ function renderCheckout() {
 
   s.appendChild(fastBonusEl());
 
-  const paypalBtn = document.createElement("button");
-  paypalBtn.className = "btn";
-  paypalBtn.style.background = "#FFC439";
-  paypalBtn.style.marginTop = "20px";
-  paypalBtn.innerHTML = `<span style="font-weight:800;color:#003087;">Pay<span style="color:#009cde;">Pal</span></span>`;
-  paypalBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); startPayment(plan, notice, appLink); };
-  s.appendChild(paypalBtn);
+  const payBtn = document.createElement("button");
+  payBtn.className = "btn btn-primary";
+  payBtn.style.marginTop = "20px";
+  payBtn.textContent = S.checkout.payBtn;
+  payBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); startPayment(plan, notice, appLink); };
+  s.appendChild(payBtn);
 
-  const gpayBtn = document.createElement("button");
-  gpayBtn.className = "btn";
-  gpayBtn.style.background = "#000";
-  gpayBtn.style.color = "#fff";
-  gpayBtn.style.marginTop = "10px";
-  gpayBtn.textContent = S.checkout.gpay;
-  gpayBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); startPayment(plan, notice, appLink); };
-  s.appendChild(gpayBtn);
+  const payHint = document.createElement("p");
+  payHint.className = "helper-text";
+  payHint.style.marginTop = "10px";
+  payHint.style.textAlign = "center";
+  payHint.textContent = S.checkout.payHint;
+  s.appendChild(payHint);
 
   const notice = document.createElement("p");
   notice.className = "helper-text";

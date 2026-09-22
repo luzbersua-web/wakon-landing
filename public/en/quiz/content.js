@@ -266,8 +266,7 @@ const STRINGS = {
     faqTitle: "People often ask",
   },
   checkout: {
-    title: "Select payment method",
-    creditCard: "Credit card",
+    title: "Review your order",
     total: "Total:",
     discount: "Introductory discount",
     saved: "You just saved $",
@@ -279,12 +278,13 @@ const STRINGS = {
     fastBonusDesc: "The Japanese trick to make your closet and drawers look spotless in minutes. An extra you only get if you complete your purchase now.",
     fastBonusValue: 19.99,
     fastBonusFree: "FREE today",
-    fastBonusUrgency: "⏰ This gift disappears if you leave this page.",
-    gpay: "Buy with G Pay",
+    fastBonusUrgency: "⏰ This gift is only included if you complete your purchase today.",
+    payBtn: "Continue to secure checkout →",
+    payHint: "🔒 Payment processed by Hotmart. On the next step you'll choose your card or another payment method available in your country and see the final price in your currency.",
     paymentNotice: (brand) => `We're activating payments. Email us at hello@${brand.toLowerCase()}.app to complete your order.`,
     openAppBtn: "Meanwhile, open your plan in the app →",
     finePrint: (brand, planLabel, now, was) => `You're making a one-time payment of $${now} for your ${planLabel} on <a href="#">${brand.toLowerCase()}.app</a> (list price $${was}).
   No subscription, no auto-renewal, no recurring charges — full lifetime access to the content included in this plan.
-  Payment is charged to the card you specify here. Questions or support: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Terms of Service</a>. The charge will appear on your bill as "${brand}".`,
+  Payment is processed securely by Hotmart. Questions or support: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Terms of Service</a>. The charge may appear on your statement under Hotmart.`,
   },
 };

@@ -267,8 +267,7 @@ const STRINGS = {
     faqTitle: "Preguntas frecuentes",
   },
   checkout: {
-    title: "Elige tu método de pago",
-    creditCard: "Tarjeta de crédito",
+    title: "Revisa tu pedido",
     total: "Total:",
     discount: "Descuento de bienvenida",
     saved: "Ahorraste $",
@@ -280,12 +279,13 @@ const STRINGS = {
     fastBonusDesc: "El truco japonés para que tu ropero y tus cajones se vean impecables en minutos. Un extra que solo recibes si completas tu compra ahora.",
     fastBonusValue: 19.99,
     fastBonusFree: "GRATIS hoy",
-    fastBonusUrgency: "⏰ Este regalo desaparece si sales de esta página.",
-    gpay: "Pagar con G Pay",
+    fastBonusUrgency: "⏰ Este regalo solo se incluye si completas tu compra hoy.",
+    payBtn: "Continuar al pago seguro →",
+    payHint: "🔒 Pago procesado por Hotmart. En el siguiente paso eliges tarjeta u otro medio de pago disponible en tu país y ves el precio final en tu moneda.",
     paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a hello@${brand.toLowerCase()}.app para completar tu pedido.`,
     openAppBtn: "Mientras tanto, abre tu plan en la app →",
     finePrint: (brand, planLabel, now, was) => `Estás haciendo un pago único de $${now} por tu ${planLabel} de <a href="#">${brand.toLowerCase()}.app</a> (precio de lista $${was}).
   Sin suscripción, sin renovación automática, sin cargos recurrentes — acceso completo de por vida al contenido incluido en este plan.
-  El pago se realiza con la tarjeta que indiques aquí. Dudas o soporte: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Términos de servicio</a>. El cargo aparecerá en tu resumen como "${brand}".`,
+  El pago se procesa de forma segura a través de Hotmart. Dudas o soporte: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Términos de servicio</a>. El cargo puede aparecer en tu resumen a nombre de Hotmart.`,
   },
 };
