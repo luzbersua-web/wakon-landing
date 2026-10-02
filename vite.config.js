@@ -10,6 +10,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         en: resolve(__dirname, 'en/index.html'),
         app: resolve(__dirname, 'app/index.html'),
+        enApp: resolve(__dirname, 'en/app/index.html'),
       },
     },
   },

@@ -1,0 +1,14 @@
+{
+  "name": "StartNow — 30-day plan",
+  "short_name": "StartNow",
+  "description": "5 minutes a day to stop procrastinating",
+  "start_url": "/en/app/",
+  "scope": "/en/app/",
+  "display": "standalone",
+  "background_color": "#fdfaf5",
+  "theme_color": "#4C5FE0",
+  "icons": [
+    { "src": "/app/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/app/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

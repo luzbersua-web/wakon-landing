@@ -92,6 +92,16 @@ h1,h2,h3{font-family:Georgia,'Times New Roman',serif;}
 .callout-box{background:var(--lavender);border-radius:var(--radius);padding:16px;margin-bottom:16px;}
 .callout-box b{color:var(--blue);}
 .callout-title{color:var(--blue);font-weight:700;margin-bottom:6px;}
+.fact-card{margin-top:4px;line-height:1.5;animation:fadeIn .35s ease;}
+.fact-card .fact-app{margin-top:10px;padding-top:10px;border-top:1px solid var(--lavender-dark);}
+.fact-card .fact-source{margin-top:8px;font-size:12px;opacity:.65;}
+.loading-fact{margin-top:20px;min-height:132px;font-size:15px;}
+.loading-includes{margin-top:4px;}
+.loading-includes-title{font-weight:700;font-size:15px;margin-bottom:8px;}
+.loading-include{display:flex;align-items:center;gap:10px;font-size:14px;padding:5px 0;opacity:.45;transition:opacity .3s ease;}
+.loading-include .check{width:22px;height:22px;border-radius:50%;border:2px solid var(--lavender-dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:transparent;transition:all .3s ease;flex-shrink:0;}
+.loading-include.done{opacity:1;}
+.loading-include.done .check{background:var(--green);border-color:var(--green);color:#fff;}
 .badge-pill{background:var(--card);border-radius:12px;padding:16px;text-align:center;font-weight:800;letter-spacing:.5px;border:1px solid var(--lavender-dark);margin-bottom:16px;}
 .bullet-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
 .bullet-row .icon-badge{margin-bottom:0;width:44px;height:44px;font-size:18px;flex-shrink:0;}

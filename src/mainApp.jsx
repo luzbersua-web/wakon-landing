@@ -11,6 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/app/sw.js", { scope: "/app/" }).catch(() => {});
+    const base = document.documentElement.lang === "en" ? "/en/app/" : "/app/";
+    navigator.serviceWorker.register(base + "sw.js", { scope: base }).catch(() => {});
   });
 }

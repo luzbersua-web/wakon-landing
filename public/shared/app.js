@@ -1,11 +1,15 @@
 /* ============================================================
    MOTOR DEL QUIZ (compartido) — todo el texto vive en content.js
-   (STRINGS, QUESTIONS, TESTIMONIALS, PLANS, FAQ, BONUS_MODULES).
+   (STRINGS, QUESTIONS, PLANS, FAQ, BONUS_MODULES).
    No debería hacer falta tocar este archivo para traducir o
    cambiar contenido.
    ============================================================ */
 
 const S = STRINGS;
+
+// Número de la pregunta "¿Qué es lo que más afecta tu productividad?" (sus respuestas son los
+// disparadores que usa el resultado y la app). Las preguntas 4 y 5 definen el patrón de evitación.
+const TRIGGER_QUESTION_N = 9;
 
 // Detecta el país del visitante (para enrutar al checkout de Hotmart en moneda
 // local cuando el plan lo tenga configurado vía checkoutUrlByCountry). No bloquea
@@ -19,6 +23,7 @@ fetch("https://www.cloudflare.com/cdn-cgi/trace")
 const state = {
   step: 0,                 // índice dentro del flujo (steps[])
   answers: {},              // { questionN: value | [values] }
+  factShown: {},            // { questionN: true } si ya se mostró el dato de esa pregunta
   gender: null,
   age: null,
   name: "",
@@ -88,12 +93,12 @@ function topBar(withProgress) {
     track.className = "progress-track";
     const fill = document.createElement("div");
     fill.className = "progress-fill";
-    fill.style.width = (withProgress.n / 23 * 100) + "%";
+    fill.style.width = (withProgress.n / QUESTIONS.length * 100) + "%";
     track.appendChild(fill);
     bar.appendChild(track);
     const count = document.createElement("div");
     count.className = "progress-count";
-    count.textContent = `${withProgress.n}/23`;
+    count.textContent = `${withProgress.n}/${QUESTIONS.length}`;
     bar.appendChild(count);
   }
   return bar;
@@ -131,24 +136,6 @@ function renderGender() {
   });
   s.appendChild(grid);
 
-  const testimonialIntro = document.createElement("p");
-  testimonialIntro.className = "helper-text";
-  testimonialIntro.style.textAlign = "center";
-  testimonialIntro.style.margin = "22px 0 12px";
-  testimonialIntro.textContent = S.gender.testimonialIntro;
-  s.appendChild(testimonialIntro);
-
-  [0, 3, 1].map((i) => TESTIMONIALS[i]).forEach((t) => {
-    const card = document.createElement("div");
-    card.className = "testimonial-card";
-    card.innerHTML = `
-      <div class="who"><img class="avatar" src="${t.img}" alt="${t.name}"><div><div class="name">${t.name}</div><div class="role">${t.role}</div></div></div>
-      <div class="quote">${t.quote}</div>
-      <div class="body">${t.body}</div>
-      <div class="stars">★★★★★</div><div class="date">${t.date}</div>
-    `;
-    s.appendChild(card);
-  });
 
   root.appendChild(s);
 }
@@ -223,20 +210,31 @@ function renderQuestion(q) {
   const opts = document.createElement("div");
   opts.className = "options";
 
+  // Con q.fact, al elegir no se avanza: se marca la respuesta y aparece el dato + "Continuar".
+  const answered = state.answers[q.n];
+  const pick = (value) => {
+    state.answers[q.n] = value;
+    if (!q.fact) return go(1);
+    const firstReveal = !state.factShown[q.n];
+    state.factShown[q.n] = true;
+    render();
+    if (firstReveal) scrollToFact();
+  };
+
   if (q.type === "scale") {
     SCALE_OPTIONS.forEach(o => {
       const el = document.createElement("div");
-      el.className = "option";
+      el.className = "option" + (q.fact && answered && answered.label === o.label ? " selected" : "");
       el.innerHTML = `<span class="opt-icon">${o.icon}</span> ${o.label}`;
-      el.onclick = () => { state.answers[q.n] = o; go(1); };
+      el.onclick = () => pick(o);
       opts.appendChild(el);
     });
   } else if (q.type === "single") {
     q.options.forEach(o => {
       const el = document.createElement("div");
-      el.className = "option";
+      el.className = "option" + (q.fact && answered === o.label ? " selected" : "");
       el.textContent = o.label;
-      el.onclick = () => { state.answers[q.n] = o.label; go(1); };
+      el.onclick = () => pick(o.label);
       opts.appendChild(el);
     });
   } else if (q.type === "multi") {
@@ -253,13 +251,42 @@ function renderQuestion(q) {
       opts.appendChild(el);
     });
     s.appendChild(opts);
-    const btn = primaryBtn(S.continueBtn, () => go(1));
+    if (q.fact && state.factShown[q.n]) s.appendChild(factCard(q.fact, [...selected]));
+    const btn = primaryBtn(S.continueBtn, () => {
+      if (q.fact && !state.factShown[q.n]) {
+        state.factShown[q.n] = true;
+        render();
+        scrollToFact();
+        return;
+      }
+      go(1);
+    });
     s.appendChild(btn);
     root.appendChild(s);
     return;
   }
   s.appendChild(opts);
+  if (q.fact && state.factShown[q.n] && answered) {
+    s.appendChild(factCard(q.fact, answered));
+    s.appendChild(primaryBtn(S.continueBtn, () => go(1)));
+  }
   root.appendChild(s);
+}
+
+function factCard(fact, answer) {
+  const box = document.createElement("div");
+  box.className = "callout-box fact-card";
+  const text = typeof fact.text === "function" ? fact.text(answer) : fact.text;
+  box.innerHTML = `<div class="callout-title">${fact.icon || "📊"} ${fact.heading || FACT_LABELS.heading}</div>
+    <div>${text}</div>
+    ${fact.app ? `<div class="fact-app"><b>${FACT_LABELS.app}</b> ${fact.app}</div>` : ""}
+    ${fact.source ? `<div class="fact-source">${FACT_LABELS.source} ${fact.source}</div>` : ""}`;
+  return box;
+}
+
+function scrollToFact() {
+  const card = root.querySelector(".fact-card");
+  if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 /* ---------------- terapeuta (solo si respondió "Sí" en la pregunta 22) ---------------- */
@@ -370,7 +397,7 @@ function computeResult() {
   else if (score > 40) stress = S.results.stressLevels.medium;
   else if (score > 20) stress = S.results.stressLevels.average;
 
-  const triggers = state.answers[17] || [];
+  const triggers = state.answers[TRIGGER_QUESTION_N] || [];
   const mainTrigger = triggers[0] || S.results.defaultTrigger;
 
   const avoidanceKey = (state.answers[4] && state.answers[4].label === SCALE_OPTIONS[0].label)
@@ -398,7 +425,7 @@ function persistStartNowResult() {
     stress: r.stress,
     mainTrigger: r.mainTrigger,
     avoidanceKey: r.avoidanceKey,
-    triggers: state.answers[17] || [],
+    triggers: state.answers[TRIGGER_QUESTION_N] || [],
     planKey: plan.key,
     includedModules: plan.modules,
     therapistName: state.therapistName.trim(),
@@ -408,7 +435,7 @@ function persistStartNowResult() {
 
   if (!state.leadTracked) {
     state.leadTracked = true;
-    trackFbEvent("Lead", { content_name: BRAND, value: plan.now, currency: "USD" });
+    trackFbEvent("Lead", { content_name: BRAND, value: priceOf(plan), currency: "USD" });
   }
 }
 
@@ -432,22 +459,41 @@ function renderResultsLoading() {
     return { fill: row.querySelector(".progress-fill"), pct: row.querySelector(".pct") };
   });
 
-  const marquee = document.createElement("div");
-  marquee.className = "testimonial-marquee";
-  const track = document.createElement("div");
-  track.className = "testimonial-marquee-track";
-  // se duplica la lista una vez para poder loopear sin salto (translateX 0 -> -50%)
-  [...S.resultsLoading.testimonials, ...S.resultsLoading.testimonials].forEach(tm => {
-    const t = document.createElement("div");
-    t.className = "testimonial-card";
-    t.innerHTML = `<div class="stars" style="margin-bottom:8px;">★★★★★</div>
-      <div class="quote">${tm.quote}</div>
-      <div class="body">"${tm.body}"</div>
-      <div style="font-size:12px;color:var(--text-soft);">${tm.author}</div>`;
-    track.appendChild(t);
-  });
-  marquee.appendChild(track);
-  s.appendChild(marquee);
+  // A: un dato por barra, cambia al empezar cada barra
+  const facts = S.resultsLoading.facts || [];
+  let factBox = null;
+  if (facts.length) {
+    factBox = document.createElement("div");
+    factBox.className = "callout-box fact-card loading-fact";
+    s.appendChild(factBox);
+  }
+  function showFact(n) {
+    if (!factBox) return;
+    const f = facts[n % facts.length];
+    factBox.style.animation = "none";
+    void factBox.offsetWidth; // reinicia la animación de entrada
+    factBox.style.animation = "";
+    factBox.innerHTML = `<div class="callout-title">📊 ${S.resultsLoading.factsHeading}</div>${f.text}
+      <div class="fact-source">${FACT_LABELS.source} ${f.source}</div>`;
+  }
+
+  // B: lo que trae el plan, un punto se marca al terminar cada barra
+  const includes = S.resultsLoading.includes || [];
+  const includeEls = [];
+  if (includes.length) {
+    const box = document.createElement("div");
+    box.className = "loading-includes";
+    box.innerHTML = `<div class="loading-includes-title">${S.resultsLoading.includesHeading}</div>`;
+    includes.forEach(text => {
+      const li = document.createElement("div");
+      li.className = "loading-include";
+      li.innerHTML = `<span class="check">✓</span>${text}`;
+      box.appendChild(li);
+      includeEls.push(li);
+    });
+    s.appendChild(box);
+  }
+
   root.appendChild(s);
 
   const STEP_DURATION = 2400;
@@ -477,8 +523,17 @@ function renderResultsLoading() {
 
   let i = 0;
   function next() {
-    if (i >= rows.length) { setTimeout(() => go(1), 900); return; }
-    animateStep(rows[i], () => { i++; setTimeout(next, STEP_GAP); });
+    if (i >= rows.length) {
+      includeEls.slice(i).forEach(el => el.classList.add("done"));
+      setTimeout(() => go(1), 900);
+      return;
+    }
+    showFact(i);
+    animateStep(rows[i], () => {
+      if (includeEls[i]) includeEls[i].classList.add("done");
+      i++;
+      setTimeout(next, STEP_GAP);
+    });
   }
   next();
 }
@@ -690,7 +745,7 @@ function fastBonusEl() {
       <div class="fast-bonus-text">
         <div class="fast-bonus-name">${S.checkout.fastBonusName}</div>
         <div class="fast-bonus-desc">${S.checkout.fastBonusDesc}</div>
-        <div class="fast-bonus-price"><span class="was">$${S.checkout.fastBonusValue}</span> <b>${S.checkout.fastBonusFree}</b></div>
+        <div class="fast-bonus-price"><b>${S.checkout.fastBonusFree}</b></div>
       </div>
     </div>
     <div class="fast-bonus-urgency">${S.checkout.fastBonusUrgency}</div>
@@ -699,15 +754,46 @@ function fastBonusEl() {
 }
 
 /* ---------------- pricing ---------------- */
-let countdownSeconds = 15 * 60;
+// El descuento vence de verdad: la primera vez que la persona ve los precios se
+// guarda una fecha límite en localStorage. Pasada esa hora se muestran y se cobran
+// los precios normales (p.was), aunque recargue la página o vuelva otro día.
+const DISCOUNT_KEY = "startnow_discount_deadline";
+const DISCOUNT_MINUTES = 15;
+function discountDeadline() {
+  try { return Number(localStorage.getItem(DISCOUNT_KEY)) || null; } catch (e) { return null; }
+}
+function ensureDiscountDeadline() {
+  if (discountDeadline()) return;
+  try { localStorage.setItem(DISCOUNT_KEY, String(Date.now() + DISCOUNT_MINUTES * 60000)); } catch (e) {}
+}
+function discountActive() {
+  const d = discountDeadline();
+  return !d || Date.now() < d;
+}
+function priceOf(p) {
+  return discountActive() ? p.now : p.was;
+}
+function secondsLeft() {
+  const d = discountDeadline();
+  return d ? Math.max(0, Math.ceil((d - Date.now()) / 1000)) : DISCOUNT_MINUTES * 60;
+}
+function fmtClock(sec) {
+  return [Math.floor(sec / 60), sec % 60].map(n => String(n).padStart(2, "0"));
+}
+
 function renderPricing() {
+  ensureDiscountDeadline();
+  const active = discountActive();
+  const [mm, ss] = fmtClock(secondsLeft());
   const s = document.createElement("div");
   s.style.paddingBottom = "20px";
 
   // sticky top bar
   const sticky = document.createElement("div");
   sticky.className = "sticky-topbar";
-  sticky.innerHTML = `<div><div class="label">${S.pricing.stickyLabel}</div><div class="timer" id="stickyTimer">15:00</div></div>`;
+  sticky.innerHTML = active
+    ? `<div><div class="label">${S.pricing.stickyLabel}</div><div class="timer" id="stickyTimer">${mm}:${ss}</div></div>`
+    : `<div><div class="label">${S.pricing.expiredStickyLabel}</div></div>`;
   const getBtn = document.createElement("button");
   getBtn.className = "btn btn-primary";
   getBtn.textContent = S.pricing.getPlanBtn;
@@ -752,7 +838,9 @@ function renderPricing() {
   // plans
   const timerBar = document.createElement("div");
   timerBar.className = "timer-bar";
-  timerBar.innerHTML = `${S.pricing.timerBarLabel} <span class="digits" id="barMin">15</span>:<span class="digits" id="barSec">00</span>`;
+  timerBar.innerHTML = active
+    ? `${S.pricing.timerBarLabel} <span class="digits" id="barMin">${mm}</span>:<span class="digits" id="barSec">${ss}</span>`
+    : S.pricing.expiredBarLabel;
   s.appendChild(timerBar);
 
   const plansWrap = document.createElement("div");
@@ -793,22 +881,6 @@ function renderPricing() {
   gbox.innerHTML = `<div class="badge-icon">🛡️</div><div><h4>${S.pricing.guaranteeBoxTitle}</h4><p>${S.pricing.guaranteeBoxBody}</p></div>`;
   s.appendChild(gbox);
 
-  // testimonials
-  const tHead = document.createElement("h3");
-  tHead.textContent = S.pricing.testimonialsHeadline;
-  tHead.style.textAlign = "center";
-  tHead.style.margin = "20px 16px 12px";
-  s.appendChild(tHead);
-  TESTIMONIALS.forEach(t => {
-    const card = document.createElement("div");
-    card.className = "testimonial-card";
-    card.style.margin = "0 16px 12px";
-    card.innerHTML = `<div class="who"><img class="avatar" src="${t.img}" alt="${t.name}"><div><div class="name">${t.name}</div><div class="role">${t.role}</div></div></div>
-      <div class="quote">${t.quote}</div><div class="body">${t.body}</div>
-      <div class="stars">★★★★★</div><div class="date">${t.date}</div>`;
-    s.appendChild(card);
-  });
-
   const cta2 = primaryBtn(S.pricing.getPlanBtn, checkoutClick);
   cta2.style.margin = "16px";
   cta2.style.width = "calc(100% - 32px)";
@@ -828,13 +900,14 @@ function renderPricing() {
   s.appendChild(faq);
 
   root.appendChild(s);
-  startCountdown();
+  if (active) startCountdown();
 }
 
 function planCard(p) {
   const isSelected = state.selectedPlan === p.key;
   const card = document.createElement("div");
   card.className = "plan-card" + (isSelected ? " selected" : "");
+  const active = discountActive();
   const savings = (p.was - p.now).toFixed(2);
   const includedModules = BONUS_MODULES.filter(m => p.modules.includes(m.key));
   const includedItems = [S.pricing.corePlanLabel, ...includedModules.map(m => m.label)];
@@ -844,9 +917,9 @@ function planCard(p) {
       <div class="plan-radio"></div>
       <div class="plan-info">
         <div class="plan-name">${p.label}</div>
-        <div class="plan-discount">${p.discountLabel}</div>
-        <div class="plan-price-row"><span class="plan-price-old">$${p.was}</span><span class="plan-price-new">$${p.now}</span></div>
-        <div class="plan-savings">🔥 ${S.pricing.savingsLabel} $${savings}</div>
+        <div class="plan-discount">${active ? p.discountLabel : S.pricing.expiredTag}</div>
+        <div class="plan-price-row">${active ? `<span class="plan-price-old">$${p.was}</span>` : ""}<span class="plan-price-new">$${priceOf(p)}</span></div>
+        ${active ? `<div class="plan-savings">🔥 ${S.pricing.savingsLabel} $${savings}</div>` : ""}
         <ul class="plan-includes">${includedItems.map(item => `<li>✓ ${item}</li>`).join("")}</ul>
       </div>
       <div class="plan-perday"><span class="big">${S.pricing.oneTimeLabel}</span></div>
@@ -858,7 +931,7 @@ function planCard(p) {
 
 function finePrint() {
   const plan = PLANS.find(p => p.key === state.selectedPlan);
-  return S.checkout.finePrint(BRAND, plan.label, plan.now, plan.was);
+  return S.checkout.finePrint(BRAND, plan.label, priceOf(plan), plan.was);
 }
 
 function scrollToPlans() {
@@ -872,9 +945,9 @@ function renderCheckout() {
   persistStartNowResult();
   const plan = PLANS.find(p => p.key === state.selectedPlan);
   const includedModules = BONUS_MODULES.filter(m => plan.modules.includes(m.key));
-  const bonusTotal = includedModules.reduce((sum, m) => sum + m.was, 0);
-  const saved = (plan.was + bonusTotal - plan.now).toFixed(2);
-  trackFbEvent("InitiateCheckout", { content_name: plan.label, value: plan.now, currency: "USD" });
+  const price = priceOf(plan);
+  const saved = (plan.was - price).toFixed(2);
+  trackFbEvent("InitiateCheckout", { content_name: plan.label, value: price, currency: "USD" });
 
   const s = document.createElement("div");
   s.className = "screen";
@@ -884,11 +957,11 @@ function renderCheckout() {
   const totalRow = document.createElement("div");
   totalRow.innerHTML = `
     <div style="display:flex;justify-content:space-between;font-weight:800;font-size:20px;margin-bottom:6px;">
-      <span>${S.checkout.total}</span><span>$${plan.now}</span>
+      <span>${S.checkout.total}</span><span>$${price}</span>
     </div>
-    <div style="display:flex;justify-content:space-between;color:var(--red);font-size:13px;font-weight:600;">
+    ${discountActive() ? `<div style="display:flex;justify-content:space-between;color:var(--red);font-size:13px;font-weight:600;">
       <span>${S.checkout.discount}</span><span>${S.checkout.saved}${saved}</span>
-    </div>
+    </div>` : ""}
     <hr style="border:none;border-top:1px solid var(--lavender-dark);margin:16px 0;">
   `;
   s.appendChild(totalRow);
@@ -910,7 +983,7 @@ function renderCheckout() {
       row.style.justifyContent = "space-between";
       row.style.fontSize = "14px";
       row.style.padding = "6px 0";
-      row.innerHTML = `<span>${m.label}</span><span><span style="text-decoration:line-through;color:var(--text-soft);">$${m.was}</span> <b style="color:var(--green)">${S.checkout.includedLabel}</b></span>`;
+      row.innerHTML = `<span>${m.label}</span><b style="color:var(--green)">${S.checkout.includedLabel}</b>`;
       s.appendChild(row);
     });
   }
@@ -921,7 +994,7 @@ function renderCheckout() {
   payBtn.className = "btn btn-primary";
   payBtn.style.marginTop = "20px";
   payBtn.textContent = S.checkout.payBtn;
-  payBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: plan.now, currency: "USD" }); startPayment(plan, notice, appLink); };
+  payBtn.onclick = () => { trackFbEvent("AddPaymentInfo", { content_name: plan.label, value: priceOf(plan), currency: "USD" }); startPayment(plan, notice, appLink); };
   s.appendChild(payBtn);
 
   const payHint = document.createElement("p");
@@ -939,7 +1012,7 @@ function renderCheckout() {
   s.appendChild(notice);
 
   const appLink = document.createElement("a");
-  appLink.href = "/app/";
+  appLink.href = S.checkout.appUrl || "/app/";
   appLink.className = "btn";
   appLink.style.marginTop = "12px";
   appLink.style.background = "var(--green)";
@@ -958,8 +1031,12 @@ function startPayment(plan, notice, appLink) {
   // (precio en moneda local + métodos de pago locales), lo usamos. Si no, caemos
   // al checkoutUrl por defecto (USD). Si no hay ninguno, mostramos el aviso de
   // "activando pagos" como hasta ahora.
-  const url = (buyerCountry && plan.checkoutUrlByCountry && plan.checkoutUrlByCountry[buyerCountry])
-    || plan.checkoutUrl;
+  // Con el descuento vencido se usan los links de precio normal (checkoutUrlFull*).
+  // Si todavía no hay link a precio normal, se usa el de descuento para no frenar la venta.
+  const forCountry = (map) => (buyerCountry && map && map[buyerCountry]) || "";
+  const full = !discountActive();
+  const url = (full && (forCountry(plan.checkoutUrlFullByCountry) || plan.checkoutUrlFull))
+    || forCountry(plan.checkoutUrlByCountry) || plan.checkoutUrl;
   if (url) {
     window.location.href = url;
     return;
@@ -975,9 +1052,14 @@ function showPaymentNotice(el, linkEl) {
 function startCountdown() {
   clearInterval(window.__timer);
   window.__timer = setInterval(() => {
-    countdownSeconds = Math.max(0, countdownSeconds - 1);
-    const m = String(Math.floor(countdownSeconds / 60)).padStart(2, "0");
-    const s = String(countdownSeconds % 60).padStart(2, "0");
+    const left = secondsLeft();
+    if (left <= 0) {
+      // Venció mientras miraba: se vuelve a dibujar la pantalla con los precios normales.
+      clearInterval(window.__timer);
+      render();
+      return;
+    }
+    const [m, s] = fmtClock(left);
     const st = document.getElementById("stickyTimer");
     const bm = document.getElementById("barMin");
     const bs = document.getElementById("barSec");

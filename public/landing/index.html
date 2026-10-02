@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StartNow — Deja de postergar con 2 minutos al día</title>
+<meta name="description" content="Un plan de 30 días con una tarea pequeña por día, basado en estudios recientes y no en fuerza de voluntad. Pago único, sin suscripción.">
+<meta name="theme-color" content="#4C5FE0">
+<meta property="og:type" content="website">
+<meta property="og:title" content="StartNow — Deja de postergar con 2 minutos al día">
+<meta property="og:description" content="Un plan de 30 días con una tarea pequeña por día, basado en estudios recientes y no en fuerza de voluntad.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234C5FE0'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-weight='800' font-size='34' fill='white' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2299673380775144');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+<style>
+:root{
+  --bg:#FDFAF5; --card:#FFFFFF; --sand:#F5EEE1; --sand-dark:#E7DCC6;
+  --text:#1A1A2E; --text-soft:#5B5B6E; --blue:#4C5FE0; --blue-dark:#3B4BC4;
+  --green:#2FB380; --green-bg:#D9F2E7; --red:#E81A41; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;}
+h1,h2,h3{font-family:'Poppins',sans-serif;line-height:1.2;}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px;}
+section{padding:44px 0;}
+section + section{border-top:1px solid var(--sand-dark);}
+.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;padding:18px 0 0;text-align:center;}
+.logo span{color:var(--blue);}
+.eyebrow{display:inline-block;background:var(--green-bg);color:#1f7a57;font-weight:700;font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:14px;}
+.hero{text-align:center;padding-top:28px;}
+.hero h1{font-size:clamp(30px,7vw,44px);margin-bottom:14px;}
+.hero h1 em{font-style:normal;color:var(--blue);}
+.hero p.sub{font-size:18px;color:var(--text-soft);max-width:520px;margin:0 auto 24px;}
+.btn{display:inline-block;background:var(--blue);color:#fff;font-weight:700;font-size:17px;text-decoration:none;padding:17px 30px;border-radius:50px;box-shadow:0 6px 18px rgba(76,95,224,.3);transition:background .15s;}
+.btn:hover{background:var(--blue-dark);}
+.btn-note{display:block;font-size:13px;color:var(--text-soft);margin-top:12px;}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px;}
+.pill{background:var(--card);border:1px solid var(--sand-dark);border-radius:20px;padding:6px 12px;font-size:13px;font-weight:600;}
+h2{font-size:clamp(24px,5vw,30px);margin-bottom:14px;}
+p{margin-bottom:14px;}
+.lead{font-size:17px;color:var(--text-soft);}
+.stat{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:0 2px 14px rgba(26,26,46,.06);margin:16px 0;}
+.stat .num{font-family:'Poppins',sans-serif;font-weight:800;font-size:36px;color:var(--blue);line-height:1;}
+.stat .src{font-size:12px;color:var(--text-soft);margin-top:8px;}
+.pains{list-style:none;margin:18px 0;}
+.pains li{background:var(--card);border-left:4px solid var(--red);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-weight:500;}
+.steps{display:grid;gap:14px;margin-top:18px;}
+.step{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 2px 14px rgba(26,26,46,.06);display:flex;gap:14px;align-items:flex-start;}
+.step .n{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;}
+.step h3{font-size:17px;margin-bottom:4px;}
+.step p{margin:0;color:var(--text-soft);font-size:15px;}
+.weeks{display:grid;gap:12px;margin-top:18px;}
+.week{background:var(--sand);border-radius:var(--radius);padding:18px;}
+.week b{display:block;color:var(--blue);font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.week h3{font-size:18px;margin-bottom:6px;}
+.week p{margin:0;font-size:15px;color:var(--text-soft);}
+.science{list-style:none;margin-top:16px;}
+.science li{padding:14px 0;border-bottom:1px solid var(--sand-dark);}
+.science li:last-child{border-bottom:none;}
+.science b{display:block;}
+.science span{font-size:13px;color:var(--text-soft);}
+.compare{width:100%;border-collapse:collapse;margin-top:18px;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 14px rgba(26,26,46,.06);font-size:15px;}
+.compare th,.compare td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--sand);}
+.compare th{background:var(--sand);font-size:13px;text-transform:uppercase;letter-spacing:.4px;}
+.compare td.yes{color:#1f7a57;font-weight:700;}
+.compare td.no{color:var(--text-soft);}
+.faq details{background:var(--card);border-radius:12px;padding:16px 18px;margin-bottom:10px;box-shadow:0 2px 10px rgba(26,26,46,.05);}
+.faq summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";color:var(--blue);font-size:20px;line-height:1;}
+.faq details[open] summary::after{content:"–";}
+.faq details p{margin:10px 0 0;color:var(--text-soft);font-size:15px;}
+.offer{background:var(--text);color:#fff;border-radius:22px;padding:32px 24px;text-align:center;}
+.offer h2{color:#fff;}
+.offer ul{list-style:none;text-align:left;max-width:380px;margin:18px auto 22px;}
+.offer li{padding:6px 0;}
+.offer li::before{content:"✓ ";color:var(--green);font-weight:800;}
+.offer .price{font-size:15px;color:rgba(255,255,255,.75);margin-bottom:18px;}
+.offer .price b{color:#fff;font-size:22px;}
+.offer .btn-note{color:rgba(255,255,255,.6);}
+.guarantee{display:flex;gap:14px;align-items:center;background:var(--green-bg);border-radius:var(--radius);padding:18px;margin-top:18px;}
+.guarantee .icon{font-size:30px;}
+.guarantee p{margin:0;font-size:15px;}
+footer{text-align:center;font-size:12px;color:var(--text-soft);padding:30px 20px 90px;}
+footer a{color:var(--text-soft);}
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(253,250,245,.96);border-top:1px solid var(--sand-dark);padding:10px 16px;display:none;justify-content:center;z-index:10;}
+.sticky .btn{padding:13px 24px;font-size:15px;width:100%;max-width:420px;text-align:center;}
+.sticky.show{display:flex;}
+</style>
+</head>
+<body>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2299673380775144&ev=PageView&noscript=1"
+/></noscript>
+
+<div class="logo">Start<span>Now</span></div>
+
+<!-- 1. HERO: promesa corta + credibilidad científica + un solo llamado a la acción -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Basado en estudios, no en fuerza de voluntad</div>
+    <h1>Deja de postergar.<br><em>Empieza con 2 minutos al día.</em></h1>
+    <p class="sub">Un plan de 30 días con una sola tarea pequeña por día. Menos pelea contigo, más cosas terminadas.</p>
+    <a class="btn cta" href="/quiz/index.html">Descubre tu patrón de procrastinación →</a>
+    <span class="btn-note">Quiz gratis · 10 preguntas · 2 minutos</span>
+    <div class="pills">
+      <span class="pill">📖 1 tarea al día</span>
+      <span class="pill">⏱ De 2 a 10 minutos</span>
+      <span class="pill">💳 Pago único</span>
+      <span class="pill">🚫 Sin suscripción</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. HOOK: dato que sorprende -->
+<section>
+  <div class="wrap">
+    <h2>Postergar te cuesta más de lo que crees</h2>
+    <div class="stat">
+      <div class="num">3.525</div>
+      <p style="margin:10px 0 0;">estudiantes universitarios participaron en un estudio publicado en <b>JAMA Network Open</b>. Quienes más postergaban tuvieron después más estrés, ansiedad, depresión y peor sueño.</p>
+      <div class="src">Fuente: JAMA Network Open, 2023.</div>
+    </div>
+    <div class="stat">
+      <div class="num">47 seg</div>
+      <p style="margin:10px 0 0;">es lo que dura en promedio la atención frente a una pantalla antes de cambiar de tarea. Volver de lleno a lo que hacías puede llevar unos 25 minutos.</p>
+      <div class="src">Fuente: Gloria Mark, "Attention Span", 2023.</div>
+    </div>
+    <p class="lead">Y a casi nadie le enseñaron cómo cambiar eso. Te dijeron "organízate" o "ten más disciplina", pero nadie te dio los pasos.</p>
+  </div>
+</section>
+
+<!-- 3. DOLOR: en qué se nota -->
+<section>
+  <div class="wrap">
+    <h2>¿Te pasa algo de esto?</h2>
+    <ul class="pains">
+      <li>Sabes lo que tienes que hacer, pero no logras empezar.</li>
+      <li>Abres el celular "un minuto" y se te va media hora.</li>
+      <li>Ordenas toda la casa un fin de semana y a las dos semanas vuelve el caos.</li>
+      <li>Te acuestas repasando todo lo que no hiciste.</li>
+      <li>Y después viene la culpa, que te hace postergar todavía más.</li>
+    </ul>
+    <p class="lead">No es flojera ni falta de carácter. Es un patrón. Y los patrones se cambian con pasos pequeños y repetidos.</p>
+  </div>
+</section>
+
+<!-- 4. MECANISMO: cómo funciona -->
+<section>
+  <div class="wrap">
+    <h2>Cómo funciona StartNow</h2>
+    <p class="lead">Se inspira en el <b>kaizen</b>, el principio japonés de mejorar un poco cada día: cambios tan chicos que casi no cuestan, y por eso no los abandonas.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h3>Haces el quiz</h3><p>10 preguntas para conocer tu nivel de procrastinación, tu disparador principal y tu patrón de evitación.</p></div></div>
+      <div class="step"><div class="n">2</div><div><h3>Recibes una tarea por día</h3><p>Casi todas de 2 a 10 minutos, cada una con una lección corta que explica por qué funciona. Destacamos las tareas de tu disparador principal.</p></div></div>
+      <div class="step"><div class="n">3</div><div><h3>Ves tu avance</h3><p>Tu racha, tus días completados y una revisión cada semana para comparar cómo empezaste y cómo vas.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. BENEFICIOS: qué trabajas cada semana -->
+<section>
+  <div class="wrap">
+    <h2>Tus 30 días, semana por semana</h2>
+    <div class="weeks">
+      <div class="week"><b>Semana 1</b><h3>Victorias de 2 minutos</h3><p>Tareas mínimas para que tu cerebro practique empezar y terminar: guardar tres cosas, vaciar una superficie, enviar ese mensaje pendiente.</p></div>
+      <div class="week"><b>Semana 2</b><h3>Menos distracciones</h3><p>Silenciar notificaciones, alejar tus redes, dividir tu tarea más grande en 3 pasos y tu primer bloque de 25 minutos sin interrupciones.</p></div>
+      <div class="week"><b>Semana 3</b><h3>Constancia sin fuerza de voluntad</h3><p>Dejar tu espacio listo para mañana, hacer lo urgente antes del celular y aprender a hablarte sin castigarte cuando fallas.</p></div>
+      <div class="week"><b>Semana 4</b><h3>Cerrar lo que quedó abierto</h3><p>Terminar algo que dejaste a medias, una mañana sin redes y comparar tu día 1 con hoy. Si quieres, repites el plan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CIENCIA: autoridad -->
+<section>
+  <div class="wrap">
+    <h2>Lo que dicen los estudios</h2>
+    <p class="lead">Cada parte del plan se apoya en investigaciones publicadas desde 2021:</p>
+    <ul class="science">
+      <li><b>Los planes "si pasa X, hago Y" reducen la procrastinación.</b><span>Análisis de 21 estudios, casi 16.000 personas · Frontiers in Psychology, 2021</span></li>
+      <li><b>Un hábito tarda en promedio unos 59 a 66 días en volverse automático.</b><span>Revisión de 20 estudios · Healthcare, 2024</span></li>
+      <li><b>Tratarte con amabilidad después de un tropiezo te ayuda a retomar.</b><span>Universidad de Texas · Annual Review of Psychology, 2023</span></li>
+      <li><b>Una interrupción puede costarte unos 25 minutos de foco.</b><span>Gloria Mark · "Attention Span", 2023</span></li>
+    </ul>
+    <p style="margin-top:16px;">Por eso el plan empieza tan chico: para que sea fácil llegar al día 30 y seguir después.</p>
+  </div>
+</section>
+
+<!-- 7. COMPARACIÓN: objeción de precio / suscripción -->
+<section>
+  <div class="wrap">
+    <h2>Sin suscripción. Sin cobros sorpresa.</h2>
+    <p class="lead">Muchas apps de productividad cobran cada mes y se renuevan solas. StartNow no.</p>
+    <table class="compare">
+      <tr><th></th><th>StartNow</th><th>Apps por suscripción</th></tr>
+      <tr><td>Forma de pago</td><td class="yes">Pago único</td><td class="no">Cada mes</td></tr>
+      <tr><td>Renovación automática</td><td class="yes">No</td><td class="no">Sí</td></tr>
+      <tr><td>Tiempo por día</td><td class="yes">2 a 10 min</td><td class="no">Variable</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 8. OBJECIONES -->
+<section class="faq">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <details><summary>¿Y si no tengo tiempo?</summary><p>Casi todas las tareas se hacen en menos de 10 minutos, y en la primera semana muchas en 2. Está pensado justamente para días llenos.</p></details>
+    <details><summary>Ya probé otros métodos y no me duraron. ¿Por qué esto sería distinto?</summary><p>La mayoría de los métodos apuntan al resultado: la casa perfecta, la bandeja vacía. StartNow apunta al hábito de empezar, con una tarea chica por día durante 30 días. No depende de un día de mucha energía.</p></details>
+    <details><summary>¿Es una suscripción?</summary><p>No. Pagas una sola vez y el plan es tuyo. No hay renovaciones automáticas.</p></details>
+    <details><summary>¿Y si no es para mí?</summary><p>Tienes una garantía de 7 días: si sientes que no es para ti, te devolvemos el dinero.</p></details>
+    <details><summary>¿Reemplaza una terapia o un tratamiento?</summary><p>No. Es un plan de hábitos para el día a día. Si estás en terapia, puede acompañar ese proceso, pero no lo reemplaza.</p></details>
+  </div>
+</section>
+
+<!-- 9. OFERTA + CTA FINAL -->
+<section>
+  <div class="wrap">
+    <div class="offer">
+      <h2>Empieza hoy con 2 minutos</h2>
+      <ul>
+        <li>Plan de 30 días en 4 etapas</li>
+        <li>Una microtarea al día con su lección</li>
+        <li>Recordatorio diario y seguimiento de racha</li>
+        <li>Revisión semanal de tu avance</li>
+      </ul>
+      <p class="price">Pago único desde <b>$14,99</b> con el descuento de bienvenida</p>
+      <a class="btn cta" href="/quiz/index.html">Hacer el quiz gratis →</a>
+      <span class="btn-note">Al terminar el quiz, el descuento dura 15 minutos.</span>
+    </div>
+    <div class="guarantee">
+      <div class="icon">🛡️</div>
+      <p><b>Garantía de 7 días.</b> Si sientes que no es para ti, te devolvemos el dinero.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  StartNow · Los resultados pueden variar según cada persona. Este plan no reemplaza la atención de un profesional de la salud.<br>
+  <a href="/terminos/">Términos de servicio</a> · <a href="/privacidad/">Política de privacidad</a> · <a href="mailto:ellie@eleanorgrantofficial.com">ellie@eleanorgrantofficial.com</a>
+</footer>
+
+<div class="sticky" id="sticky"><a class="btn cta" href="/quiz/index.html">Hacer el quiz gratis →</a></div>
+
+<script>
+  // Barra fija con el botón al quiz una vez que se pasa el primer bloque.
+  var sticky = document.getElementById("sticky");
+  window.addEventListener("scroll", function () {
+    sticky.classList.toggle("show", window.scrollY > 520);
+  });
+</script>
+</body>
+</html>

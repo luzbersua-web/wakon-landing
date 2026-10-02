@@ -5,25 +5,77 @@
 
 const BRAND = "StartNow";
 
+// fact: dato que aparece debajo de la respuesta. text = el dato (de un estudio real),
+// app = qué hace StartNow al respecto (SOLO cosas que la app realmente tiene, ver src/appContent.es.js),
+// source = fuente en letra chica. En preguntas "multi", text puede ser una función que recibe lo elegido.
+// factOff = dato desactivado (no se muestra); renombrar a "fact" para volver a mostrarlo.
 const QUESTIONS = [
-  { n: 1, icon: "🌙", text: "¿Terminas el día con la sensación de que no avanzaste en lo que de verdad importaba?", type: "scale" },
-  { n: 2, icon: "⏰", text: "¿Esperas a que la presión (o el pánico) del último momento te obligue a empezar?", type: "scale" },
-  { n: 3, icon: "📱", text: "¿Agarras el celular 'solo un segundo' y de repente ya pasó media hora?", type: "scale" },
-  { n: 4, icon: "🧩", text: "¿Una tarea grande te paraliza tanto que prefieres ni empezarla?", type: "scale" },
-  { n: 5, icon: "🎯", text: "¿Cualquier ruido, mensaje o pensamiento te saca por completo de lo que estabas haciendo?", type: "scale" },
-  { n: 6, icon: "🌫️", text: "¿Llega la noche y no sabes bien en qué se te fueron las horas?", type: "scale" },
-  { n: 7, icon: "📲", text: "¿Te descubres scrolleando en vez de hacer eso que 'ya casi ibas a empezar'?", type: "scale" },
-  { n: 8, icon: "💬", text: "¿Evitas ese mensaje o esa conversación incómoda que sabes que tarde o temprano tienes que tener?", type: "scale" },
-  { n: 9, icon: "🏠", text: "¿El desorden se acumula hasta que ya no sabes ni por dónde empezar?", type: "scale" },
-  { n: 10, icon: "⚡", text: "¿Los pendientes te dan vueltas en la cabeza incluso cuando intentas descansar?", type: "scale" },
-  { n: 11, icon: "🥊", text: "¿Te llenas de culpa cada vez que dejas algo para después?", type: "scale" },
-  { n: 12, icon: "🔄", text: "¿Tienes varias cosas empezadas y ninguna terminada?", type: "scale" },
-  { n: 13, icon: "📋", text: "¿Armas planes con entusiasmo y a los pocos días los abandonas?", type: "scale" },
-  { n: 14, icon: "⏱️", text: "¿Terminas saliendo tarde aunque tuvieras tiempo de sobra para prepararte?", type: "scale" },
-  { n: 15, icon: "🥱", text: "¿Dejas para el final justo lo que más te aburre o te frustra?", type: "scale" },
-  { n: 16, icon: "🗯️", text: "¿Te enredas en otras cosas cuando en realidad deberías estar concentrado/a?", type: "scale" },
   {
-    n: 17, icon: "🎯", text: "¿Qué es lo que más afecta tu productividad?", type: "multi", subtitle: "Elige todas las que apliquen",
+    n: 1, icon: "🌙", text: "¿Terminas el día con la sensación de que no avanzaste en lo que de verdad importaba?", type: "scale",
+    fact: {
+      text: "Un estudio siguió durante 9 meses a <b>3.525 personas</b>: las que más postergaban tuvieron después más estrés, ansiedad, peor sueño, más soledad y más problemas de dinero.",
+      app: "StartNow te da <b>una sola tarea pequeña al día</b>, casi todas de 2 a 10 minutos. Cada noche la marcas como completada y ves que sí avanzaste.",
+      source: "JAMA Network Open, 2023",
+    },
+  },
+  {
+    n: 2, icon: "⏰", text: "¿Esperas a que la presión (o el pánico) del último momento te obligue a empezar?", type: "scale",
+    factOff: {
+      text: "Un análisis de 36 estudios con <b>8.603 personas</b> encontró que quienes postergan tienen peor salud… y aun así creen que en el futuro van a estar mejor sin cambiar nada.",
+      app: "Tu plan de 30 días empieza con <b>victorias de 2 minutos</b> desde el día 1, para que empezar deje de costarte.",
+      source: "British Journal of Health Psychology, 2026",
+    },
+  },
+  {
+    n: 3, icon: "📱", text: "¿Agarras el celular 'solo un segundo' y de repente ya pasó media hora?", type: "scale",
+    factOff: {
+      text: "Un metaanálisis confirmó que <b>cuanto más enganche con el celular, más se posterga</b>.",
+      app: "Tu plan incluye tareas concretas como <b>silenciar notificaciones, alejar el ícono de tus redes y pasar una mañana sin redes</b>.",
+      source: "Personality and Individual Differences, 2024",
+    },
+  },
+  {
+    n: 4, icon: "🧩", text: "¿Una tarea grande te paraliza tanto que prefieres ni empezarla?", type: "scale",
+    factOff: {
+      text: "Un análisis de 21 estudios con <b>15.907 personas</b> mostró que definir un plan concreto (\"si pasa X, hago Y\") ayuda a cumplir las metas.",
+      app: "En el día 11 aprendes a <b>dividir tu tarea más grande en 3 pasos chicos</b>. Y cada día del plan es una sola tarea pequeña.",
+      source: "Frontiers in Psychology, 2021",
+    },
+  },
+  {
+    n: 5, icon: "🎯", text: "¿Cualquier ruido, mensaje o pensamiento te saca por completo de lo que estabas haciendo?", type: "scale",
+    fact: {
+      text: "Hoy mantenemos la atención en una pantalla solo <b>47 segundos</b> en promedio. Después de una interrupción, tardamos unos <b>25 minutos</b> en volver a concentrarnos del todo.",
+      app: "En el día 14 haces tu primer <b>bloque de 25 minutos sin interrupciones</b>.",
+      source: "Dra. Gloria Mark, Universidad de California, \"Attention Span\", 2023",
+    },
+  },
+  {
+    n: 6, icon: "⚡", text: "¿Los pendientes te dan vueltas en la cabeza incluso cuando intentas descansar?", type: "scale",
+    factOff: {
+      text: "Un análisis de 18 estudios con <b>35.097 personas</b> encontró que postergar la hora de dormir está ligado a más estrés, ansiedad y depresión. La relación más fuerte es con el estrés.",
+      app: "Tu plan incluye <b>dejar tu espacio listo para mañana antes de dormir</b> y una revisión semanal de cómo te sientes.",
+      source: "Frontiers in Psychology, 2026",
+    },
+  },
+  {
+    n: 7, icon: "🥊", text: "¿Te llenas de culpa cada vez que dejas algo para después?", type: "scale",
+    factOff: {
+      text: "Una revisión de la Universidad de Texas concluyó que <b>tratarte con comprensión te impulsa a cambiar mucho más que criticarte</b>. La culpa no te hace actuar: alimenta el ciclo.",
+      app: "En el día 17 practicas <b>hablarte sin castigarte</b>: anotas un error y lo completas con \"y aun así seguí adelante\".",
+      source: "Annual Review of Psychology, 2023",
+    },
+  },
+  {
+    n: 8, icon: "📋", text: "¿Armas planes con entusiasmo y a los pocos días los abandonas?", type: "scale",
+    fact: {
+      text: "Un metaanálisis de 20 estudios con <b>2.601 personas</b> encontró que un hábito nuevo tarda en promedio <b>59 a 66 días</b> en formarse. No se logra con fuerza de voluntad: hace falta un sistema.",
+      app: "StartNow es ese sistema: <b>una tarea pequeña al día y un seguimiento de tu racha</b>. Al terminar los 30 días, puedes repetir el plan para reforzarlo.",
+      source: "Healthcare, 2024",
+    },
+  },
+  {
+    n: 9, icon: "🎯", text: "¿Qué es lo que más afecta tu productividad?", type: "multi", subtitle: "Elige todas las que apliquen",
     options: [
       { icon: "⛈️", label: "Estrés y ansiedad" },
       { icon: "❓", label: "Pensar demasiado" },
@@ -34,42 +86,20 @@ const QUESTIONS = [
     ]
   },
   {
-    n: 18, icon: "📝", text: "¿Qué es lo que siempre postergas?", type: "multi", subtitle: "Elige todas las que apliquen",
+    n: 10, icon: "📝", text: "¿Qué es lo que siempre postergas?", type: "multi", subtitle: "Elige todas las que apliquen",
     options: [
       { label: "Hacer ejercicio" }, { label: "Dormir lo suficiente" }, { label: "Leer más" },
       { label: "Revisar mi salud" }, { label: "Definir metas de vida" }, { label: "Buscar un mejor trabajo" },
       { label: "Encontrar momentos de relajación" }, { label: "Limpiar y ordenar" },
-    ]
-  },
-  {
-    n: 19, icon: "🔋", text: "¿Qué es lo que más necesitas ahora mismo?", type: "single",
-    options: [
-      { label: "Concentración" }, { label: "Calma" }, { label: "Fuerza de voluntad" },
-      { label: "Energía" }, { label: "Motivación" }, { label: "No estoy seguro/a" },
-    ]
-  },
-  {
-    n: 20, icon: "🌱", text: "¿Qué te gustaría lograr en este camino?", type: "single",
-    options: [
-      { label: "Mejorar mi bienestar" }, { label: "Terminar lo que empiezo" },
-      { label: "Mejorar mi enfoque y productividad" }, { label: "Mejorar mis relaciones" },
-      { label: "Mejorar mi carrera" },
-    ]
-  },
-  {
-    n: 21, icon: "🚫", text: "¿Qué hábitos te gustaría dejar?", type: "multi",
-    options: [
-      { label: "Llegar tarde" }, { label: "Inseguridad" }, { label: "Redes sociales" },
-      { label: "Comida chatarra o azúcar" }, { label: "Ver series sin parar" }, { label: "Fumar" }, { label: "Dormir poco" },
-    ]
-  },
-  {
-    n: 22, icon: "🩺", text: "¿Algún terapeuta o profesional de la salud te recomendó esta app?", type: "single",
-    options: [{ label: "Sí" }, { label: "No" }]
-  },
-  {
-    n: 23, icon: "⏳", text: "¿Cuánto tiempo puedes dedicarle por día a tu crecimiento personal?", type: "single",
-    options: [{ label: "5 - 10 minutos" }, { label: "15 - 20 minutos" }, { label: "30 + minutos" }]
+    ],
+    fact: {
+      icon: "⏳",
+      heading: "Piénsalo",
+      text: (picked) => picked.length
+        ? `Si nada cambia, dentro de un año <b>${picked.map(p => p.toLowerCase()).join(", ")}</b> seguirá en tu lista de pendientes.`
+        : "Si nada cambia, dentro de un año tu lista de pendientes seguirá igual.",
+      app: "Tu plan empieza hoy con <b>una tarea de 2 minutos</b>.",
+    },
   },
 ];
 
@@ -82,60 +112,44 @@ const SCALE_OPTIONS = [
 
 const INTERSTITIALS = {
   8: {
-    title: "¡Vas muy bien! ⚡",
-    cards: [
-      { heading: "¿Sabías qué?", body: "La investigación conductual sugiere que la mayoría de las personas procrastina regularmente — no es un defecto de carácter, es un patrón que tu cerebro aprendió." },
-      { heading: "¿La buena noticia?", body: "Los patrones se pueden cambiar. Continúa para descubrir el tuyo." },
-    ],
-  },
-  16: {
     title: "¡Ya casi terminas!",
     subtitle: "En 60 segundos vas a descubrir:",
     bullets: [
-      { icon: "🧑‍🤝‍🧑", text: "Tu tipo de procrastinación (y qué la dispara)" },
-      { icon: "📋", text: "Tu plan de acción personalizado (sin consejos genéricos)" },
-      { icon: "⏰", text: "Un cronograma real de cambio (cuándo vas a ver resultados)" },
+      { icon: "🧑‍🤝‍🧑", text: "Tu perfil de procrastinación (y qué la dispara)" },
+      { icon: "📋", text: "Tu plan de 30 días: una tarea pequeña por día" },
+      { icon: "⏰", text: "Qué vas a trabajar cada semana del plan" },
     ],
-  },
-  22: {
-    title: "Basado en ciencia del comportamiento",
-    body: "Tu plan personalizado se apoya en técnicas de terapia conductual bien establecidas, usadas para ayudar a las personas a construir hábitos consistentes y cumplir con lo que se proponen.",
-    approach: ["Principios de Terapia Cognitivo-Conductual (TCC)", "Marcos de Intención de Implementación", "Investigación sobre comportamiento y formación de hábitos"],
   },
 };
 
-const TESTIMONIALS = [
-  { name: "Raquel Sánchez, 41", role: "Gerenta de RRHH", quote: "\"Por fin entiendo por qué me estanco\"", body: "Las lecciones diarias me hicieron dar cuenta de que no era perezosa — estaba evitando decisiones que sentía demasiado grandes. Dividirlas en partes pequeñas cambió todo.", date: "14 jun", img: "/shared/images/testimonial-1.jpg" },
-  { name: "Tomás Brizuela, 34", role: "Dueño de una pequeña empresa", quote: "\"5 minutos realmente funcionan\"", body: "Era escéptico de que algo tan corto pudiera importar. A las tres semanas, ya cierro mi bandeja de entrada antes de cenar en vez de a medianoche.", date: "29 may", img: "/shared/images/testimonial-2.jpg" },
-  { name: "Marcos Duarte, 55", role: "Director comercial", quote: "\"Ojalá lo hubiera encontrado hace 20 años\"", body: "Leí todos los libros de productividad que encontré. Esto es lo primero que cambió mi comportamiento real, no solo mi lista de tareas.", date: "03 jun", img: "/shared/images/testimonial-3.jpg" },
-  { name: "Delia Fuentes, 66", role: "Directora de escuela jubilada", quote: "\"Nunca es tarde para cambiar un hábito\"", body: "Pensaba que la procrastinación ya era parte de mi personalidad. Resultó ser un patrón, y los patrones se pueden desaprender.", date: "22 abr", img: "/shared/images/testimonial-4.jpg" },
-  { name: "Emilia Carrizo, 39", role: "Consultora de marketing", quote: "\"Mis clientes lo notaron antes que yo\"", body: "No estaba tratando de impresionar a nadie, solo quería sentir menos culpa. Pero dos clientes me preguntaron qué había cambiado en mi forma de responder.", date: "20 jun", img: "/shared/images/testimonial-5.jpg" },
-];
+// Etiquetas de la tarjeta de dato que aparece debajo de cada respuesta
+const FACT_LABELS = { heading: "¿Sabías que…?", app: "Con StartNow:", source: "Fuente:" };
+
 
 // checkoutUrl: pega aquí el link de pago de Hotmart de cada plan cuando lo tengas.
 // Mientras esté vacío, el botón muestra el aviso de "activando pagos" en vez de cobrar.
+// checkoutUrlFull: link de Hotmart a PRECIO NORMAL (el valor de "was"). Se usa cuando vence
+// el descuento de 15 minutos. Vacío = se sigue usando checkoutUrl.
 const PLANS = [
-  { key: "essential", label: "Plan Esencial", tag: "Más elegido", tagIcon: "⭐", badgeClass: "popular", discountLabel: "50% DE DESCUENTO", was: 29.99, now: 14.99, modules: [], checkoutUrl: "https://pay.hotmart.com/G106789484C", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=3svmchcp" } },
-  { key: "plus", label: "Plan Plus", tag: "Mejor oferta", tagIcon: "👍", badgeClass: "best", discountLabel: "SOLO AHORA: 60%", was: 49.99, now: 19.99, modules: ["time-focus", "habits"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=c9ih36ad", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=l62dgzdm" } },
-  { key: "complete", label: "Plan Completo", tag: "Todo incluido", tagIcon: "🎁", badgeClass: "", discountLabel: "67% DE DESCUENTO", was: 89.99, now: 29.99, modules: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], checkoutUrl: "https://pay.hotmart.com/G106789484C?off=8gmmg0j6", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=6uihjtwb" } },
+  { key: "essential", label: "Plan de 30 días", tag: "", tagIcon: "", badgeClass: "", discountLabel: "25% DE DESCUENTO", was: 19.99, now: 14.99, modules: [], checkoutUrl: "https://pay.hotmart.com/G106789484C", checkoutUrlFull: "https://pay.hotmart.com/G106789484C?off=c9ih36ad", checkoutUrlByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=3svmchcp" }, checkoutUrlFullByCountry: { CO: "https://pay.hotmart.com/G106789484C?off=l62dgzdm" } },
 ];
 
 const FAQ = [
   {
     q: "¿Qué pasa si me cuesta mantenerme motivado/a y disciplinado/a, incluso con un plan armado?",
-    a: `${BRAND} no está pensado alrededor de la fuerza de voluntad — está pensado para que no la necesites. Cada día tienes una sola acción pequeña y específica (5-10 minutos), no un plan enorme que tienes que forzarte a cumplir. Las lecciones usan micro-compromisos basados en TCC: pequeños logros que entrenan tu cerebro para asociar el inicio con alivio en vez de con miedo, así la motivación deja de ser algo que tienes que fabricar cada mañana.`,
+    a: `${BRAND} no está pensado alrededor de la fuerza de voluntad — está pensado para que no la necesites. Cada día tienes una sola tarea pequeña y específica (casi todas de 2 a 10 minutos), no un plan enorme que tienes que forzarte a cumplir. Son micro-compromisos: pequeños logros que le enseñan a tu cerebro que empezar no es tan difícil. Además, tu racha te muestra cada día cuánto llevas avanzado.`,
   },
   {
     q: "¿Cómo puedo manejar y reducir efectivamente las distracciones que afectan mi productividad?",
-    a: `Tu lección diaria incluye un ejercicio breve y práctico para el patrón de distracción específico que marcaste en el quiz (revisar el celular, cambiar de tarea, fatiga por decisiones). En vez de un consejo genérico tipo "apaga las notificaciones", obtienes un cambio concreto de entorno o hábito para probar ese día, y construyes sobre lo que funcionó al día siguiente.`,
+    a: `La semana 2 del plan está dedicada a cortar el ciclo de distracción, con tareas concretas para probar ese mismo día: silenciar las notificaciones de una app, mover el ícono de tu red social favorita a la última pantalla, hacer un bloque de 25 minutos en "No molestar" y, más adelante, pasar una mañana sin redes. Cada paso es pequeño y se suma al anterior.`,
   },
   {
     q: "¿Qué estrategias o técnicas puedo usar para superar la sensación de agobio o ansiedad al empezar este plan?",
-    a: `Nunca te pedimos que ataques todo de una vez. Cada tarea de tu plan está dividida en algo que puedes terminar en menos de 10 minutos — muchas veces menos de 2. El objetivo de la primera semana no son los resultados, es demostrarle a tu cerebro que empezar no tiene que sentirse abrumador. El impulso viene después, no antes.`,
+    a: `Nunca te pedimos que ataques todo de una vez. Casi todas las tareas de tu plan se terminan en menos de 10 minutos — y la primera semana, muchas en 2. El objetivo de la primera semana no son los resultados, es demostrarle a tu cerebro que empezar no tiene que sentirse abrumador. El impulso viene después, no antes.`,
   },
   {
     q: "¿Hay características o enfoques específicos que hagan que este Plan de Gestión de la Procrastinación sea distinto a otros que probé antes?",
-    a: `La mayoría de las herramientas de productividad se enfocan en el resultado (una bandeja de entrada vacía, un proyecto terminado). ${BRAND} se enfoca en el patrón neuronal detrás de la procrastinación en sí — usando tus respuestas del quiz para personalizar qué disparador atacar primero, y luego dando seguimiento a tu racha de cumplimiento para que veas el patrón cambiando de verdad, no solo esperando que cambie.`,
+    a: `La mayoría de las herramientas de productividad se enfocan en el resultado (una bandeja de entrada vacía, un proyecto terminado). ${BRAND} se enfoca en el hábito de empezar: una tarea pequeña al día durante 30 días, con una lección corta que explica por qué funciona. Según tus respuestas del quiz, destacamos las tareas de tu disparador principal, y tu racha y las revisiones semanales te muestran cómo va cambiando el patrón.`,
   },
 ];
 
@@ -153,21 +167,20 @@ const STRINGS = {
   approachIntro: "Nuestro enfoque combina:",
   gender: {
     headline: "Deja de procrastinar: haz el quiz gratis de 2 minutos",
-    sub: "Descubre tu tipo de procrastinación y consigue un plan personalizado para terminar por fin lo que empiezas",
+    sub: "Descubre tu tipo de procrastinación y consigue tu plan de 30 días para terminar por fin lo que empiezas",
     male: "Hombre",
     female: "Mujer",
-    testimonialIntro: "Mira cómo le fue a otras personas con este mismo plan:",
   },
   age: {
     title: "¿Cuál es tu edad?",
-    subtitle: "Solo usamos tu edad para personalizar tu plan",
+    subtitle: "Es solo para conocerte un poco mejor",
     options: ["18 - 24", "25 - 34", "35 - 44", "45 - 54", "55 - 64", "65+"],
   },
   socialProof: {
     pre: "Estás en el ",
     highlight: "lugar correcto",
     sub: "Este quiz de 2 minutos te ayuda a entender por qué procrastinas — y qué hacer al respecto.",
-    callout: "<b>Únete a 1.2 millones de personas</b> que ya empezaron su camino",
+    callout: "<b>Solo 10 preguntas</b> y al final ves tu perfil y tu plan de 30 días",
   },
   therapist: {
     nameTitle: "¡Qué buena señal! ¿Cómo se llama?",
@@ -178,20 +191,32 @@ const STRINGS = {
     ackTip: "Consejo: cuéntale cómo avanzas con tu plan de 30 días — el acompañamiento profesional multiplica los resultados.",
   },
   resultsLoading: {
-    headlinePre: "Únete a ",
-    headlineHighlight: "1.2 millones",
-    headlinePost: " de personas que recuperaron el control",
+    headlinePre: "Estamos preparando ",
+    headlineHighlight: "tu plan",
+    headlinePost: " de 30 días",
     steps: [
       { label: "Identificando tus disparadores de procrastinación..." },
-      { label: "Calculando tu nivel base de productividad..." },
-      { label: "Armando tu hoja de ruta personalizada..." },
-      { label: "Seleccionando tus primeras lecciones diarias..." },
-      { label: "Preparando tu seguimiento de progreso..." },
+      { label: "Calculando tu nivel de procrastinación..." },
+      { label: "Destacando las tareas para tu disparador principal..." },
+      { label: "Preparando tu plan de 30 días..." },
+      { label: "Preparando tu seguimiento de racha..." },
     ],
-    testimonials: [
-      { quote: "Simple pero poderoso", body: "Son solo 5 minutos al día, pero cambió por completo cómo enfrento las tareas. Mi casa está más limpia, entrego mi trabajo a tiempo y me siento en control de nuevo.", author: "David R., 58, Consultor" },
-      { quote: "Por fin dejé de posponer", body: "Llevaba años empezando cosas que no terminaba. En dos semanas ya notaba la diferencia: hago lo que me propongo sin pelear conmigo misma.", author: "Carolina M., 34, Diseñadora" },
-      { quote: "No es fuerza de voluntad, es método", body: "Probé de todo antes. Esto es lo primero que de verdad se quedó. Las microtareas de 5 minutos hacen que empezar deje de dar miedo.", author: "Andrés T., 41, Contador" },
+    // Datos que rotan debajo de las barras (los mismos estudios que se sacaron de las preguntas 2, 3, 4, 6 y 7)
+    factsHeading: "¿Sabías que…?",
+    facts: [
+      { text: "Un análisis de 36 estudios con <b>8.603 personas</b> encontró que quienes postergan tienen peor salud.", source: "British Journal of Health Psychology, 2026" },
+      { text: "<b>Cuanto más enganche con el celular, más se posterga.</b> Lo confirmó un metaanálisis.", source: "Personality and Individual Differences, 2024" },
+      { text: "Tener un plan concreto (\"si pasa X, hago Y\") ayuda a cumplir las metas, según 21 estudios con <b>15.907 personas</b>.", source: "Frontiers in Psychology, 2021" },
+      { text: "Postergar la hora de dormir está ligado a <b>más estrés, ansiedad y depresión</b>. Así lo encontró un análisis con 35.097 personas.", source: "Frontiers in Psychology, 2026" },
+      { text: "<b>Tratarte con comprensión te impulsa a cambiar más que criticarte.</b> La culpa alimenta el ciclo.", source: "Annual Review of Psychology, 2023" },
+    ],
+    includesHeading: "Lo que trae tu plan",
+    includes: [
+      "30 tareas pequeñas, una por día",
+      "De 2 a 10 minutos al día",
+      "Seguimiento de tu racha",
+      "Pago único, sin suscripción",
+      "Garantía de 7 días",
     ],
   },
   results: {
@@ -202,7 +227,7 @@ const STRINGS = {
     stressLevels: { low: "Bajo", average: "Promedio", medium: "Medio", high: "Alto" },
     avoidancePatterns: { overwhelm: "Sobrecarga de tareas", distraction: "Ciclo de distracción" },
     defaultTrigger: "Pensar demasiado",
-    copyTemplate: (stress) => `Estás en un ciclo de procrastinación de estrés ${stress.toLowerCase()} que te está drenando la energía y la tranquilidad. No estás fallando — estás en un patrón, y los patrones se pueden cambiar. Miles de personas en tu misma situación encontraron alivio con un enfoque estructurado y basado en ciencia.`,
+    copyTemplate: (stress) => `Estás en un ciclo de procrastinación de estrés ${stress.toLowerCase()} que te está drenando la energía y la tranquilidad. No estás fallando — estás en un patrón, y los patrones se pueden cambiar con pasos pequeños y repetidos, no con fuerza de voluntad.`,
   },
   planReady: {
     days: ["Día 1", "Día 8", "Día 15", "Día 22", "Día 30"],
@@ -222,25 +247,25 @@ const STRINGS = {
   email: {
     title: "Ingresa tu correo electrónico para ver los resultados completos",
     placeholder: "Correo electrónico",
-    privacy: "Nos comprometemos a proteger tus datos personales. Te enviaremos por correo una copia de tus resultados para que los tengas a mano. No te enviaremos spam.",
+    privacy: `Tus datos se guardan solo en tu navegador y no te enviaremos spam. <a href="/privacidad/" target="_blank">Política de privacidad</a>.`,
     invalid: "Ingresa un correo electrónico válido para continuar.",
   },
   included: {
     title: "Qué incluye tu plan:",
     items: [
-      ["📖", "Lecciones diarias de 5 minutos", "Entiende por qué procrastinas y cómo dejar de hacerlo. Sesiones cortas."],
-      ["🗺️", "Planes de acción personalizados", "Hoja de ruta a medida según los resultados de tu quiz. Nada de consejos genéricos."],
-      ["🧠", "Técnicas probadas", "Estrategias de TCC y formación de hábitos usadas por terapeutas."],
-      ["📈", "Seguimiento de progreso", "Observa cómo mejora tu productividad semana a semana."],
+      ["📖", "Una microtarea al día", "Casi todas de 2 a 10 minutos, cada una con una lección corta que explica por qué funciona."],
+      ["🗺️", "Plan de 30 días en 4 etapas", "De victorias de 2 minutos a hábitos que ya no te cuestan. Según tu quiz, destacamos las tareas de tu disparador principal."],
+      ["🔔", "Recordatorio diario", "Activa las notificaciones y te avisamos de tu tarea del día."],
+      ["📈", "Seguimiento de tu racha", "Racha actual, mejor racha, días completados y una revisión semanal de cómo te sientes."],
     ],
   },
   pricing: {
     stickyLabel: "Descuento reservado para:",
     getPlanBtn: "QUIERO MI PLAN",
-    headline: "Tu plan personalizado para terminar lo que empiezas",
-    headlineSub: "Elige tu plan — algunos incluyen módulos bonus de regalo (enfoque, estrés, hábitos, relaciones y dinero).",
+    headline: "Tu plan de 30 días para terminar lo que empiezas",
+    headlineSub: "Una tarea pequeña al día durante 30 días, con su lección. En la página de pago puedes sumar módulos extra si quieres.",
     timelineNow: "Hoy",
-    timelineGoal: "En 30 días",
+    timelineGoal: "Lo que buscamos",
     timelineRows: [
       ["Tus mañanas", "Se te hace un nudo con solo mirar tu lista de pendientes", "Arrancas el día con prioridades claras y ganas de avanzar"],
       ["Tus noches", "Te acuestas repasando todo lo que no llegaste a hacer", "Te duermes tranquilo/a, sabiendo que sí avanzaste"],
@@ -248,13 +273,16 @@ const STRINGS = {
       ["Tu diálogo interno", "“¿Por qué no puedo simplemente hacerlo?”", "“Sé que voy a cumplir lo que me propongo”"],
     ],
     weeks: [
-      ["Semana 1", ["Despertar sin temor", "Cortar la espiral de culpa", "Sentir más liviana tu lista de tareas"]],
-      ["Semanas 2-3", ["Completar 3-5 tareas que evitaste durante meses", "Más energía", "Construir un impulso sostenible"]],
-      ["Semana 4 · Día 30", ["Encarar proyectos que sentías imposibles", "Casa y espacio de trabajo manejables", "Estar presente en tus relaciones sin resentimiento"]],
-      ["Después del día 30", ["Los nuevos hábitos se sienten automáticos", "Cumplir se vuelve tu comportamiento por defecto", "Confías en ti mismo/a para terminar lo que empiezas"]],
+      ["Semana 1 · Victorias de 2 minutos", ["Tareas mínimas para que tu cerebro aprenda a terminar cosas", "Nombrar lo que evitas, sin presión", "Enviar ese mensaje que vienes postergando"]],
+      ["Semana 2 · Cortar la distracción", ["Silenciar notificaciones y alejar tus redes", "Dividir tu tarea más grande en 3 pasos", "Tu primer bloque de 25 minutos sin interrupciones"]],
+      ["Semana 3 · Constancia sin fuerza de voluntad", ["Dejar tu espacio listo para mañana", "Hacer lo urgente antes de mirar el celular", "Hablarte sin castigarte cuando fallas"]],
+      ["Semana 4 · Día 30", ["Terminar algo que dejaste a medias", "Comparar tu día 1 con hoy", "Planear cómo seguir (puedes repetir el plan)"]],
     ],
-    shift: "La mayoría de los usuarios sienten un cambio dentro de los 7-10 días.",
+    shift: "El primer objetivo: que empezar deje de costarte tanto.",
     timerBarLabel: "El descuento es válido solo por:",
+    expiredStickyLabel: "El descuento venció",
+    expiredBarLabel: "⏰ El descuento de bienvenida venció. Estos son los precios normales.",
+    expiredTag: "PRECIO NORMAL",
     oneTimeLabel: "Pago único",
     savingsLabel: "Ahorras",
     corePlanLabel: "Plan de 30 días",
@@ -263,7 +291,6 @@ const STRINGS = {
     guaranteeLine: "✓ Garantía de devolución de 7 días",
     guaranteeBoxTitle: "Garantía de devolución del 100%",
     guaranteeBoxBody: "Pruébalo sin riesgo durante 7 días. Si no ves progreso, te devolvemos hasta el último centavo — sin preguntas.",
-    testimonialsHeadline: "Únete a 1.2 millones de personas que recuperaron el control",
     faqTitle: "Preguntas frecuentes",
   },
   checkout: {
@@ -273,7 +300,7 @@ const STRINGS = {
     saved: "Ahorraste $",
     bonusHead: "Tu plan incluye estos módulos:",
     includedLabel: "incluido",
-    noModulesLine: "Este plan no incluye módulos bonus — puedes sumarlos cuando quieras.",
+    noModulesLine: "En la página de pago de Hotmart puedes sumar el Pack Enfoque y Hábitos (2 módulos extra) con solo marcar una casilla.",
     fastBonusTag: "🎁 REGALO POR COMPRAR HOY",
     fastBonusName: "Guía en video: Cómo doblar sábanas como un profesional",
     fastBonusDesc: "El truco japonés para que tu ropero y tus cajones se vean impecables en minutos. Un extra que solo recibes si completas tu compra ahora.",
@@ -282,10 +309,11 @@ const STRINGS = {
     fastBonusUrgency: "⏰ Este regalo solo se incluye si completas tu compra hoy.",
     payBtn: "Continuar al pago seguro →",
     payHint: "🔒 Pago procesado por Hotmart. En el siguiente paso eliges tarjeta u otro medio de pago disponible en tu país y ves el precio final en tu moneda.",
-    paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a hello@${brand.toLowerCase()}.app para completar tu pedido.`,
+    paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a ellie@eleanorgrantofficial.com para completar tu pedido.`,
+    appUrl: "/app/",
     openAppBtn: "Mientras tanto, abre tu plan en la app →",
-    finePrint: (brand, planLabel, now, was) => `Estás haciendo un pago único de $${now} por tu ${planLabel} de <a href="#">${brand.toLowerCase()}.app</a> (precio de lista $${was}).
-  Sin suscripción, sin renovación automática, sin cargos recurrentes — acceso completo de por vida al contenido incluido en este plan.
-  El pago se procesa de forma segura a través de Hotmart. Dudas o soporte: <a href="#">hello@${brand.toLowerCase()}.app</a>. <a href="#">Términos de servicio</a>. El cargo puede aparecer en tu resumen a nombre de Hotmart.`,
+    finePrint: (brand, planLabel, now, was) => `Estás haciendo un pago único de $${now} por tu ${planLabel} de ${brand} (precio de lista $${was}).
+  Sin suscripción, sin renovación automática, sin cargos recurrentes.
+  El pago se procesa de forma segura a través de Hotmart. Dudas o soporte: <a href="mailto:ellie@eleanorgrantofficial.com">ellie@eleanorgrantofficial.com</a>. <a href="/terminos/" target="_blank">Términos de servicio</a> · <a href="/privacidad/" target="_blank">Política de privacidad</a>. El cargo puede aparecer en tu resumen a nombre de Hotmart.`,
   },
 };

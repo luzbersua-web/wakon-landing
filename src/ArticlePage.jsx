@@ -130,9 +130,11 @@ export default function ArticlePage({ content }) {
           }}>
             {c.breadcrumb}
           </div>
-          <div style={{ fontSize: "0.8rem", color: TEXT_SOFT, fontFamily: "sans-serif", marginBottom: "10px" }}>
-            {c.date}
-          </div>
+          {c.date && (
+            <div style={{ fontSize: "0.8rem", color: TEXT_SOFT, fontFamily: "sans-serif", marginBottom: "10px" }}>
+              {c.date}
+            </div>
+          )}
           <h1 style={{
             fontFamily: "Georgia, serif", fontWeight: 700, fontSize: "clamp(1.6rem, 5vw, 2.3rem)",
             lineHeight: 1.25, marginBottom: "12px", color: DARK,
@@ -149,8 +151,12 @@ export default function ArticlePage({ content }) {
               }} />
             )}
             <span style={{ fontSize: "0.85rem", color: TEXT_SOFT }}>{c.author}</span>
-            <span style={{ color: "#ccc" }}>•</span>
-            <Stars /> <span style={{ fontSize: "0.82rem", color: TEXT_SOFT }}>{c.ratingsNumber}</span>
+            {c.ratingsNumber && (
+              <>
+                <span style={{ color: "#ccc" }}>•</span>
+                <Stars /> <span style={{ fontSize: "0.82rem", color: TEXT_SOFT }}>{c.ratingsNumber}</span>
+              </>
+            )}
           </div>
           <ImagePlaceholder src={c.heroImage} label={c.heroImageLabel} />
         </FadeIn>
@@ -236,9 +242,11 @@ export default function ArticlePage({ content }) {
 
         {/* REVIEWS */}
         <FadeIn>
+          {c.reviews.length > 0 && (
           <h3 style={{ fontFamily: "Georgia, serif", fontWeight: 700, fontSize: "1.2rem", margin: "32px 0 16px", color: DARK }}>
             {c.reviewsTitle}
           </h3>
+          )}
           {c.reviews.map((r, i) => (
             <div key={i} style={{
               background: "#fff", border: "1px solid #eee0cc", borderRadius: "14px",
@@ -323,6 +331,7 @@ export default function ArticlePage({ content }) {
         </FadeIn>
 
         {/* COMMENTS */}
+        {c.comments.length > 0 && (
         <FadeIn>
           <h3 style={{ fontFamily: "Georgia, serif", fontWeight: 700, fontSize: "1.2rem", margin: "36px 0 16px", color: DARK }}>
             {c.commentsTitle}
@@ -334,6 +343,19 @@ export default function ArticlePage({ content }) {
             </div>
           ))}
         </FadeIn>
+        )}
+
+        {/* LEGAL */}
+        {c.legalLinks && (
+          <footer style={{ borderTop: "1px solid #eee0cc", marginTop: "36px", paddingTop: "16px", fontSize: "0.8rem", color: TEXT_SOFT, fontFamily: "sans-serif", textAlign: "center" }}>
+            {c.legalLinks.map(([label, href], i) => (
+              <span key={href}>
+                {i > 0 && " · "}
+                <a href={href} style={{ color: TEXT_SOFT }}>{label}</a>
+              </span>
+            ))}
+          </footer>
+        )}
 
       </article>
     </div>

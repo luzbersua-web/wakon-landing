@@ -1,14 +1,21 @@
 import { useState, useEffect, useMemo } from "react";
-import {
-  STRINGS as S,
+import * as CONTENT_ES from "./appContent.es";
+import * as CONTENT_EN from "./appContent.en";
+import BONUS_ES from "./bonusModulesContent.es";
+import BONUS_EN from "./bonusModulesContent.en";
+
+// El idioma lo define el <html lang> de cada entrada: /app/ (es) o /en/app/ (en).
+const LANG = document.documentElement.lang === "en" ? "en" : "es";
+const {
+  STRINGS: S,
   PLAN,
   WEEKS,
   CATEGORY_META,
   TRIGGER_TO_CATEGORY,
   AVOIDANCE_TO_CATEGORY,
   CHECKIN_QUESTION,
-} from "./appContent.es";
-import BONUS_MODULES_CONTENT from "./bonusModulesContent.es";
+} = LANG === "en" ? CONTENT_EN : CONTENT_ES;
+const BONUS_MODULES_CONTENT = LANG === "en" ? BONUS_EN : BONUS_ES;
 
 const ACCENT = "#4C5FE0";
 const GREEN = "#2fb380";
@@ -20,6 +27,16 @@ const CARD = "#ffffff";
 
 const STATE_KEY = "startnow_state";
 const QUIZ_KEY = "startnow_quiz_result";
+const UNLOCK_KEY = "startnow_unlocked_modules";
+
+// Links de activación que se entregan en Hotmart con cada producto extra:
+// /app/?activar=CODIGO (o /en/app/?unlock=CODIGO). Cada código desbloquea sus módulos.
+const UNLOCK_CODES = {
+  px7fh2: ["time-focus", "habits"],                       // Order bump: Pack Enfoque y Hábitos
+  pb9wq4: ["stress-anxiety", "relationships", "money"],   // Upsell: Pack Bienestar
+  pe3ks8: ["stress-anxiety"],                             // Downsell: módulo Estrés y ansiedad
+  pc5mx1: ["time-focus", "stress-anxiety", "habits", "relationships", "money"], // Compradores del antiguo Plan Completo
+};
 
 function todayStr() {
   return new Date().toISOString().slice(0, 10);
@@ -57,6 +74,38 @@ function loadQuizResult() {
   } catch (e) {}
   return null;
 }
+function loadUnlocked() {
+  try {
+    const raw = localStorage.getItem(UNLOCK_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return [];
+}
+// Lee el código de activación de la URL, guarda los módulos y limpia la URL.
+// Devuelve true si se activó algo nuevo en esta visita.
+function consumeUnlockParam() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const code = (params.get("activar") || params.get("unlock") || "").trim().toLowerCase();
+    if (!code) return false;
+    params.delete("activar");
+    params.delete("unlock");
+    const query = params.toString();
+    window.history.replaceState(null, "", window.location.pathname + (query ? "?" + query : ""));
+    const modules = UNLOCK_CODES[code];
+    if (!modules) return false;
+    const merged = [...new Set([...loadUnlocked(), ...modules])];
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify(merged));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Se lee una sola vez al cargar la app (no dentro del componente, para no perder
+// el código si React vuelve a ejecutar el render).
+const JUST_UNLOCKED = consumeUnlockParam();
+
 function deriveCategory(quizResult) {
   if (!quizResult) return null;
   if (quizResult.avoidanceKey && AVOIDANCE_TO_CATEGORY[quizResult.avoidanceKey]) {
@@ -271,7 +320,7 @@ function TodayScreen({ state, onComplete, category, onRestart }) {
           </span>
           {isFeatured && (
             <span style={{ fontFamily: "sans-serif", fontSize: "0.72rem", color: GREEN, fontWeight: 800 }}>
-              ★ Prioridad para ti
+              {S.today.featured}
             </span>
           )}
         </div>
@@ -319,7 +368,7 @@ function PlanScreen({ state }) {
       {WEEKS.map((w) => (
         <div key={w.week} style={{ marginBottom: "22px" }}>
           <div style={{ fontFamily: "sans-serif", fontWeight: 800, fontSize: "0.85rem", color: ACCENT, textTransform: "uppercase", marginBottom: "4px" }}>
-            Semana {w.week} · {w.title}
+            {S.weekLabel(w.week)} · {w.title}
           </div>
           <div style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, marginBottom: "10px" }}>
             {w.desc}
@@ -352,7 +401,7 @@ function PlanScreen({ state }) {
                   </span>
                   <span style={{ flex: 1 }}>
                     <div style={{ fontWeight: 700, fontSize: "0.88rem", color: DARK }}>
-                      {isLocked ? `Día ${d.day}` : d.title}
+                      {isLocked ? S.dayShort(d.day) : d.title}
                     </div>
                     <div style={{ fontSize: "0.76rem", color: TEXT_SOFT }}>
                       {isDone ? S.plan.done : isToday ? S.plan.today : isLocked ? S.plan.locked : ""}
@@ -389,7 +438,7 @@ function DayModal({ day, onClose }) {
           <CategoryBadge category={day.category} />
         </div>
         <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.15rem", color: DARK, marginBottom: "8px" }}>
-          Día {day.day}: {day.title}
+          {S.dayShort(day.day)}: {day.title}
         </h3>
         <p style={{ fontFamily: "sans-serif", fontSize: "0.88rem", color: TEXT_SOFT, lineHeight: 1.6, marginBottom: "12px" }}>
           {day.lesson}
@@ -397,7 +446,7 @@ function DayModal({ day, onClose }) {
         <div style={{ background: "#f7f6f2", borderRadius: "12px", padding: "14px", fontFamily: "Georgia, serif", color: TEXT, marginBottom: "16px" }}>
           {day.task}
         </div>
-        <Button variant="outline" onClick={onClose}>Cerrar</Button>
+        <Button variant="outline" onClick={onClose}>{S.closeBtn}</Button>
       </div>
     </div>
   );
@@ -468,7 +517,7 @@ function ProgressScreen({ state }) {
               const opt = CHECKIN_QUESTION.options.find((o) => o.value === value);
               return (
                 <div key={day} style={{ display: "flex", justifyContent: "space-between", fontFamily: "sans-serif", fontSize: "0.85rem" }}>
-                  <span style={{ color: TEXT_SOFT }}>Día {day}</span>
+                  <span style={{ color: TEXT_SOFT }}>{S.dayShort(day)}</span>
                   <span style={{ fontWeight: 700, color: DARK }}>{opt ? opt.label : value}</span>
                 </div>
               );
@@ -483,16 +532,16 @@ function ProgressScreen({ state }) {
 /* ---------------- Bonus modules ---------------- */
 
 function ModulesScreen({ state, quizResult, onToggleLesson }) {
-  const unlocked = quizResult && quizResult.includedModules ? quizResult.includedModules : BONUS_MODULES_CONTENT.map((m) => m.key);
+  const unlocked = [...new Set([...((quizResult && quizResult.includedModules) || []), ...loadUnlocked()])];
   const [openModule, setOpenModule] = useState(null);
 
   return (
     <div>
       <h2 style={{ fontFamily: "Georgia, serif", fontSize: "1.2rem", color: DARK, marginBottom: "6px" }}>
-        Módulos bonus
+        {S.modules.title}
       </h2>
       <p style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT, marginBottom: "16px" }}>
-        Lecciones cortas para sumar a tu plan de 30 días, a tu propio ritmo.
+        {S.modules.sub}
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {BONUS_MODULES_CONTENT.map((m) => {
@@ -525,7 +574,7 @@ function ModulesScreen({ state, quizResult, onToggleLesson }) {
 
               {!isUnlocked && (
                 <p style={{ fontFamily: "sans-serif", fontSize: "0.76rem", color: TEXT_SOFT, marginTop: "8px" }}>
-                  No incluido en tu plan actual.
+                  {S.modules.notIncluded}
                 </p>
               )}
 
@@ -545,7 +594,7 @@ function ModulesScreen({ state, quizResult, onToggleLesson }) {
                           {l.task}
                         </div>
                         <Button variant={done ? "outline" : "success"} onClick={() => onToggleLesson(m.key, l.n)}>
-                          {done ? "✓ Completado — desmarcar" : "Marcar como completado"}
+                          {done ? S.modules.undo : S.modules.markDone}
                         </Button>
                       </div>
                     );
@@ -632,7 +681,7 @@ function SettingsScreen({ state, onUpdateName, onReset }) {
             {S.settings.installBody}
           </p>
           <Button onClick={() => { installPrompt.prompt(); setInstallPrompt(null); }}>
-            Instalar app
+            {S.settings.installBtn}
           </Button>
         </Card>
       )}
@@ -694,6 +743,7 @@ export default function StartNowApp() {
   const [tab, setTab] = useState("today");
   const [pendingCheckinDay, setPendingCheckinDay] = useState(null);
   const quizResult = useMemo(loadQuizResult, []);
+  const [justUnlocked, setJustUnlocked] = useState(JUST_UNLOCKED);
 
   useEffect(() => { saveState(state); }, [state]);
 
@@ -759,7 +809,7 @@ export default function StartNowApp() {
   const tabs = [
     ["today", S.nav.today, "☀️"],
     ["plan", S.nav.plan, "🗓️"],
-    ["modules", "Módulos", "🎁"],
+    ["modules", S.nav.modules, "🎁"],
     ["progress", S.nav.progress, "📈"],
     ["settings", S.nav.settings, "⚙️"],
   ];
@@ -774,11 +824,26 @@ export default function StartNowApp() {
           Start<span style={{ color: ACCENT }}>Now</span>
         </div>
         {state.name && (
-          <div style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT }}>Hola, {state.name}</div>
+          <div style={{ fontFamily: "sans-serif", fontSize: "0.82rem", color: TEXT_SOFT }}>{S.hello(state.name)}</div>
         )}
       </div>
 
       <div style={{ flex: 1, maxWidth: "560px", margin: "0 auto", width: "100%", padding: "0 20px 100px", boxSizing: "border-box" }}>
+        {justUnlocked && (
+          <div style={{
+            background: "#f0fbf6", border: `1.5px solid ${GREEN}`, borderRadius: "12px", padding: "12px 14px",
+            marginBottom: "16px", fontFamily: "sans-serif", fontSize: "0.88rem", color: DARK,
+            display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px",
+          }}>
+            <span>{S.modules.activated}</span>
+            <button onClick={() => { setJustUnlocked(false); setTab("modules"); }} style={{
+              background: GREEN, color: "#fff", border: "none", borderRadius: "8px", padding: "8px 12px",
+              fontWeight: 700, fontSize: "0.8rem", cursor: "pointer", flexShrink: 0,
+            }}>
+              {S.modules.activatedBtn}
+            </button>
+          </div>
+        )}
         {tab === "today" && <TodayScreen state={state} onComplete={handleComplete} category={state.category} onRestart={handleReset} />}
         {tab === "plan" && <PlanScreen state={state} />}
         {tab === "modules" && <ModulesScreen state={state} quizResult={quizResult} onToggleLesson={handleToggleLesson} />}
