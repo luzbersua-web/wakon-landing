@@ -5,7 +5,7 @@ const content = {
   title: "No es flojera: por qué ordenar toda la casa en un fin de semana casi nunca dura (y qué funciona mejor)",
   subtitleRegular: "Un viejo principio japonés y varios estudios recientes apuntan a lo mismo:",
   subtitleHighlighted: "pequeños pasos todos los días le ganan a los grandes maratones de orden.",
-  author: "Por el equipo de StartNow",
+  author: "Por Eleanor Grant · StartNow",
   authorImage: null,
   ratingsNumber: "",
   heroImageLabel: "Un escritorio ordenado junto a una ventana con plantas",

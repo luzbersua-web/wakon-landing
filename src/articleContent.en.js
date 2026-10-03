@@ -5,7 +5,7 @@ const content = {
   title: "It's Not Laziness: Why Cleaning the Whole House in One Weekend Rarely Sticks (and What Works Better)",
   subtitleRegular: "An old Japanese principle and several recent studies point to the same thing:",
   subtitleHighlighted: "small daily steps beat big cleaning marathons.",
-  author: "By the StartNow team",
+  author: "By Eleanor Grant · StartNow",
   authorImage: null,
   ratingsNumber: "",
   heroImageLabel: "A tidy desk beside a window with plants",
