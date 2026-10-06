@@ -305,6 +305,13 @@ const STRINGS = {
     fastBonusValue: 19.99,
     fastBonusFree: "FREE today",
     fastBonusUrgency: "⏰ This gift is only included if you complete your purchase today.",
+    workbookBonusTag: "🎁 2 SPECIAL BONUSES INCLUDED",
+    workbookBonusFree: "FREE",
+    workbookBonusNote: "Interactive workbooks inside your app: write, check things off and move forward day by day.",
+    workbookBonuses: [
+      { icon: "⚡", img: "/shared/images/bonos/bono1-en.jpg", name: "Bonus #1 — StartNow: 7-Day Challenge", desc: "The 2-minute protocol to stop waiting for “the perfect moment” and get moving again.", value: "$17–$27" },
+      { icon: "📵", img: "/shared/images/bonos/bono2-en.jpg", name: "Bonus #2 — The Anti-Scroll Protocol", desc: "7 days to stop escaping to your phone when you have something important to do, without deleting your social media.", value: "$19" },
+    ],
     payBtn: "Continue to secure checkout →",
     payHint: "🔒 Payment processed by Hotmart. On the next step you'll choose your card or another payment method available in your country and see the final price in your currency.",
     paymentNotice: (brand) => `We're activating payments. Email us at ellie@eleanorgrantofficial.com to complete your order.`,

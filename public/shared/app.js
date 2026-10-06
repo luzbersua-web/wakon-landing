@@ -733,6 +733,29 @@ function renderIncluded() {
   root.appendChild(s);
 }
 
+/* ---------------- bonos especiales (workbooks incluidos en la app) ---------------- */
+function workbookBonusEl() {
+  const items = S.checkout.workbookBonuses;
+  if (!items || !items.length) return document.createDocumentFragment();
+  const el = document.createElement("div");
+  el.className = "fast-bonus";
+  el.style.margin = "0 16px 16px";
+  el.innerHTML = `
+    <div class="fast-bonus-tag">${S.checkout.workbookBonusTag}</div>
+    ${items.map((b) => `
+      <div class="fast-bonus-body" style="padding-bottom:4px">
+        ${b.img ? `<img class="fast-bonus-img" src="${b.img}" alt="${b.name}">` : `<div style="font-size:30px;line-height:1;flex-shrink:0">${b.icon}</div>`}
+        <div class="fast-bonus-text">
+          <div class="fast-bonus-name">${b.name}</div>
+          <div class="fast-bonus-desc">${b.desc}</div>
+          <div class="fast-bonus-price"><span class="was">${b.value}</span> <b>${S.checkout.workbookBonusFree}</b></div>
+        </div>
+      </div>`).join("")}
+    <div class="fast-bonus-urgency">${S.checkout.workbookBonusNote}</div>
+  `;
+  return el;
+}
+
 /* ---------------- regalo por comprar hoy (bono de acción rápida) ---------------- */
 function fastBonusEl() {
   const fastBonus = document.createElement("div");
@@ -807,6 +830,7 @@ function renderPricing() {
   s.appendChild(body);
 
   body.appendChild(fastBonusEl());
+  body.appendChild(workbookBonusEl());
 
   // timeline
   const tl = document.createElement("div");
@@ -989,6 +1013,7 @@ function renderCheckout() {
   }
 
   s.appendChild(fastBonusEl());
+  s.appendChild(workbookBonusEl());
 
   const payBtn = document.createElement("button");
   payBtn.className = "btn btn-primary";

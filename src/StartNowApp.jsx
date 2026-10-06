@@ -3,6 +3,9 @@ import * as CONTENT_ES from "./appContent.es";
 import * as CONTENT_EN from "./appContent.en";
 import BONUS_ES from "./bonusModulesContent.es";
 import BONUS_EN from "./bonusModulesContent.en";
+import WORKBOOKS_ES, { WORKBOOK_STRINGS as WB_S_ES } from "./workbooksContent.es";
+import WORKBOOKS_EN, { WORKBOOK_STRINGS as WB_S_EN } from "./workbooksContent.en";
+import Workbooks from "./Workbooks";
 
 // El idioma lo define el <html lang> de cada entrada: /app/ (es) o /en/app/ (en).
 const LANG = document.documentElement.lang === "en" ? "en" : "es";
@@ -16,6 +19,8 @@ const {
   CHECKIN_QUESTION,
 } = LANG === "en" ? CONTENT_EN : CONTENT_ES;
 const BONUS_MODULES_CONTENT = LANG === "en" ? BONUS_EN : BONUS_ES;
+const WORKBOOKS = LANG === "en" ? WORKBOOKS_EN : WORKBOOKS_ES;
+const WB_S = LANG === "en" ? WB_S_EN : WB_S_ES;
 
 const ACCENT = "#4C5FE0";
 const GREEN = "#2fb380";
@@ -809,14 +814,15 @@ export default function StartNowApp() {
   const tabs = [
     ["today", S.nav.today, "☀️"],
     ["plan", S.nav.plan, "🗓️"],
-    ["modules", S.nav.modules, "🎁"],
+    ["modules", S.nav.modules, "📚"],
+    ["bonos", WB_S.navLabel, "🎁"],
     ["progress", S.nav.progress, "📈"],
     ["settings", S.nav.settings, "⚙️"],
   ];
 
   return (
     <div style={{ minHeight: "100svh", background: BG, display: "flex", flexDirection: "column" }}>
-      <div style={{
+      <div className="no-print" style={{
         padding: "18px 20px 14px", display: "flex", alignItems: "center", justifyContent: "space-between",
         maxWidth: "560px", margin: "0 auto", width: "100%", boxSizing: "border-box",
       }}>
@@ -847,6 +853,7 @@ export default function StartNowApp() {
         {tab === "today" && <TodayScreen state={state} onComplete={handleComplete} category={state.category} onRestart={handleReset} />}
         {tab === "plan" && <PlanScreen state={state} />}
         {tab === "modules" && <ModulesScreen state={state} quizResult={quizResult} onToggleLesson={handleToggleLesson} />}
+        {tab === "bonos" && <Workbooks workbooks={WORKBOOKS} S={WB_S} />}
         {tab === "progress" && <ProgressScreen state={state} />}
         {tab === "settings" && (
           <SettingsScreen
@@ -857,7 +864,7 @@ export default function StartNowApp() {
         )}
       </div>
 
-      <nav style={{
+      <nav className="no-print" style={{
         position: "fixed", bottom: 0, left: 0, right: 0, background: "#fff",
         borderTop: "1px solid #eee", display: "flex", justifyContent: "center",
         boxShadow: "0 -2px 14px rgba(0,0,0,0.04)",

@@ -307,6 +307,13 @@ const STRINGS = {
     fastBonusValue: 19.99,
     fastBonusFree: "GRATIS hoy",
     fastBonusUrgency: "⏰ Este regalo solo se incluye si completas tu compra hoy.",
+    workbookBonusTag: "🎁 2 BONOS ESPECIALES INCLUIDOS",
+    workbookBonusFree: "GRATIS",
+    workbookBonusNote: "Workbooks interactivos dentro de tu app: escribes, marcas y avanzas día a día.",
+    workbookBonuses: [
+      { icon: "⚡", img: "/shared/images/bonos/bono1.jpg", name: "Bono #1 — StartNow: Reto de 7 días", desc: "El protocolo de 2 minutos para dejar de esperar “el momento perfecto” y volver a ponerte en movimiento.", value: "$17–$27" },
+      { icon: "📵", img: "/shared/images/bonos/bono2.jpg", name: "Bono #2 — El Protocolo Anti-Scroll", desc: "7 días para dejar de escapar al celular cuando tienes algo importante que hacer, sin eliminar tus redes.", value: "$19" },
+    ],
     payBtn: "Continuar al pago seguro →",
     payHint: "🔒 Pago procesado por Hotmart. En el siguiente paso eliges tarjeta u otro medio de pago disponible en tu país y ves el precio final en tu moneda.",
     paymentNotice: (brand) => `Estamos activando los pagos. Escríbenos a ellie@eleanorgrantofficial.com para completar tu pedido.`,
