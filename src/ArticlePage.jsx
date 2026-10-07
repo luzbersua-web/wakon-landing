@@ -275,16 +275,6 @@ export default function ArticlePage({ content }) {
           <ImagePlaceholder src={c.afterReviewsImage} label={c.afterReviewsImageLabel} />
         </FadeIn>
 
-        {/* WHY HAVEN'T YOU HEARD */}
-        <FadeIn>
-          <h2 style={{ fontFamily: "Georgia, serif", fontWeight: 700, fontSize: "1.4rem", margin: "28px 0 14px", color: DARK }}>
-            {c.whyNotHeardTitle}
-          </h2>
-          <Paragraphs text={c.whyNotHeardText} />
-          <ImagePlaceholder src={c.pricingImage} label={c.pricingImageLabel} />
-          <Paragraphs text={c.pricingCompareText} />
-        </FadeIn>
-
         {/* QUIZ INTRO */}
         <FadeIn>
           <h2 style={{ fontFamily: "Georgia, serif", fontWeight: 700, fontSize: "1.4rem", margin: "28px 0 14px", color: DARK }}>
@@ -314,18 +304,6 @@ export default function ArticlePage({ content }) {
             </a>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.72rem", marginTop: "14px", fontFamily: "sans-serif" }}>
               {c.bannerDisclaimer}
-            </p>
-          </div>
-        </FadeIn>
-
-        {/* URGENCY / GUARANTEE */}
-        <FadeIn>
-          <div style={{
-            background: "#fff4e0", border: "1px solid #f0d9a8", borderRadius: "14px",
-            padding: "18px 20px", marginBottom: "10px", fontFamily: "sans-serif",
-          }}>
-            <p style={{ fontSize: "0.95rem", lineHeight: 1.6, color: TEXT }}>
-              {c.urgencyRegular} <strong style={{ color: ACCENT }}>{c.urgencyHighlighted}</strong>
             </p>
           </div>
         </FadeIn>

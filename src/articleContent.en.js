@@ -65,11 +65,6 @@ const content = {
   afterReviewsImageLabel: "Someone checking their phone with a cup of coffee",
   afterReviewsImage: "/shared/images/article/afterreviews.jpg",
 
-  whyNotHeardTitle: "What it costs (and why it's not a subscription)",
-  whyNotHeardText: "Many productivity apps charge a monthly subscription that renews automatically, and their reviews are full of complaints about surprise charges.\n\nStartNow works differently: you pay once and the plan is yours. No subscription, no surprise charges.\n\nAnd if within the first 7 days you feel it's not for you, we'll give you your money back.",
-  pricingImageLabel: "Illustrated cost comparison",
-  pricingImage: "/shared/images/article/pricing.jpg",
-  pricingCompareText: "When you finish the quiz, you get an introductory discount for 15 minutes. If you don't use it in that time, the plan goes back to its regular price.",
 
   quizIntroTitle: "Start with the quiz: 2 minutes to discover your procrastination pattern",
   quizImageLabel: "Someone taking the quiz on their phone",
@@ -80,8 +75,6 @@ const content = {
   bannerButton: "Take the free quiz now",
   bannerDisclaimer: "Results may vary from person to person.",
 
-  urgencyRegular: "Important: the introductory discount lasts 15 minutes from when you see the prices.",
-  urgencyHighlighted: "After that, the plan goes back to its regular price.",
 
   commentsTitle: "",
   comments: [],

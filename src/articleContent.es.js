@@ -65,11 +65,6 @@ const content = {
   afterReviewsImageLabel: "Persona revisando su celular con una taza de café",
   afterReviewsImage: "/shared/images/article/afterreviews.jpg",
 
-  whyNotHeardTitle: "Cuánto cuesta (y por qué no es una suscripción)",
-  whyNotHeardText: "Muchas apps de productividad cobran una suscripción mensual que se renueva sola, y en sus reseñas abundan las quejas por cobros inesperados.\n\nStartNow funciona distinto: pagas una sola vez y el plan es tuyo. Sin suscripción y sin cobros sorpresa.\n\nY si en los primeros 7 días sientes que no es para ti, te devolvemos el dinero.",
-  pricingImageLabel: "Comparación ilustrada de costos",
-  pricingImage: "/shared/images/article/pricing.jpg",
-  pricingCompareText: "Al terminar el quiz tienes un descuento de bienvenida durante 15 minutos. Si no lo usas en ese tiempo, el plan vuelve a su precio normal.",
 
   quizIntroTitle: "Empieza por el quiz: 2 minutos para conocer tu patrón de procrastinación",
   quizImageLabel: "Persona haciendo el quiz desde el celular",
@@ -80,8 +75,6 @@ const content = {
   bannerButton: "Hacer el quiz gratis ahora",
   bannerDisclaimer: "Los resultados pueden variar según cada persona.",
 
-  urgencyRegular: "Importante: el descuento de bienvenida dura 15 minutos desde que ves los precios.",
-  urgencyHighlighted: "Pasado ese tiempo, el plan vuelve a su precio normal.",
 
   commentsTitle: "",
   comments: [],
