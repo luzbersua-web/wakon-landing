@@ -11,6 +11,9 @@ const content = {
   heroImageLabel: "A tidy desk beside a window with plants",
   heroImage: "/shared/images/article/hero.jpg",
 
+  topButton: "Take the free quiz (2 minutes)",
+  topButtonNote: "Find your procrastination pattern and your 30-day plan",
+
   stickyOffer: {
     title: "Free 2-minute quiz\nDiscover your procrastination pattern",
     buttonText: "Take the free quiz",

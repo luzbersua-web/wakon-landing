@@ -214,6 +214,7 @@ function renderQuestion(q) {
   const answered = state.answers[q.n];
   const pick = (value) => {
     state.answers[q.n] = value;
+    trackLeadOnce();
     if (!q.fact) return go(1);
     const firstReveal = !state.factShown[q.n];
     state.factShown[q.n] = true;
@@ -433,10 +434,16 @@ function persistStartNowResult() {
   };
   try { localStorage.setItem("startnow_quiz_result", JSON.stringify(payload)); } catch (e) {}
 
-  if (!state.leadTracked) {
-    state.leadTracked = true;
-    trackFbEvent("Lead", { content_name: BRAND, value: priceOf(plan), currency: "USD" });
-  }
+  trackLeadOnce();
+}
+
+// Lead: se dispara una sola vez, al responder la primera pregunta del quiz (o al llegar al
+// checkout si por algún motivo no se disparó antes), para que Meta reciba la señal temprano.
+function trackLeadOnce() {
+  if (state.leadTracked) return;
+  state.leadTracked = true;
+  const plan = PLANS.find(p => p.key === state.selectedPlan) || PLANS[0];
+  trackFbEvent("Lead", { content_name: BRAND, value: priceOf(plan), currency: "USD" });
 }
 
 function renderResultsLoading() {

@@ -93,6 +93,8 @@ export default function ArticlePage({ content }) {
   }, []);
 
   const c = content;
+  // Conserva los parámetros del anuncio (utm_*, fbclid) al pasar al quiz.
+  const quizHref = c.quizUrl + (typeof window !== "undefined" ? window.location.search : "");
 
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100svh" }}>
@@ -109,7 +111,7 @@ export default function ArticlePage({ content }) {
         <div style={{ fontSize: "0.78rem", fontWeight: 700, fontFamily: "sans-serif", whiteSpace: "pre-line", lineHeight: 1.3 }}>
           {c.stickyOffer.title}
         </div>
-        <a href={c.quizUrl} style={{
+        <a href={quizHref} style={{
           background: ACCENT, color: "#fff", fontWeight: 800, fontSize: "0.78rem",
           padding: "10px 16px", borderRadius: "8px", textDecoration: "none",
           whiteSpace: "nowrap", fontFamily: "sans-serif",
@@ -158,6 +160,16 @@ export default function ArticlePage({ content }) {
               </>
             )}
           </div>
+          <a href={quizHref} style={{
+            display: "block", textAlign: "center", background: ACCENT, color: "#fff", fontWeight: 800,
+            padding: "15px 24px", borderRadius: "50px", textDecoration: "none",
+            fontSize: "1rem", fontFamily: "sans-serif", margin: "0 0 6px",
+          }}>
+            {c.topButton}
+          </a>
+          <p style={{ textAlign: "center", fontSize: "0.78rem", color: TEXT_SOFT, fontFamily: "sans-serif", margin: "0 0 20px" }}>
+            {c.topButtonNote}
+          </p>
           <ImagePlaceholder src={c.heroImage} label={c.heroImageLabel} />
         </FadeIn>
 
@@ -295,7 +307,7 @@ export default function ArticlePage({ content }) {
             }}>
               {c.bannerTitle}
             </p>
-            <a href={c.quizUrl} style={{
+            <a href={quizHref} style={{
               display: "inline-block", background: ACCENT, color: "#fff", fontWeight: 800,
               padding: "16px 32px", borderRadius: "50px", textDecoration: "none",
               fontSize: "1rem", fontFamily: "sans-serif",
